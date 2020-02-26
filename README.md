@@ -9,7 +9,7 @@ Upon rewriting from scratch I set the base to [JUCE](https://juce.com/). Thanks 
 
 
 
-#Getting Started
+# Getting Started
 
 To build from the source:
 
@@ -19,7 +19,7 @@ To build from the source:
 - Select the native IDE and export
 - Build
 
-#License
+# License
 
 This software is released under GPL v3 license.
 
@@ -28,7 +28,7 @@ In other words, my choice is not based on a strong belief on the copyleft and it
 
 See [LICENSE](./LICENSE) for details.
 
-#Donation
+# Donation
 
 You can support developing Magical 8bit Plug not only by the contribution of source code but by the donation as well. We really appreciate your support.
 
