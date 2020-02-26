@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist>
+  <dict>
+    <key>CFBundleExecutable</key>
+    <string>${EXECUTABLE_NAME}</string>
+    <key>CFBundleIconFile</key>
+    <string>Icon.icns</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.ymck.magical8bitPlug2Juce.magical8bitPlug2JuceAUv3</string>
+    <key>CFBundleName</key>
+    <string>Magical8bitPlug2</string>
+    <key>CFBundleDisplayName</key>
+    <string>Magical8bitPlug2</string>
+    <key>CFBundlePackageType</key>
+    <string>XPC!</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>NSHumanReadableCopyright</key>
+    <string></string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>NSExtension</key>
+    <dict>
+      <key>NSExtensionPrincipalClass</key>
+      <string>Magical8bitPlug2AUFactoryAUv3</string>
+      <key>NSExtensionPointIdentifier</key>
+      <string>com.apple.AudioUnit-UI</string>
+      <key>NSExtensionAttributes</key>
+      <dict>
+        <key>AudioComponents</key>
+        <array>
+          <dict>
+            <key>name</key>
+            <string>Ymck: Magical 8bit Plug 2</string>
+            <key>description</key>
+            <string>8bit sound generator 2nd ver. by YMCK</string>
+            <key>factoryFunction</key>
+            <string>Magical8bitPlug2AUFactoryAUv3</string>
+            <key>manufacturer</key>
+            <string>Ymck</string>
+            <key>type</key>
+            <string>aumu</string>
+            <key>subtype</key>
+            <string>synj</string>
+            <key>version</key>
+            <integer>65536</integer>
+            <key>sandboxSafe</key>
+            <true/>
+            <key>tags</key>
+            <array>
+              <string>Synth</string>
+            </array>
+          </dict>
+        </array>
+      </dict>
+    </dict>
+  </dict>
+</plist>

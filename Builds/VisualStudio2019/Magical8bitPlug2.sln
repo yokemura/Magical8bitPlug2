@@ -1,0 +1,47 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2019
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magical8bitPlug2 - Standalone Plugin", "Magical8bitPlug2_StandalonePlugin.vcxproj", "{C02870D7-AC33-3909-E665-C98867282BC1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84} = {80977313-1FCC-A730-AFD8-C24BE8D3CC84}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magical8bitPlug2 - VST", "Magical8bitPlug2_VST.vcxproj", "{07728894-B31D-C03F-3B53-F1AA56D7D33E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84} = {80977313-1FCC-A730-AFD8-C24BE8D3CC84}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magical8bitPlug2 - VST3", "Magical8bitPlug2_VST3.vcxproj", "{836483B4-BF68-04F1-87CC-D36835A0F3C0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84} = {80977313-1FCC-A730-AFD8-C24BE8D3CC84}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Magical8bitPlug2 - Shared Code", "Magical8bitPlug2_SharedCode.vcxproj", "{80977313-1FCC-A730-AFD8-C24BE8D3CC84}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07728894-B31D-C03F-3B53-F1AA56D7D33E}.Debug|x64.ActiveCfg = Debug|x64
+		{07728894-B31D-C03F-3B53-F1AA56D7D33E}.Debug|x64.Build.0 = Debug|x64
+		{07728894-B31D-C03F-3B53-F1AA56D7D33E}.Release|x64.ActiveCfg = Release|x64
+		{07728894-B31D-C03F-3B53-F1AA56D7D33E}.Release|x64.Build.0 = Release|x64
+		{836483B4-BF68-04F1-87CC-D36835A0F3C0}.Debug|x64.ActiveCfg = Debug|x64
+		{836483B4-BF68-04F1-87CC-D36835A0F3C0}.Debug|x64.Build.0 = Debug|x64
+		{836483B4-BF68-04F1-87CC-D36835A0F3C0}.Release|x64.ActiveCfg = Release|x64
+		{836483B4-BF68-04F1-87CC-D36835A0F3C0}.Release|x64.Build.0 = Release|x64
+		{C02870D7-AC33-3909-E665-C98867282BC1}.Debug|x64.ActiveCfg = Debug|x64
+		{C02870D7-AC33-3909-E665-C98867282BC1}.Debug|x64.Build.0 = Debug|x64
+		{C02870D7-AC33-3909-E665-C98867282BC1}.Release|x64.ActiveCfg = Release|x64
+		{C02870D7-AC33-3909-E665-C98867282BC1}.Release|x64.Build.0 = Release|x64
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84}.Debug|x64.ActiveCfg = Debug|x64
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84}.Debug|x64.Build.0 = Debug|x64
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84}.Release|x64.ActiveCfg = Release|x64
+		{80977313-1FCC-A730-AFD8-C24BE8D3CC84}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

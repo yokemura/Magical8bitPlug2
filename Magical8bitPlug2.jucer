@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="JWTLbw" name="Magical8bitPlug2" projectType="audioplug" jucerVersion="5.4.6"
+              companyName="YMCK" companyWebsite="http://ymck.net" companyEmail="info@ymck.net"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              pluginManufacturerCode="Ymck" pluginManufacturer="Ymck" pluginCode="synj"
+              pluginChannelConfigs="{0, 2}" pluginAUIsSandboxSafe="1" pluginFormats="buildAU,buildStandalone,buildVST,buildVST3"
+              pluginAUMainType="'aumu'" pluginName="Magical 8bit Plug 2" aaxIdentifier="com.ymck.magical8bitPlug2Juce"
+              bundleIdentifier="com.ymck.magical8bitPlug2Juce" splashScreenColour="Light"
+              pluginDesc="8bit sound generator 2nd ver. by YMCK">
+  <MAINGROUP id="tlJ5Jv" name="Magical8bitPlug2">
+    <GROUP id="{05934500-901F-8317-27DC-7E17FC00833D}" name="View">
+      <GROUP id="{68A7410F-88F9-C9D8-8A37-6A70F269BBCC}" name="BaseComponents">
+        <FILE id="lBYKKS" name="CheckBoxComponent.cpp" compile="1" resource="0"
+              file="Source/CheckBoxComponent.cpp"/>
+        <FILE id="GKQ2rj" name="CheckBoxComponent.h" compile="0" resource="0"
+              file="Source/CheckBoxComponent.h"/>
+        <FILE id="s3PHkb" name="ChoiceComponent.cpp" compile="1" resource="0"
+              file="Source/ChoiceComponent.cpp"/>
+        <FILE id="VINNU4" name="ChoiceComponent.h" compile="0" resource="0"
+              file="Source/ChoiceComponent.h"/>
+        <FILE id="omAv7p" name="CustomEnvelopeComponent.cpp" compile="1" resource="0"
+              file="Source/CustomEnvelopeComponent.cpp"/>
+        <FILE id="gj4RVm" name="CustomEnvelopeComponent.h" compile="0" resource="0"
+              file="Source/CustomEnvelopeComponent.h"/>
+        <FILE id="p2sHMQ" name="Defs.h" compile="0" resource="0" file="Source/Defs.h"/>
+        <FILE id="wMmLx0" name="SliderComponent.cpp" compile="1" resource="0"
+              file="Source/SliderComponent.cpp"/>
+        <FILE id="qIuf9N" name="SliderComponent.h" compile="0" resource="0"
+              file="Source/SliderComponent.h"/>
+      </GROUP>
+      <FILE id="SFqkUr" name="AdvancedParamsComponent.cpp" compile="1" resource="0"
+            file="Source/AdvancedParamsComponent.cpp"/>
+      <FILE id="bLoGhR" name="AdvancedParamsComponent.h" compile="0" resource="0"
+            file="Source/AdvancedParamsComponent.h"/>
+      <FILE id="tpDHK7" name="BasicParamsComponent.cpp" compile="1" resource="0"
+            file="Source/BasicParamsComponent.cpp"/>
+      <FILE id="pWCi0b" name="BasicParamsComponent.h" compile="0" resource="0"
+            file="Source/BasicParamsComponent.h"/>
+      <FILE id="RJmn17" name="BendParamsComponent.cpp" compile="1" resource="0"
+            file="Source/BendParamsComponent.cpp"/>
+      <FILE id="uCgnPh" name="BendParamsComponent.h" compile="0" resource="0"
+            file="Source/BendParamsComponent.h"/>
+      <FILE id="hREK5i" name="EnvelopeParamsComponent.cpp" compile="1" resource="0"
+            file="Source/EnvelopeParamsComponent.cpp"/>
+      <FILE id="zBFywa" name="EnvelopeParamsComponent.h" compile="0" resource="0"
+            file="Source/EnvelopeParamsComponent.h"/>
+      <FILE id="RF89Wr" name="NoiseParamsComponent.cpp" compile="1" resource="0"
+            file="Source/NoiseParamsComponent.cpp"/>
+      <FILE id="jPVIvX" name="NoiseParamsComponent.h" compile="0" resource="0"
+            file="Source/NoiseParamsComponent.h"/>
+      <FILE id="XHpejJ" name="PulseParamsComponent.cpp" compile="1" resource="0"
+            file="Source/PulseParamsComponent.cpp"/>
+      <FILE id="cAGz3I" name="PulseParamsComponent.h" compile="0" resource="0"
+            file="Source/PulseParamsComponent.h"/>
+      <FILE id="ea5dUx" name="SweepParamsComponent.cpp" compile="1" resource="0"
+            file="Source/SweepParamsComponent.cpp"/>
+      <FILE id="J042bI" name="SweepParamsComponent.h" compile="0" resource="0"
+            file="Source/SweepParamsComponent.h"/>
+      <FILE id="qRObuz" name="VibratoParamsComponent.cpp" compile="1" resource="0"
+            file="Source/VibratoParamsComponent.cpp"/>
+      <FILE id="Y7Wuhu" name="VibratoParamsComponent.h" compile="0" resource="0"
+            file="Source/VibratoParamsComponent.h"/>
+    </GROUP>
+    <GROUP id="{630C27C7-03AA-CFC6-2FC4-4CE2DBE3640A}" name="Source">
+      <FILE id="H2Vgbj" name="FrameSequenceParseErrors.cpp" compile="1" resource="0"
+            file="Source/FrameSequenceParseErrors.cpp"/>
+      <FILE id="Gwt2vB" name="FrameSequenceParseErrors.h" compile="0" resource="0"
+            file="Source/FrameSequenceParseErrors.h"/>
+      <FILE id="GaiFnT" name="FrameSequence.h" compile="0" resource="0" file="Source/FrameSequence.h"/>
+      <FILE id="VlzmNv" name="FrameSequenceParser.h" compile="0" resource="0"
+            file="Source/FrameSequenceParser.h"/>
+      <FILE id="Vt0YUx" name="FrameSequenceParser.cpp" compile="1" resource="0"
+            file="Source/FrameSequenceParser.cpp"/>
+      <FILE id="khdj4k" name="ColorScheme.cpp" compile="1" resource="0" file="Source/ColorScheme.cpp"/>
+      <FILE id="V4fHSM" name="ColorScheme.h" compile="0" resource="0" file="Source/ColorScheme.h"/>
+      <FILE id="zV62Lc" name="BaseVoice.cpp" compile="1" resource="0" file="Source/BaseVoice.cpp"/>
+      <FILE id="JKpQZv" name="BaseVoice.h" compile="0" resource="0" file="Source/BaseVoice.h"/>
+      <FILE id="pQzCOx" name="NoiseVoice.cpp" compile="1" resource="0" file="Source/NoiseVoice.cpp"/>
+      <FILE id="qvDlqm" name="NoiseVoice.h" compile="0" resource="0" file="Source/NoiseVoice.h"/>
+      <FILE id="YaJLvx" name="TriangleVoice.cpp" compile="1" resource="0"
+            file="Source/TriangleVoice.cpp"/>
+      <FILE id="v5f5q3" name="TriangleVoice.h" compile="0" resource="0" file="Source/TriangleVoice.h"/>
+      <FILE id="OicXYm" name="PulseVoice.cpp" compile="1" resource="0" file="Source/PulseVoice.cpp"/>
+      <FILE id="wu8Sc6" name="PulseVoice.h" compile="0" resource="0" file="Source/PulseVoice.h"/>
+      <FILE id="FAGU8n" name="TonalVoice.cpp" compile="1" resource="0" file="Source/TonalVoice.cpp"/>
+      <FILE id="D1kCDT" name="TonalVoice.h" compile="0" resource="0" file="Source/TonalVoice.h"/>
+      <FILE id="r26Byf" name="Settings.cpp" compile="1" resource="0" file="Source/Settings.cpp"/>
+      <FILE id="nfNh5I" name="Settings.h" compile="0" resource="0" file="Source/Settings.h"/>
+      <FILE id="oN8naR" name="Voices.cpp" compile="1" resource="0" file="Source/Voices.cpp"/>
+      <FILE id="j916c6" name="Voices.h" compile="0" resource="0" file="Source/Voices.h"/>
+      <FILE id="Gw3YLv" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="zN1hQW" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="Ijcts1" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="UZrV40" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+    <FILE id="EM0Wl7" name="icon-256.png" compile="0" resource="1" file="Resources/icon-256.png"/>
+    <FILE id="a4A23f" name="icon-512.png" compile="0" resource="1" file="Resources/icon-512.png"/>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" hardenedRuntime="1" smallIcon="EM0Wl7"
+               bigIcon="a4A23f" vstLegacyFolder="../../magical8bitPlug-misc/VST_SDK/VST2_SDK">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" codeSigningIdentity="Developer ID Application"/>
+        <CONFIGURATION isDebug="0" name="Release" codeSigningIdentity="Developer ID Application"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2019 targetFolder="Builds/VisualStudio2019" smallIcon="EM0Wl7" bigIcon="a4A23f">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_opengl" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_cryptography" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </VS2019>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <OSX/>
+    <WINDOWS/>
+  </LIVE_SETTINGS>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+</JUCERPROJECT>
