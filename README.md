@@ -32,12 +32,12 @@ See [LICENSE](./LICENSE) for details.
 
 You can support developing Magical 8bit Plug not only by the contribution of source code but by the donation as well. We really appreciate your support.
 
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5CKQFPFTHRNMS)
+
 <div class="donate">
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-    <input type="hidden" name="cmd" value="_donations">
-    <input type="hidden" name="business" value="5CKQFPFTHRNMS">
-    <input type="image"
-src="http://www.ymck.net/images/download/btn_donate.png" border="0"
-name="submit" alt="Donate" formtarget="_blank">
-  </form>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_donations">
+<input type="hidden" name="business" value="5CKQFPFTHRNMS">
+<input type="image" src="http://www.ymck.net/images/download/btn_donate.png" border="0" name="submit" alt="Donate" formtarget="_blank">
+</form>
 </div>
