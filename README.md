@@ -24,7 +24,7 @@ To build from the source:
 This software is released under GPL v3 license.
 
 Although this plugin satisfies the condition of JUCE's [Personal License](https://juce.com/juce-5-license), I chose GPL by my own decision. This is sort of a backup for me just in case it breaks that condition. As the plugin is a not a kind of library that can be a core part of other product, I believe there will be very little concern about "copyleft contamination".
-In other words, my choice is not based on a strong belief on the copyleft and it can be changed if there are any positive reason to do that.
+In other words, my choice is not based on a strong belief on the copyleft and it can be changed if there are any positive reasons to do that.
 
 See [LICENSE](./LICENSE) for details.
 
