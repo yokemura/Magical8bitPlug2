@@ -159,41 +159,41 @@ struct SettingRefs
     SettingRefs (AudioProcessorValueTreeState* parameters)
     {
         // Meta
-        isAdvancedPanelOpen_raw = parameters->getRawParameterValue ("isAdvancedPanelOpen_raw");
-        colorScheme = parameters->getRawParameterValue ("colorScheme");
+        isAdvancedPanelOpen_raw = (float*) parameters->getRawParameterValue ("isAdvancedPanelOpen_raw");
+        colorScheme = (float*) parameters->getRawParameterValue ("colorScheme");
         // Basic
-        osc = parameters->getRawParameterValue ("osc");
-        gain = parameters->getRawParameterValue ("gain");
-        maxPoly = parameters->getRawParameterValue ("maxPoly");
+        osc = (float*) parameters->getRawParameterValue ("osc");
+        gain = (float*) parameters->getRawParameterValue ("gain");
+        maxPoly = (float*) parameters->getRawParameterValue ("maxPoly");
         // ADSR
-        attack = parameters->getRawParameterValue ("attack");
-        decay = parameters->getRawParameterValue ("decay");
-        suslevel = parameters->getRawParameterValue ("suslevel");
-        release = parameters->getRawParameterValue ("release");
+        attack = (float*) parameters->getRawParameterValue ("attack");
+        decay = (float*) parameters->getRawParameterValue ("decay");
+        suslevel = (float*) parameters->getRawParameterValue ("suslevel");
+        release = (float*) parameters->getRawParameterValue ("release");
         // Arpeggio
-        isArpeggioEnabled_raw = parameters->getRawParameterValue ("isArpeggioEnabled_raw");
-        arpeggioTime = parameters->getRawParameterValue ("arpeggioTime");
-        arpeggioDirection = parameters->getRawParameterValue ("arpeggioDirection");
+        isArpeggioEnabled_raw = (float*) parameters->getRawParameterValue ("isArpeggioEnabled_raw");
+        arpeggioTime = (float*) parameters->getRawParameterValue ("arpeggioTime");
+        arpeggioDirection = (float*) parameters->getRawParameterValue ("arpeggioDirection");
         // Bend
-        bendRange = parameters->getRawParameterValue ("bendRange");
+        bendRange = (float*) parameters->getRawParameterValue ("bendRange");
         // Vibrato
-        vibratoRate = parameters->getRawParameterValue ("vibratoRate");
-        vibratoDepth = parameters->getRawParameterValue ("vibratoDepth");
-        vibratoDelay = parameters->getRawParameterValue ("vibratoDelay");
-        vibratoIgnoresWheel_raw = parameters->getRawParameterValue ("vibratoIgnoresWheel_raw");
+        vibratoRate = (float*) parameters->getRawParameterValue ("vibratoRate");
+        vibratoDepth = (float*) parameters->getRawParameterValue ("vibratoDepth");
+        vibratoDelay = (float*) parameters->getRawParameterValue ("vibratoDelay");
+        vibratoIgnoresWheel_raw = (float*) parameters->getRawParameterValue ("vibratoIgnoresWheel_raw");
         // Sweep
-        sweepInitialPitch = parameters->getRawParameterValue ("sweepInitialPitch");
-        sweepTime = parameters->getRawParameterValue ("sweepTime");
+        sweepInitialPitch = (float*) parameters->getRawParameterValue ("sweepInitialPitch");
+        sweepTime = (float*) parameters->getRawParameterValue ("sweepTime");
         // For Pulse
-        duty = parameters->getRawParameterValue ("duty");
+        duty = (float*) parameters->getRawParameterValue ("duty");
         // For Noise
-        noiseAlgorithm_raw = parameters->getRawParameterValue ("noiseAlgorithm_raw");
-        restrictsToNESFrequency_raw = parameters->getRawParameterValue ("restrictsToNESFrequency_raw");
+        noiseAlgorithm_raw = (float*) parameters->getRawParameterValue ("noiseAlgorithm_raw");
+        restrictsToNESFrequency_raw = (float*) parameters->getRawParameterValue ("restrictsToNESFrequency_raw");
         // Sequence
-        isVolumeSequenceEnabled_raw = parameters->getRawParameterValue ("isVolumeSequenceEnabled_raw");
-        isPitchSequenceEnabled_raw = parameters->getRawParameterValue ("isPitchSequenceEnabled_raw");
-        isDutySequenceEnabled_raw = parameters->getRawParameterValue ("isDutySequenceEnabled_raw");
-        pitchSequenceMode_raw = parameters->getRawParameterValue ("pitchSequenceMode_raw");
+        isVolumeSequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isVolumeSequenceEnabled_raw");
+        isPitchSequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isPitchSequenceEnabled_raw");
+        isDutySequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isDutySequenceEnabled_raw");
+        pitchSequenceMode_raw = (float*) parameters->getRawParameterValue ("pitchSequenceMode_raw");
 
     }
 };
