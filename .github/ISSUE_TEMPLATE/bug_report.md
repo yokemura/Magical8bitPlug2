@@ -29,7 +29,8 @@ If applicable and possible, provide the link to your resulted audio.
 **Your environment (please complete the following information):**
  - OS: [e.g. macOS 10.14.5]
  - Host DAW and version [e.g. Logic Pro X 10.5.8]
- - Magical 8bit Plug Version [e.g. 1.0.0]
+ - Version of Magical 8bit Plug 2 [e.g. 1.0.0]
+ - Plugin format of Magical 8bit Plug you used [AU/VST1/VST3]
 
 **Additional context**
 Add any other context about the problem here.
