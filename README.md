@@ -32,4 +32,4 @@ See [LICENSE](./LICENSE) for details.
 
 You can support developing Magical 8bit Plug not only by the contribution of source code but by the donation as well. We really appreciate your support.
 
-You can make donation from [this page](http://ymck.net/download/magical8bitplug/index.html)
+You can make donation from [this page](http://ymck.net/app/magical-8bit-plug-en/) ([日本語](http://ymck.net/app/magical-8bit-plug))
