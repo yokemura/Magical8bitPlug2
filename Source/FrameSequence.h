@@ -68,4 +68,8 @@ struct FrameSequence
 
         // No reach here
     }
+    
+    bool isInRelease(int index) {
+        return index >= releaseSequenceStartIndex;
+    }
 };

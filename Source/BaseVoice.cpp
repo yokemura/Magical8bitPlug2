@@ -89,6 +89,10 @@ void BaseVoice::stopNote (float, bool allowTailOff)
     {
         if (settingRefs->volumeSequence.hasRelease)
         {
+            if (settingRefs->volumeSequence.isInRelease(currentVolumeSequenceFrame)) {
+                // Already in release(Custom Env.)
+                return ;
+            }
             currentVolumeSequenceFrame = settingRefs->volumeSequence.releaseSequenceStartIndex;
             currentEnvelopeLevel = (float) (settingRefs->volumeSequence.valueAt (0)) / 15.0f;
         }
@@ -98,6 +102,11 @@ void BaseVoice::stopNote (float, bool allowTailOff)
             angleDelta = 0.0;
         }
 
+        return;
+    }
+    
+    if (envelopePhase == kEnvelopePhaseR) {
+        // Already in release(ADSR)
         return;
     }
 
