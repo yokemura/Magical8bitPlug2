@@ -106,6 +106,10 @@ void BaseVoice::stopNote (float, bool allowTailOff)
 
 void BaseVoice::renderNextBlock (AudioSampleBuffer& outputBuffer, int startSample, int numSamples)
 {
+    if (getCurrentlyPlayingNote() == -1) {
+        return;
+    }
+    
     if (angleDelta == 0.0)
     {
         return;
