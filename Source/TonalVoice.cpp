@@ -22,7 +22,7 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
 {
     BaseVoice::startNote (midiNoteNumber, velocity, 0, currentPitchBendPosition);
 
-    currentBendAmount = 0;
+    currentBendAmount = * (settingRefs->bendRange) * ((double) (currentPitchBendPosition - 8192)) / 8192.0;
     currentPitchSequenceFrame = 0;
     vibratoCount = 0;
 
