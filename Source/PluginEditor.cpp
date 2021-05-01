@@ -70,10 +70,12 @@ void Magical8bitPlug2AudioProcessorEditor::applyLookAndFeel()
     getLookAndFeel().setColour (Slider::backgroundColourId, cs.mainDarkened);
     getLookAndFeel().setColour (Slider::textBoxTextColourId, cs.mainThinLine);
     getLookAndFeel().setColour (Slider::textBoxBackgroundColourId, cs.textBoxFill);
+    getLookAndFeel().setColour (Slider::textBoxHighlightColourId, cs.mainThinLine);
     getLookAndFeel().setColour (Slider::textBoxOutlineColourId, cs.genericBorder);
 
     getLookAndFeel().setColour (TextButton::ColourIds::buttonColourId, cs.boxFill);
     getLookAndFeel().setColour (TextButton::ColourIds::textColourOffId, cs.reversedForeground);
+    getLookAndFeel().setColour (Label::textWhenEditingColourId, cs.mainThinLine);
 
     //
     // Label
