@@ -21,3 +21,6 @@ $RECYCLE.BIN/
 # JUCE
 **/Builds
 **/JuceLibraryCode
+
+# VS
+**/.vs
