@@ -8,7 +8,7 @@
               pluginAUMainType="'aumu'" pluginName="Magical 8bit Plug 2" aaxIdentifier="com.ymck.magical8bitPlug2Juce"
               bundleIdentifier="com.ymck.magical8bitPlug2Juce" splashScreenColour="Light"
               pluginDesc="8bit sound generator 2nd ver. by YMCK" displaySplashScreen="1"
-              jucerFormatVersion="1">
+              jucerFormatVersion="1" version="1.0.1">
   <MAINGROUP id="tlJ5Jv" name="Magical8bitPlug2">
     <GROUP id="{05934500-901F-8317-27DC-7E17FC00833D}" name="View">
       <GROUP id="{68A7410F-88F9-C9D8-8A37-6A70F269BBCC}" name="BaseComponents">
