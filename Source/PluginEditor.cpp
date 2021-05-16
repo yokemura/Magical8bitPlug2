@@ -130,6 +130,9 @@ struct
 
     const int basCompoHeight = componentMargin * 2
                                + genericControlHeight * 2;
+    const int monoCompoHeight = componentMargin * 2
+                                + indexHeight
+                                + customEnvelopeHeight;
     const int toneSpecificControlHeight = componentMargin * 2
                                           + indexHeight
                                           + genericControlHeight;
@@ -148,30 +151,26 @@ struct
     const int advCompoHeight = componentMargin * 2
                                + indexHeight
                                + customEnvelopeHeight * 3;
-    const int totalHeight (bool isAdvOptOn)
+    const int totalHeight (bool isAdvOptOn, bool isMono)
     {
+        int retHeight = topMargin
+                      + basCompoHeight
+                      + sectionSeparatorHeight
+                      + toneSpecificControlHeight
+                      + envCompoHeight
+                      + bendCompoHeight
+                      + bottomMargin;
         if (isAdvOptOn)
         {
-            return   topMargin
-                     + basCompoHeight
-                     + sectionSeparatorHeight
-                     + toneSpecificControlHeight
-                     + envCompoHeight
-                     + bendCompoHeight
-                     + sectionSeparatorHeight
-                     + advCompoHeight
-                     + bottomMargin;
+            retHeight += sectionSeparatorHeight
+                         + advCompoHeight;
         }
-        else
+        if (isMono)
         {
-            return   topMargin
-                     + basCompoHeight
-                     + sectionSeparatorHeight
-                     + toneSpecificControlHeight
-                     + envCompoHeight
-                     + bendCompoHeight
-                     + bottomMargin;
+            retHeight += sectionSeparatorHeight
+                         + monoCompoHeight;
         }
+        return retHeight;
     }
 } sizes;
 
@@ -272,7 +271,8 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
 
 void Magical8bitPlug2AudioProcessorEditor::resizeWholePanel()
 {
-    setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen()));
+    bool isMono = (int)(*processor.settingRefs.maxPoly) == 1;
+    setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen(), isMono));
 }
 
 void Magical8bitPlug2AudioProcessorEditor::parameterValueChanged (int parameterIndex, float newValue)

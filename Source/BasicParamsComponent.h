@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -39,24 +39,24 @@ class Magical8bitPlug2AudioProcessorEditor;
                                                                     //[/Comments]
 */
 class BasicParamsComponent  : public Component,
-    public ComboBox::Listener,
-    public Button::Listener,
-    public Slider::Listener
+                              public ComboBox::Listener,
+                              public juce::Slider::Listener,
+                              public juce::Button::Listener
 {
 public:
     //==============================================================================
     BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, Magical8bitPlug2AudioProcessorEditor& e);
-    ~BasicParamsComponent();
+    ~BasicParamsComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
-    void buttonClicked (Button* buttonThatWasClicked) override;
     //[/UserMethods]
 
-    void paint (Graphics& g) override;
+    void paint (juce::Graphics& g) override;
     void resized() override;
-    void sliderValueChanged (Slider* sliderThatWasMoved) override;
+    void sliderValueChanged (juce::Slider* sliderThatWasMoved) override;
+    void buttonClicked (juce::Button* buttonThatWasClicked) override;
 
 
 
@@ -69,12 +69,13 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<Label> polyLabel;
+    std::unique_ptr<juce::Label> polyLabel;
     std::unique_ptr<SliderComponent> gainSlider;
     std::unique_ptr<ChoiceComponent> oscChoice;
-    std::unique_ptr<Slider> polyNumberInput;
+    std::unique_ptr<juce::Slider> polyNumberInput;
     std::unique_ptr<CheckBoxComponent> advancedSwitch;
     std::unique_ptr<ChoiceComponent> colorSchemeChoice;
+    std::unique_ptr<juce::TextButton> monoButton;
 
 
     //==============================================================================
