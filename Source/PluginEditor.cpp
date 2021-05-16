@@ -25,6 +25,8 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    isComponentsReady = false;
+    
     applyLookAndFeel();
 
     basicCompo.reset (new BasicParamsComponent (p, *this));
@@ -54,7 +56,7 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
     (p.parameters.getParameter ("isVolumeSequenceEnabled_raw"))->addListener (this);
     (p.parameters.getParameter ("isDutySequenceEnabled_raw"))->addListener (this);
 
-
+    isComponentsReady = true;
     resizeWholePanel();
 }
 
@@ -271,6 +273,9 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
 
 void Magical8bitPlug2AudioProcessorEditor::resizeWholePanel()
 {
+    if (!isComponentsReady) {
+        return;
+    }
     bool isMono = (int)(*processor.settingRefs.maxPoly) == 1;
     setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen(), isMono));
 }

@@ -51,6 +51,8 @@ private:
     std::unique_ptr<BendParamsComponent> bendCompo;
     std::unique_ptr<SweepParamsComponent> sweepCompo;
     std::unique_ptr<VibratoParamsComponent> vibCompo;
+    
+    bool isComponentsReady;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Magical8bitPlug2AudioProcessorEditor)
 };
