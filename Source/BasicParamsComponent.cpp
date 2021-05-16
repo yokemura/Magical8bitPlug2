@@ -163,8 +163,9 @@ void BasicParamsComponent::buttonClicked (juce::Button* buttonThatWasClicked)
 
     if (buttonThatWasClicked == monoButton.get())
     {
-        polyNumberInput.get()->setValue(1);
         //[UserButtonCode_monoButton] -- add your button handler code here..
+        polyNumberInput.get()->setValue(1);
+        return;
         //[/UserButtonCode_monoButton]
     }
 
@@ -196,8 +197,7 @@ void BasicParamsComponent::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="BasicParamsComponent" componentName=""
-                 parentClasses="public Component, public ComboBox::Listener, public Button::Listener"
-                 constructorParams="Magical8bitPlug2AudioProcessor&amp; p, Magical8bitPlug2AudioProcessorEditor&amp; e"
+                 parentClasses="public Component, public ComboBox::Listener" constructorParams="Magical8bitPlug2AudioProcessor&amp; p, Magical8bitPlug2AudioProcessorEditor&amp; e"
                  variableInitialisers="processor(p),editor(e)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="1"
                  initialWidth="700" initialHeight="64">

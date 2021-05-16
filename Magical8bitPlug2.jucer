@@ -46,6 +46,10 @@
             file="Source/EnvelopeParamsComponent.cpp"/>
       <FILE id="zBFywa" name="EnvelopeParamsComponent.h" compile="0" resource="0"
             file="Source/EnvelopeParamsComponent.h"/>
+      <FILE id="SHaDYI" name="MonophonicComponent.cpp" compile="1" resource="0"
+            file="Source/MonophonicComponent.cpp"/>
+      <FILE id="cyIRRW" name="MonophonicComponent.h" compile="0" resource="0"
+            file="Source/MonophonicComponent.h"/>
       <FILE id="RF89Wr" name="NoiseParamsComponent.cpp" compile="1" resource="0"
             file="Source/NoiseParamsComponent.cpp"/>
       <FILE id="jPVIvX" name="NoiseParamsComponent.h" compile="0" resource="0"

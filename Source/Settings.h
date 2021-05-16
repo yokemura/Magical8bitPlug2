@@ -139,6 +139,7 @@ struct SettingRefs
     // accessors
     //
     int oscillatorType() { return (int) (*osc); }
+    bool isMonophonic() { return (int)(*maxPoly) == 1; }
     bool isAdvancedPanelOpen() { return *isAdvancedPanelOpen_raw > 0.5; }
     ColorSchemeType colorSchemeType() { return (ColorSchemeType) ((int) (*colorScheme)); }
 
