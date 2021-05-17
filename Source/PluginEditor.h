@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 class AdvancedParamsComponent;
+class MonophonicComponent;
 class PulseParamsComponent;
 class BasicParamsComponent;
 class EnvelopeParamsComponent;
@@ -44,6 +45,7 @@ private:
     Magical8bitPlug2AudioProcessor& processor;
 
     std::unique_ptr<BasicParamsComponent> basicCompo;
+    std::unique_ptr<MonophonicComponent> monoCompo;
     std::unique_ptr<EnvelopeParamsComponent> envCompo;
     std::unique_ptr<AdvancedParamsComponent> advCompo;
     std::unique_ptr<PulseParamsComponent> pulCompo;

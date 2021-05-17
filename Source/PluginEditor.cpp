@@ -11,6 +11,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "AdvancedParamsComponent.h"
+#include "MonophonicComponent.h"
 #include "PulseParamsComponent.h"
 #include "BasicParamsComponent.h"
 #include "EnvelopeParamsComponent.h"
@@ -31,6 +32,9 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
 
     basicCompo.reset (new BasicParamsComponent (p, *this));
     addAndMakeVisible (basicCompo.get());
+    
+    monoCompo.reset (new MonophonicComponent (p));
+    addAndMakeVisible(monoCompo.get());
 
     envCompo.reset (new EnvelopeParamsComponent (p));
     addAndMakeVisible (envCompo.get());
@@ -211,6 +215,7 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
     // Monophonic
     //
     if (processor.settingRefs.isMonophonic()) {
+        monoCompo->setBounds(x, y, sizes.fullComponentWidth, sizes.monoCompoHeight);
         y += sizes.monoCompoHeight;
     }
     
@@ -270,6 +275,8 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
             noiCompo->setVisible (false);
             break;
     }
+    
+    monoCompo->setVisible(processor.settingRefs.isMonophonic());
 
     //
     // Enable/Disable

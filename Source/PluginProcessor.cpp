@@ -68,7 +68,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         // Monophonic
         //
         std::make_unique<AudioParameterChoice> ("monophonicBehavior", "Behavior", StringArray ({"Legato", "Arpeggio Up", "Arpeggio Down", "Non-legato"}), 0),
-        std::make_unique<AudioParameterChoice> ("arpeggioIntervalType", "Interval", StringArray ({"1frame", "2frames", "3frames", "96th", "64th", "48th", "32th", "24th",  "Slider"}), 0),
+        std::make_unique<AudioParameterChoice> ("arpeggioIntervalType", "Interval", StringArray ({"1 frame", "2 frames", "3 frames", "96th", "64th", "48th", "32th", "24th",  "Slider"}), 0),
         std::make_unique<AudioParameterFloat> ("arpeggioIntervalSliderValue", //ID
                                                "Interval", //name
                                                NormalisableRange<float> (0.001f, //min

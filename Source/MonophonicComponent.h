@@ -21,6 +21,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include <JuceHeader.h>
+#include "ChoiceComponent.h"
 //[/Headers]
 
 
@@ -37,7 +38,7 @@ class MonophonicComponent  : public juce::Component
 {
 public:
     //==============================================================================
-    MonophonicComponent ();
+    MonophonicComponent (Magical8bitPlug2AudioProcessor& p);
     ~MonophonicComponent() override;
 
     //==============================================================================
@@ -51,9 +52,14 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    std::unique_ptr<SliderAttachment> attc;
     //[/UserVariables]
 
     //==============================================================================
+    std::unique_ptr<juce::Label> label;
+    std::unique_ptr<ChoiceComponent> behaviorChoice;
+    std::unique_ptr<ChoiceComponent> intervalChoice;
+    std::unique_ptr<juce::Slider> intervalSlider;
 
 
     //==============================================================================
