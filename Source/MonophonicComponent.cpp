@@ -28,6 +28,7 @@
 
 //==============================================================================
 MonophonicComponent::MonophonicComponent (Magical8bitPlug2AudioProcessor& p)
+    : processor(p)
 {
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
@@ -43,13 +44,13 @@ MonophonicComponent::MonophonicComponent (Magical8bitPlug2AudioProcessor& p)
 
     label->setBounds (0, 4, 150, 22);
 
-    behaviorChoice.reset (new ChoiceComponent (p, "monophonicBehavior", "Behavior"));
+    behaviorChoice.reset (new ChoiceComponent (p, "monophonicBehavior_raw", "Behavior"));
     addAndMakeVisible (behaviorChoice.get());
     behaviorChoice->setName ("behavior selector");
 
     behaviorChoice->setBounds (0, 28, 224, 26);
 
-    intervalChoice.reset (new ChoiceComponent (p, "arpeggioIntervalType", "Interval"));
+    intervalChoice.reset (new ChoiceComponent (p, "arpeggioIntervalType_raw", "Interval"));
     addAndMakeVisible (intervalChoice.get());
     intervalChoice->setName ("interval selector");
 
@@ -61,6 +62,10 @@ MonophonicComponent::MonophonicComponent (Magical8bitPlug2AudioProcessor& p)
     intervalSlider->setSliderStyle (juce::Slider::LinearHorizontal);
     intervalSlider->setTextBoxStyle (juce::Slider::TextBoxRight, false, 50, 20);
 
+    portamentoSlider.reset (new SliderComponent (p, "portamentoTime", "Portamento"));
+    addAndMakeVisible (portamentoSlider.get());
+    portamentoSlider->setName ("portamento slider");
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -70,6 +75,9 @@ MonophonicComponent::MonophonicComponent (Magical8bitPlug2AudioProcessor& p)
 
     //[Constructor] You can add your own custom stuff here..
     attc.reset (new SliderAttachment (p.parameters, "arpeggioIntervalSliderValue", *intervalSlider));
+    behaviorChoice->setListener(this);
+    intervalChoice->setListener(this);
+    updateVisibility();
     //[/Constructor]
 }
 
@@ -83,6 +91,7 @@ MonophonicComponent::~MonophonicComponent()
     behaviorChoice = nullptr;
     intervalChoice = nullptr;
     intervalSlider = nullptr;
+    portamentoSlider = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -105,6 +114,7 @@ void MonophonicComponent::resized()
     //[/UserPreResize]
 
     intervalSlider->setBounds (getWidth() - (getWidth() - 420), 28, getWidth() - 420, 24);
+    portamentoSlider->setBounds (getWidth() - proportionOfWidth (0.5000f), 28, proportionOfWidth (0.5000f), 28);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -112,6 +122,35 @@ void MonophonicComponent::resized()
 
 
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+void MonophonicComponent::comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) {
+    updateVisibility();
+}
+
+void MonophonicComponent::updateVisibility()
+{
+    portamentoSlider->setVisible(false);
+    intervalSlider->setVisible(false);
+    intervalChoice->setVisible(false);
+
+    switch (processor.settingRefs.monophonicBehavior()) {
+        case kLegato:
+            portamentoSlider->setVisible(true);
+            break;
+        case kArpeggioUp:
+        case kArpeggioDown:
+            intervalChoice->setVisible(true);
+            switch (processor.settingRefs.apreggioIntervalType()) {
+                case kSlider:
+                    intervalSlider->setVisible(true);
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+}
 //[/MiscUserCode]
 
 
@@ -125,9 +164,10 @@ void MonophonicComponent::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MonophonicComponent" componentName=""
-                 parentClasses="public juce::Component" constructorParams="Magical8bitPlug2AudioProcessor&amp; p"
-                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="640" initialHeight="82">
+                 parentClasses="public Component, public ComboBox::Listener" constructorParams="Magical8bitPlug2AudioProcessor&amp; p"
+                 variableInitialisers="processor(p)" snapPixels="8" snapActive="1"
+                 snapShown="1" overlayOpacity="0.330" fixedSize="1" initialWidth="640"
+                 initialHeight="82">
   <BACKGROUND backgroundColour="ffffff"/>
   <LABEL name="label" id="bae3132bcad681ce" memberName="label" virtualName=""
          explicitFocusOrder="0" pos="0 4 150 22" edTextCol="ff000000"
@@ -136,15 +176,18 @@ BEGIN_JUCER_METADATA
          fontsize="17.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="behavior selector" id="fa2387d441a3005d" memberName="behaviorChoice"
                     virtualName="" explicitFocusOrder="0" pos="0 28 224 26" class="ChoiceComponent"
-                    params="p, &quot;monophonicBehavior&quot;, &quot;Behavior&quot;"/>
+                    params="p, &quot;monophonicBehavior_raw&quot;, &quot;Behavior&quot;"/>
   <GENERICCOMPONENT name="interval selector" id="21d73ddc37680dd7" memberName="intervalChoice"
                     virtualName="" explicitFocusOrder="0" pos="228 28 185 28" class="ChoiceComponent"
-                    params="p, &quot;arpeggioIntervalType&quot;, &quot;Interval&quot;"/>
+                    params="p, &quot;arpeggioIntervalType_raw&quot;, &quot;Interval&quot;"/>
   <SLIDER name="interval slider" id="2d6901c46e73c1e" memberName="intervalSlider"
           virtualName="" explicitFocusOrder="0" pos="0Rr 28 420M 24" min="0.0"
           max="10.0" int="0.01" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="50" textBoxHeight="20" skewFactor="1.0"
           needsCallback="0"/>
+  <GENERICCOMPONENT name="portamento slider" id="b01ddc412ec6dc27" memberName="portamentoSlider"
+                    virtualName="" explicitFocusOrder="0" pos="0Rr 28 50% 28" class="SliderComponent"
+                    params="p, &quot;portamentoTime&quot;, &quot;Portamento&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

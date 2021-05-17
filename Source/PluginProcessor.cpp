@@ -67,8 +67,8 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         //
         // Monophonic
         //
-        std::make_unique<AudioParameterChoice> ("monophonicBehavior", "Behavior", StringArray ({"Legato", "Arpeggio Up", "Arpeggio Down", "Non-legato"}), 0),
-        std::make_unique<AudioParameterChoice> ("arpeggioIntervalType", "Interval", StringArray ({"1 frame", "2 frames", "3 frames", "96th", "64th", "48th", "32th", "24th",  "Slider"}), 0),
+        std::make_unique<AudioParameterChoice> ("monophonicBehavior_raw", "Behavior", StringArray ({"Legato", "Arpeggio Up", "Arpeggio Down", "Non-legato"}), 0),
+        std::make_unique<AudioParameterChoice> ("arpeggioIntervalType_raw", "Interval", StringArray ({"1 frame", "2 frames", "3 frames", "96th", "64th", "48th", "32nd", "24th",  "Slider"}), 0),
         std::make_unique<AudioParameterFloat> ("arpeggioIntervalSliderValue", //ID
                                                "Interval", //name
                                                NormalisableRange<float> (0.001f, //min
@@ -76,7 +76,6 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
                                                                          0.001f, //step
                                                                          0.5f),  //skew
                                                0.001f), //default
-        std::make_unique<AudioParameterChoice> ("arpeggioDirection", "Direction", StringArray ({"up", "down"}), 0),
         std::make_unique<AudioParameterFloat> ("portamentoTime", "Portamento Time", 0.0f, 1.0f, 0.0f),
         //
         // Bend

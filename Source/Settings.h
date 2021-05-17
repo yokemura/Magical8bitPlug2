@@ -37,6 +37,32 @@ struct PluginSettings
 
 //---------------------------------------------
 //
+// Monophonic Options
+//
+//---------------------------------------------
+enum MonophonicBehavior
+{
+    kLegato = 0,
+    kArpeggioUp,
+    kArpeggioDown,
+    kNonLegato,
+};
+
+enum ArpeggioIntervalType
+{
+    k1frame = 0,
+    k2frames,
+    k3frames,
+    k96th,
+    k64th,
+    k48th,
+    k32nd,
+    k24th,
+    kSlider,
+};
+
+//---------------------------------------------
+//
 // Tone Specific
 //
 //---------------------------------------------
@@ -95,10 +121,11 @@ struct SettingRefs
     float* decay = nullptr;
     float* suslevel = nullptr;
     float* release = nullptr;
-    // Arpeggio
-    float* isArpeggioEnabled_raw = nullptr;
-    float* arpeggioTime = nullptr;
-    float* arpeggioDirection = nullptr;
+    // Monophonic
+    float* monophonicBehavior_raw = nullptr;
+    float* arpeggioIntervalType_raw = nullptr;
+    float* arpeggioIntervalSliderValue = nullptr;
+    float* portamentoTime = nullptr;
     // Bend
     float* bendRange = nullptr;
     // Vibrato
@@ -143,7 +170,6 @@ struct SettingRefs
     bool isAdvancedPanelOpen() { return *isAdvancedPanelOpen_raw > 0.5; }
     ColorSchemeType colorSchemeType() { return (ColorSchemeType) ((int) (*colorScheme)); }
 
-    bool isArpeggioEnabled() { return *isArpeggioEnabled_raw > 0.5; }
     NoiseAlgorithm noiseAlgorithm() { return (NoiseAlgorithm) ((int) (*noiseAlgorithm_raw)); }
 
     bool vibratoIgnoresWheel() { return *vibratoIgnoresWheel_raw > 0.5; }
@@ -152,7 +178,8 @@ struct SettingRefs
     bool isPitchSequenceEnabled() { return *isPitchSequenceEnabled_raw > 0.5; }
     bool isDutySequenceEnabled() { return *isDutySequenceEnabled_raw > 0.5; }
     PitchSequenceMode pitchSequenceMode() { return (PitchSequenceMode) ((int) (*pitchSequenceMode_raw)); }
-
+    MonophonicBehavior monophonicBehavior() { return (MonophonicBehavior) ((int) (*monophonicBehavior_raw)); }
+    ArpeggioIntervalType apreggioIntervalType() { return (ArpeggioIntervalType) ((int) (*arpeggioIntervalType_raw)); }
 
     //
     // constructor
@@ -171,10 +198,11 @@ struct SettingRefs
         decay = (float*) parameters->getRawParameterValue ("decay");
         suslevel = (float*) parameters->getRawParameterValue ("suslevel");
         release = (float*) parameters->getRawParameterValue ("release");
-        // Arpeggio
-        isArpeggioEnabled_raw = (float*) parameters->getRawParameterValue ("isArpeggioEnabled_raw");
-        arpeggioTime = (float*) parameters->getRawParameterValue ("arpeggioTime");
-        arpeggioDirection = (float*) parameters->getRawParameterValue ("arpeggioDirection");
+        // Monophonic
+        monophonicBehavior_raw = (float*) parameters->getRawParameterValue ("monophonicBehavior_raw");
+        arpeggioIntervalType_raw = (float*) parameters->getRawParameterValue ("arpeggioIntervalType_raw");
+        arpeggioIntervalSliderValue = (float*) parameters->getRawParameterValue ("arpeggioIntervalSliderValue");
+        portamentoTime = (float*) parameters->getRawParameterValue ("portamentoTime");
         // Bend
         bendRange = (float*) parameters->getRawParameterValue ("bendRange");
         // Vibrato

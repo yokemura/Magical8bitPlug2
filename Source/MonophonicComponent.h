@@ -21,6 +21,7 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include <JuceHeader.h>
+#include "SliderComponent.h"
 #include "ChoiceComponent.h"
 //[/Headers]
 
@@ -34,15 +35,19 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class MonophonicComponent  : public juce::Component
+class MonophonicComponent  : public Component,
+                             public ComboBox::Listener
 {
 public:
     //==============================================================================
     MonophonicComponent (Magical8bitPlug2AudioProcessor& p);
     ~MonophonicComponent() override;
+    
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
+    void updateVisibility();
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
@@ -53,6 +58,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
     std::unique_ptr<SliderAttachment> attc;
+    Magical8bitPlug2AudioProcessor& processor;
     //[/UserVariables]
 
     //==============================================================================
@@ -60,6 +66,7 @@ private:
     std::unique_ptr<ChoiceComponent> behaviorChoice;
     std::unique_ptr<ChoiceComponent> intervalChoice;
     std::unique_ptr<juce::Slider> intervalSlider;
+    std::unique_ptr<SliderComponent> portamentoSlider;
 
 
     //==============================================================================
