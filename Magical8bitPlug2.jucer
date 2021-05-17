@@ -68,6 +68,8 @@
             file="Source/VibratoParamsComponent.h"/>
     </GROUP>
     <GROUP id="{630C27C7-03AA-CFC6-2FC4-4CE2DBE3640A}" name="Source">
+      <FILE id="LHv5E3" name="CustomSynth.cpp" compile="1" resource="0" file="Source/CustomSynth.cpp"/>
+      <FILE id="kpCPIX" name="CustomSynth.h" compile="0" resource="0" file="Source/CustomSynth.h"/>
       <FILE id="H2Vgbj" name="FrameSequenceParseErrors.cpp" compile="1" resource="0"
             file="Source/FrameSequenceParseErrors.cpp"/>
       <FILE id="Gwt2vB" name="FrameSequenceParseErrors.h" compile="0" resource="0"

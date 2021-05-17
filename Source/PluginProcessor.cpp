@@ -124,6 +124,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
 }
   )
 , settingRefs (&parameters)
+, synth(*this)
 #ifndef JucePlugin_PreferredChannelConfigurations
 , AudioProcessor (BusesProperties()
 #if ! JucePlugin_IsMidiEffect
