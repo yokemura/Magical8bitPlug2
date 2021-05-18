@@ -19,6 +19,7 @@ public:
     
     void noteOn(int midiChannel, int midiNoteNumber, float velocity) override;
     void noteOff(int midiChannel, int midiNoteNumber, float velocity, bool allowTailOff) override;
+    void allNotesOff (const int midiChannel, const bool allowTailOff) override;
     
 private:
     Magical8bitPlug2AudioProcessor& processor;
