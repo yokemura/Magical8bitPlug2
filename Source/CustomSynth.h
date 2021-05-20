@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class Magical8bitPlug2AudioProcessor;
+class TonalVoice;
 
 class CustomSynth : public Synthesiser {
 public:
@@ -22,5 +23,6 @@ public:
     void allNotesOff (const int midiChannel, const bool allowTailOff) override;
     
 private:
+    TonalVoice* getVoiceIfShouldProcessInMonoMode();
     Magical8bitPlug2AudioProcessor& processor;
 };
