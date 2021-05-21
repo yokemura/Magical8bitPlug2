@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -36,12 +36,12 @@
                                                                     //[/Comments]
 */
 class ChoiceComponent  : public Component,
-    public ComboBox::Listener
+                         public juce::ComboBox::Listener
 {
 public:
     //==============================================================================
     ChoiceComponent (Magical8bitPlug2AudioProcessor& p, String paramId, String name);
-    ~ChoiceComponent();
+    ~ChoiceComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -49,9 +49,9 @@ public:
     void removeListener();
     //[/UserMethods]
 
-    void paint (Graphics& g) override;
+    void paint (juce::Graphics& g) override;
     void resized() override;
-    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void comboBoxChanged (juce::ComboBox* comboBoxThatHasChanged) override;
 
 
 
@@ -62,8 +62,8 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<ComboBox> comboBox;
-    std::unique_ptr<Label> label;
+    std::unique_ptr<juce::ComboBox> comboBox;
+    std::unique_ptr<juce::Label> label;
 
 
     //==============================================================================

@@ -24,6 +24,8 @@ struct BaseVoice : public SynthesiserVoice
     void pitchWheelMoved (int) override      {}
     void controllerMoved (int, int) override {}
     void renderNextBlock (AudioSampleBuffer& outputBuffer, int startSample, int numSamples) override;
+    
+    void changeNote (int midiNoteNumber, float velocity);
 
     virtual float voltageForAngle (double angle) = 0;
     virtual void onFrameAdvanced() {};

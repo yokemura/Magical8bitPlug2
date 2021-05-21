@@ -11,6 +11,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "AdvancedParamsComponent.h"
+#include "MonophonicComponent.h"
 #include "PulseParamsComponent.h"
 #include "BasicParamsComponent.h"
 #include "EnvelopeParamsComponent.h"
@@ -25,10 +26,15 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    isComponentsReady = false;
+    
     applyLookAndFeel();
 
     basicCompo.reset (new BasicParamsComponent (p, *this));
     addAndMakeVisible (basicCompo.get());
+    
+    monoCompo.reset (new MonophonicComponent (p));
+    addAndMakeVisible(monoCompo.get());
 
     envCompo.reset (new EnvelopeParamsComponent (p));
     addAndMakeVisible (envCompo.get());
@@ -54,7 +60,7 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
     (p.parameters.getParameter ("isVolumeSequenceEnabled_raw"))->addListener (this);
     (p.parameters.getParameter ("isDutySequenceEnabled_raw"))->addListener (this);
 
-
+    isComponentsReady = true;
     resizeWholePanel();
 }
 
@@ -130,6 +136,9 @@ struct
 
     const int basCompoHeight = componentMargin * 2
                                + genericControlHeight * 2;
+    const int monoCompoHeight = componentMargin * 2
+                                + indexHeight
+                                + customEnvelopeHeight;
     const int toneSpecificControlHeight = componentMargin * 2
                                           + indexHeight
                                           + genericControlHeight;
@@ -148,30 +157,25 @@ struct
     const int advCompoHeight = componentMargin * 2
                                + indexHeight
                                + customEnvelopeHeight * 3;
-    const int totalHeight (bool isAdvOptOn)
+    const int totalHeight (bool isAdvOptOn, bool isMono)
     {
+        int retHeight = topMargin
+                      + basCompoHeight
+                      + sectionSeparatorHeight
+                      + toneSpecificControlHeight
+                      + envCompoHeight
+                      + bendCompoHeight
+                      + bottomMargin;
         if (isAdvOptOn)
         {
-            return   topMargin
-                     + basCompoHeight
-                     + sectionSeparatorHeight
-                     + toneSpecificControlHeight
-                     + envCompoHeight
-                     + bendCompoHeight
-                     + sectionSeparatorHeight
-                     + advCompoHeight
-                     + bottomMargin;
+            retHeight += sectionSeparatorHeight
+                         + advCompoHeight;
         }
-        else
+        if (isMono)
         {
-            return   topMargin
-                     + basCompoHeight
-                     + sectionSeparatorHeight
-                     + toneSpecificControlHeight
-                     + envCompoHeight
-                     + bendCompoHeight
-                     + bottomMargin;
+            retHeight += monoCompoHeight;
         }
+        return retHeight;
     }
 } sizes;
 
@@ -204,27 +208,38 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
     int y = sizes.topMargin;
     int w = sizes.halfComponentWidth;
     basicCompo->setBounds (x, y, sizes.fullComponentWidth, sizes.basCompoHeight);
+    
+    y += sizes.basCompoHeight + sizes.sectionSeparatorHeight;
+    
+    //
+    // Monophonic
+    //
+    if (processor.settingRefs.isMonophonic()) {
+        monoCompo->setBounds(x, y, sizes.fullComponentWidth, sizes.monoCompoHeight);
+        y += sizes.monoCompoHeight;
+    }
+    
+    int y1 = y;
+    int y2 = y;
 
     //
     // Main part - Left
     //
-    y = sizes.topMargin + sizes.basCompoHeight + sizes.sectionSeparatorHeight;
 
-    pulCompo->setBounds (x, y, w, sizes.toneSpecificControlHeight);
-    noiCompo->setBounds (x, y, w, sizes.toneSpecificControlHeight);
-    y += sizes.toneSpecificControlHeight;
+    pulCompo->setBounds (x, y1, w, sizes.toneSpecificControlHeight);
+    noiCompo->setBounds (x, y1, w, sizes.toneSpecificControlHeight);
+    y1 += sizes.toneSpecificControlHeight;
 
-    envCompo->setBounds (x, y, w, sizes.envCompoHeight);
-    y += sizes.envCompoHeight;
+    envCompo->setBounds (x, y1, w, sizes.envCompoHeight);
+    y1 += sizes.envCompoHeight;
 
-    bendCompo->setBounds (x, y, w, sizes.bendCompoHeight);
-    y += sizes.bendCompoHeight;
+    bendCompo->setBounds (x, y1, w, sizes.bendCompoHeight);
+    y1 += sizes.bendCompoHeight;
 
     //
     // Main part - Right
     //
     x = sizes.leftMargin + sizes.halfComponentWidth + sizes.verticalSeparatorWidth;
-    int y2 = sizes.topMargin + sizes.basCompoHeight + sizes.sectionSeparatorHeight;
 
     sweepCompo->setBounds (x, y2, w, sizes.sweepCompoHeight);
     y2 += sizes.sweepCompoHeight;
@@ -236,7 +251,7 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
     // Advanced part
     //
     x = sizes.leftMargin;
-    int y3 = y > y2 ? y : y2;
+    int y3 = y1 > y2 ? y1 : y2;
     y3 += sizes.sectionSeparatorHeight;
     advCompo->setBounds (x, y3, sizes.fullComponentWidth, sizes.advCompoHeight);
 
@@ -260,6 +275,8 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
             noiCompo->setVisible (false);
             break;
     }
+    
+    monoCompo->setVisible(processor.settingRefs.isMonophonic());
 
     //
     // Enable/Disable
@@ -272,7 +289,10 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
 
 void Magical8bitPlug2AudioProcessorEditor::resizeWholePanel()
 {
-    setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen()));
+    if (!isComponentsReady) {
+        return;
+    }
+    setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen(), processor.settingRefs.isMonophonic()));
 }
 
 void Magical8bitPlug2AudioProcessorEditor::parameterValueChanged (int parameterIndex, float newValue)

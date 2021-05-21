@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -32,22 +32,22 @@ SliderComponent::SliderComponent (Magical8bitPlug2AudioProcessor& p, String para
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    label.reset (new Label ("label",
-                            TRANS("Label")));
+    label.reset (new juce::Label ("label",
+                                  TRANS("Label")));
     addAndMakeVisible (label.get());
-    label->setFont (Font (14.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label->setJustificationType (Justification::centredRight);
+    label->setFont (juce::Font (14.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    label->setJustificationType (juce::Justification::centredRight);
     label->setEditable (false, false, false);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    label->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    label->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
     label->setBounds (8, 1, 60, 24);
 
-    slider.reset (new Slider ("slider"));
+    slider.reset (new juce::Slider ("slider"));
     addAndMakeVisible (slider.get());
     slider->setRange (0, 10, 0.01);
-    slider->setSliderStyle (Slider::LinearHorizontal);
-    slider->setTextBoxStyle (Slider::TextBoxRight, false, 50, 20);
+    slider->setSliderStyle (juce::Slider::LinearHorizontal);
+    slider->setTextBoxStyle (juce::Slider::TextBoxRight, false, 50, 20);
 
 
     //[UserPreSize]
@@ -78,7 +78,7 @@ SliderComponent::~SliderComponent()
 }
 
 //==============================================================================
-void SliderComponent::paint (Graphics& g)
+void SliderComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]

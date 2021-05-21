@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -39,13 +39,13 @@ class EnvelopeParamsComponent  : public Component
 public:
     //==============================================================================
     EnvelopeParamsComponent (Magical8bitPlug2AudioProcessor& p);
-    ~EnvelopeParamsComponent();
+    ~EnvelopeParamsComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
     //[/UserMethods]
 
-    void paint (Graphics& g) override;
+    void paint (juce::Graphics& g) override;
     void resized() override;
     void enablementChanged() override;
 
@@ -57,12 +57,12 @@ private:
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<Label> label;
+    std::unique_ptr<juce::Label> label;
     std::unique_ptr<SliderComponent> attackSlider;
     std::unique_ptr<SliderComponent> decaySlider;
     std::unique_ptr<SliderComponent> sustainSlider;
     std::unique_ptr<SliderComponent> releaseSlider;
-    std::unique_ptr<Label> warningLabel;
+    std::unique_ptr<juce::Label> warningLabel;
 
 
     //==============================================================================

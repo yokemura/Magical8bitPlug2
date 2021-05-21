@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -32,14 +32,14 @@ EnvelopeParamsComponent::EnvelopeParamsComponent (Magical8bitPlug2AudioProcessor
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    label.reset (new Label ("label",
-                            TRANS("Envelope")));
+    label.reset (new juce::Label ("label",
+                                  TRANS("Envelope")));
     addAndMakeVisible (label.get());
-    label->setFont (Font (17.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label->setJustificationType (Justification::centredLeft);
+    label->setFont (juce::Font (17.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    label->setJustificationType (juce::Justification::centredLeft);
     label->setEditable (false, false, false);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    label->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    label->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
     label->setBounds (0, 4, 150, 22);
 
@@ -59,15 +59,15 @@ EnvelopeParamsComponent::EnvelopeParamsComponent (Magical8bitPlug2AudioProcessor
     addAndMakeVisible (releaseSlider.get());
     releaseSlider->setName ("release slider");
 
-    warningLabel.reset (new Label ("warning label",
-                                   String()));
+    warningLabel.reset (new juce::Label ("warning label",
+                                         juce::String()));
     addAndMakeVisible (warningLabel.get());
-    warningLabel->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    warningLabel->setJustificationType (Justification::centredRight);
+    warningLabel->setFont (juce::Font (15.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    warningLabel->setJustificationType (juce::Justification::centredRight);
     warningLabel->setEditable (false, false, false);
-    warningLabel->setColour (Label::textColourId, Colour (0xffe22be0));
-    warningLabel->setColour (TextEditor::textColourId, Colours::black);
-    warningLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    warningLabel->setColour (juce::Label::textColourId, juce::Colour (0xffe22be0));
+    warningLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    warningLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
 
     //[UserPreSize]
@@ -101,7 +101,7 @@ EnvelopeParamsComponent::~EnvelopeParamsComponent()
 }
 
 //==============================================================================
-void EnvelopeParamsComponent::paint (Graphics& g)
+void EnvelopeParamsComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]

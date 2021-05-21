@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -37,14 +37,14 @@ AdvancedParamsComponent::AdvancedParamsComponent (Magical8bitPlug2AudioProcessor
     addAndMakeVisible (volumeCompo.get());
     volumeCompo->setName ("volume component");
 
-    label5.reset (new Label ("new label",
-                             TRANS("Custom Envelopes")));
+    label5.reset (new juce::Label ("new label",
+                                   TRANS("Custom Envelopes")));
     addAndMakeVisible (label5.get());
-    label5->setFont (Font (17.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label5->setJustificationType (Justification::centredLeft);
+    label5->setFont (juce::Font (17.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    label5->setJustificationType (juce::Justification::centredLeft);
     label5->setEditable (false, false, false);
-    label5->setColour (TextEditor::textColourId, Colours::black);
-    label5->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    label5->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    label5->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
     label5->setBounds (0, 4, 150, 24);
 
@@ -91,7 +91,7 @@ AdvancedParamsComponent::~AdvancedParamsComponent()
 }
 
 //==============================================================================
-void AdvancedParamsComponent::paint (Graphics& g)
+void AdvancedParamsComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]

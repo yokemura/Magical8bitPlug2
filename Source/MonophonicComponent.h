@@ -20,8 +20,8 @@
 #pragma once
 
 //[Headers]     -- You can add your own extra header files here --
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "CustomEnvelopeComponent.h"
+#include <JuceHeader.h>
+#include "SliderComponent.h"
 #include "ChoiceComponent.h"
 //[/Headers]
 
@@ -35,15 +35,19 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class AdvancedParamsComponent  : public Component
+class MonophonicComponent  : public Component,
+                             public ComboBox::Listener
 {
 public:
     //==============================================================================
-    AdvancedParamsComponent (Magical8bitPlug2AudioProcessor& p);
-    ~AdvancedParamsComponent() override;
+    MonophonicComponent (Magical8bitPlug2AudioProcessor& p);
+    ~MonophonicComponent() override;
+    
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
+    void updateVisibility();
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
@@ -53,19 +57,20 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    std::unique_ptr<SliderAttachment> attc;
     Magical8bitPlug2AudioProcessor& processor;
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<CustomEnvelopeComponent> volumeCompo;
-    std::unique_ptr<juce::Label> label5;
-    std::unique_ptr<CustomEnvelopeComponent> pitchCompo;
-    std::unique_ptr<CustomEnvelopeComponent> dutyCompo;
-    std::unique_ptr<ChoiceComponent> coarseOrFineChoice;
+    std::unique_ptr<juce::Label> label;
+    std::unique_ptr<ChoiceComponent> behaviorChoice;
+    std::unique_ptr<ChoiceComponent> intervalChoice;
+    std::unique_ptr<juce::Slider> intervalSlider;
+    std::unique_ptr<SliderComponent> portamentoSlider;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AdvancedParamsComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MonophonicComponent)
 };
 
 //[EndFile] You can add extra defines here...

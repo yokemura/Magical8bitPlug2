@@ -30,6 +30,13 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     float time = * (settingRefs->sweepTime);
     currentAutoBendAmount = iniPitch;
     autoBendDelta = -1.0 * iniPitch / (time * getSampleRate());
+    
+    portamentoTime = 0;
+    currentArpeggioFrame = 0;
+    arpeggioFrameTimer = 0;
+    arpeggioFrameLength = 0;
+    currentNumNoteBuffer = 0;
+    for (int i=0; i<10; i++) { noteBuffer[i] = 0; }
 }
 
 void TonalVoice::advanceControlFrame()
@@ -61,7 +68,7 @@ void TonalVoice::calculateAngleDelta()
                 break;
         }
     }
-
+    
     double byWheel = settingRefs->vibratoIgnoresWheel() ? 1.0 : currentModWheelValue;
     double vibratoAmount = * (settingRefs->vibratoDepth) * sin (getVibratoPhase()) * byWheel;
     double noteNoInDouble = noteNumber
@@ -87,6 +94,109 @@ void TonalVoice::controllerMoved (int type, int amount)
     if (type == 1)  // Modulation
     {
         currentModWheelValue = (double)amount / 127.0;
+    }
+}
+
+
+void TonalVoice::setLegatoMode(double time) {
+    portamentoTime = time;
+}
+
+// The interface says "add" but the implementation is just using the latest value.
+// It is because the original intension was to keep all the pressing keys and choose the apropriate one with certain algorithm
+void TonalVoice::addLegatoNote (int midiNoteNumber, float velocity) {
+    if (currentNumNoteBuffer >= 10) {
+        return;
+    }
+    
+    int previousNoteNo = noteNumber;
+    BaseVoice::changeNote(midiNoteNumber, velocity);
+    
+    // Portamento implementation is just applying auto bend
+    if (portamentoTime > 0) {
+        currentAutoBendAmount = (double)(previousNoteNo - midiNoteNumber);
+        autoBendDelta = -1.0 * currentAutoBendAmount / (portamentoTime * getSampleRate());
+    }
+}
+
+int TonalVoice::removeLegatoNote(int midiNoteNumber) {
+    if (midiNoteNumber == noteNumber) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
+
+void TonalVoice::setArpeggioMode(double interval)
+{
+    arpeggioFrameLength = interval;
+    arpeggioFrameTimer = 0;
+    currentArpeggioFrame = 0;
+    currentNumNoteBuffer = 1;
+    noteBuffer[0] = noteNumber;
+}
+
+void TonalVoice::addArpeggioNoteAscending(int midiNoteNumber)
+{
+    if (currentNumNoteBuffer >= 10) {
+        return;
+    }
+    int i;
+    for (i = 0; i<currentNumNoteBuffer; i++) {
+        if (noteBuffer[i] > midiNoteNumber) break;
+    }
+    
+    pushNoteBuffer(i, midiNoteNumber);
+    
+    currentNumNoteBuffer++;
+}
+
+void TonalVoice::addArpeggioNoteDescending(int midiNoteNumber)
+{
+    if (currentNumNoteBuffer >= 10) {
+        return;
+    }
+    int i;
+    for (i = 0; i<currentNumNoteBuffer; i++) {
+        if (noteBuffer[i] < midiNoteNumber) break;
+    }
+    
+    pushNoteBuffer(i, midiNoteNumber);
+    
+    currentNumNoteBuffer++;
+}
+
+/// Returns number of remaining arpeggio notes
+int TonalVoice::removeArpeggioNote(int midiNoteNumber)
+{
+    if (currentNumNoteBuffer==0) {
+        return 0;
+    }
+    
+    int i;
+    for (i=0; i<currentNumNoteBuffer; i++) {
+        if (noteBuffer[i] == midiNoteNumber) break;
+    }
+    if (i == currentNumNoteBuffer) { // not found
+        return currentNumNoteBuffer;
+    }
+    shiftNoteBuffer(i);
+    currentNumNoteBuffer--;
+    
+    return currentNumNoteBuffer;
+}
+
+void TonalVoice::pushNoteBuffer(int index, int value) {
+    for (int i=9; i>index; i--) {
+        noteBuffer[i] = noteBuffer[i-1];
+    }
+    noteBuffer[index] = value;
+}
+
+void TonalVoice::shiftNoteBuffer(int index) {
+    for (int i=index; i<9; i++) {
+        noteBuffer[i] = noteBuffer[i+1];
     }
 }
 
@@ -131,6 +241,25 @@ void TonalVoice::onFrameAdvanced()
         {
             currentAutoBendAmount = 0;
             autoBendDelta = 0;
+        }
+    }
+    
+    if (arpeggioFrameLength > 0) {
+        arpeggioFrameTimer += 1.0 / getSampleRate();
+        
+        if (arpeggioFrameTimer >= arpeggioFrameLength)
+        {
+            currentArpeggioFrame++;
+
+            if (currentArpeggioFrame >= currentNumNoteBuffer) {
+                currentArpeggioFrame = 0;
+            }
+            noteNumber = noteBuffer[currentArpeggioFrame];
+
+            while (arpeggioFrameTimer >= arpeggioFrameLength)
+            {
+                arpeggioFrameTimer -= arpeggioFrameLength;
+            }
         }
     }
 };

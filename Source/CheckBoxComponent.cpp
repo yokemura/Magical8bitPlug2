@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -33,7 +33,7 @@ CheckBoxComponent::CheckBoxComponent (Magical8bitPlug2AudioProcessor& p, String 
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    toggleButton.reset (new ToggleButton ("toggle button"));
+    toggleButton.reset (new juce::ToggleButton ("toggle button"));
     addAndMakeVisible (toggleButton.get());
     toggleButton->setButtonText (TRANS("new toggle button"));
     toggleButton->addListener (this);
@@ -66,7 +66,7 @@ CheckBoxComponent::~CheckBoxComponent()
 }
 
 //==============================================================================
-void CheckBoxComponent::paint (Graphics& g)
+void CheckBoxComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -85,7 +85,7 @@ void CheckBoxComponent::resized()
     //[/UserResized]
 }
 
-void CheckBoxComponent::buttonClicked (Button* buttonThatWasClicked)
+void CheckBoxComponent::buttonClicked (juce::Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
     //[/UserbuttonClicked_Pre]
