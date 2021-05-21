@@ -72,6 +72,7 @@ public:
 
     //==============================================================================
     void setupVoice();
+    double getCurrentBPM();
 
     AudioProcessorValueTreeState parameters;
     SettingRefs settingRefs;

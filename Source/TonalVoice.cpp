@@ -38,6 +38,7 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     arpeggioFrameTimer = 0;
     arpeggioFrameLength = 0;
     currentNumNoteBuffer = 0;
+    for (int i=0; i<10; i++) { noteBuffer[i] = 0; }
 }
 
 void TonalVoice::advanceControlFrame()
@@ -69,7 +70,7 @@ void TonalVoice::calculateAngleDelta()
                 break;
         }
     }
-
+    
     double byWheel = settingRefs->vibratoIgnoresWheel() ? 1.0 : currentModWheelValue;
     double vibratoAmount = * (settingRefs->vibratoDepth) * sin (getVibratoPhase()) * byWheel;
     double noteNoInDouble = noteNumber
@@ -260,6 +261,25 @@ void TonalVoice::onFrameAdvanced()
         {
             currentAutoBendAmount = 0;
             autoBendDelta = 0;
+        }
+    }
+    
+    if (arpeggioFrameLength > 0) {
+        arpeggioFrameTimer += 1.0 / getSampleRate();
+        
+        if (arpeggioFrameTimer >= arpeggioFrameLength)
+        {
+            currentArpeggioFrame++;
+
+            if (currentArpeggioFrame >= currentNumNoteBuffer) {
+                currentArpeggioFrame = 0;
+            }
+            noteNumber = noteBuffer[currentArpeggioFrame];
+
+            while (arpeggioFrameTimer >= arpeggioFrameLength)
+            {
+                arpeggioFrameTimer -= arpeggioFrameLength;
+            }
         }
     }
 };

@@ -24,5 +24,6 @@ public:
     
 private:
     TonalVoice* getVoiceIfShouldProcessInMonoMode();
+    double calcArpeggioInterval();
     Magical8bitPlug2AudioProcessor& processor;
 };

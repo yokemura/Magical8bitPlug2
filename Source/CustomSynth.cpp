@@ -59,19 +59,44 @@ void CustomSynth::noteOn(int midiChannel, int midiNoteNumber, float velocity) {
     } else {
         switch (processor.settingRefs.monophonicBehavior()) {
             case kLegato:
-                // just start
+                // start note and set legato mode
                 Synthesiser::noteOn(midiChannel, midiNoteNumber, velocity);
                 voice->setLegatoMode(*(processor.settingRefs.portamentoTime));
                 break;
             case kArpeggioUp:
             case kArpeggioDown:
-                // calc arpeggio interval
-                // set arpeggio mode with this note number and arp interval
+                // start note and calc arpeggio interval
+                Synthesiser::noteOn(midiChannel, midiNoteNumber, velocity);
+                voice->setArpeggioMode(calcArpeggioInterval());
                 break;
             default:
                 // no-op
                 break;
         }
+    }
+}
+
+double CustomSynth::calcArpeggioInterval() {
+    switch (processor.settingRefs.apreggioIntervalType()) {
+        case k1frame:
+            return 1.0 / 60.0;
+        case k2frames:
+            return 1.0 / 30.0;
+        case k3frames:
+            return 1.0 / 20.0;
+        case k64th:
+            return 240.0 / (processor.getCurrentBPM() * 64);
+        case k48th:
+            return 240.0 / (processor.getCurrentBPM() * 48);
+        case k32nd:
+            return 240.0 / (processor.getCurrentBPM() * 32);
+        case k24th:
+            return 240.0 / (processor.getCurrentBPM() * 24);
+        case kSlider:
+            return *(processor.settingRefs.arpeggioIntervalSliderValue);
+        default:
+            return 1.0 / 60.0;
+            break;
     }
 }
 
@@ -104,9 +129,12 @@ void CustomSynth::noteOff(int midiChannel, int midiNoteNumber, float velocity, b
             break;
         case kArpeggioUp:
         case kArpeggioDown:
-            // remove arpeggio note and get # of remaining arpeggio notes
-            // if zero
-            //   all notes off
+        {
+            int numBuffer = voice->removeArpeggioNote(midiNoteNumber);
+            if (numBuffer < 1) {
+                Synthesiser::noteOff(midiChannel, voice->getCurrentlyPlayingNote(), velocity, allowTailOff);
+            }
+        }
             break;
         default:
             break;

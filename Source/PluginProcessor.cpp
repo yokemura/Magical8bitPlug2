@@ -176,6 +176,17 @@ void Magical8bitPlug2AudioProcessor::setupVoice()
     }
 }
 
+double Magical8bitPlug2AudioProcessor::getCurrentBPM()
+{
+    auto ph = getPlayHead();
+    if (ph == NULL) {
+        return 120.0;
+    }
+    juce::AudioPlayHead::CurrentPositionInfo result;
+    ph->getCurrentPosition(result);
+    
+    return result.bpm > 0 ? result.bpm : 120.0;
+}
 
 //==============================================================================
 const String Magical8bitPlug2AudioProcessor::getName() const

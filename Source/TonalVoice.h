@@ -69,7 +69,7 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     double noteNoToHeltzDouble (double noteNoInDouble, const double frequencyOfA = 440);
 
     void onFrameAdvanced() override;
-    
+
     bool isArpeggioEnabled() {
         return arpeggioFrameLength > 0;
     }
