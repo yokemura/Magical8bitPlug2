@@ -16,9 +16,7 @@
 // The base for pulse/triangle (Abstract)
 //
 //---------------------------------------------
-TonalVoice::TonalVoice (SettingRefs* sRefs) : BaseVoice (sRefs) {
-    // testArpeggioNotes();
-}
+TonalVoice::TonalVoice (SettingRefs* sRefs) : BaseVoice (sRefs) {}
 
 void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound*, int currentPitchBendPosition)
 {
@@ -102,18 +100,14 @@ void TonalVoice::controllerMoved (int type, int amount)
 
 void TonalVoice::setLegatoMode(double time) {
     portamentoTime = time;
-//    currentNumNoteBuffer = 1;
-//    noteBuffer[0] = noteNumber;
 }
 
+// The interface says "add" but the implementation is just using the latest value.
+// It is because the original intension was to keep all the pressing keys and choose the apropriate one with certain algorithm
 void TonalVoice::addLegatoNote (int midiNoteNumber, float velocity) {
     if (currentNumNoteBuffer >= 10) {
         return;
     }
-
-    // Push to last
-//    noteBuffer[currentNumNoteBuffer] = midiNoteNumber;
-//    currentNumNoteBuffer++;
     
     int previousNoteNo = noteNumber;
     BaseVoice::changeNote(midiNoteNumber, velocity);
@@ -126,20 +120,6 @@ void TonalVoice::addLegatoNote (int midiNoteNumber, float velocity) {
 }
 
 int TonalVoice::removeLegatoNote(int midiNoteNumber) {
-//    if (currentNumNoteBuffer==0) {
-//        return 0;
-//    }
-//
-//    int i;
-//    for (i=0; i<currentNumNoteBuffer; i++) {
-//        if (noteBuffer[i] == midiNoteNumber) break;
-//    }
-//    if (i == currentNumNoteBuffer) { // not found
-//        return currentNumNoteBuffer;
-//    }
-//    shiftNoteBuffer(i);
-//    currentNumNoteBuffer--;
-    
     if (midiNoteNumber == noteNumber) {
         return 0;
     } else {
