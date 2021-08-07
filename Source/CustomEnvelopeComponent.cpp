@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -35,7 +35,7 @@ CustomEnvelopeComponent::CustomEnvelopeComponent (Magical8bitPlug2AudioProcessor
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    textEditor.reset (new TextEditor ("text editor"));
+    textEditor.reset (new juce::TextEditor ("text editor"));
     addAndMakeVisible (textEditor.get());
     textEditor->setMultiLine (false);
     textEditor->setReturnKeyStartsNewLine (false);
@@ -43,23 +43,23 @@ CustomEnvelopeComponent::CustomEnvelopeComponent (Magical8bitPlug2AudioProcessor
     textEditor->setScrollbarsShown (false);
     textEditor->setCaretVisible (true);
     textEditor->setPopupMenuEnabled (true);
-    textEditor->setText (String());
+    textEditor->setText (juce::String());
 
-    toggleButton.reset (new ToggleButton ("toggle button"));
+    toggleButton.reset (new juce::ToggleButton ("toggle button"));
     addAndMakeVisible (toggleButton.get());
     toggleButton->setButtonText (TRANS("Enabled"));
     toggleButton->addListener (this);
 
     toggleButton->setBounds (8, 4, 104, 24);
 
-    label.reset (new Label ("new label",
-                            String()));
+    label.reset (new juce::Label ("new label",
+                                  juce::String()));
     addAndMakeVisible (label.get());
-    label->setFont (Font (12.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label->setJustificationType (Justification::centredLeft);
+    label->setFont (juce::Font (12.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    label->setJustificationType (juce::Justification::centredLeft);
     label->setEditable (false, false, false);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    label->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    label->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
 
     //[UserPreSize]
@@ -95,7 +95,7 @@ CustomEnvelopeComponent::~CustomEnvelopeComponent()
 }
 
 //==============================================================================
-void CustomEnvelopeComponent::paint (Graphics& g)
+void CustomEnvelopeComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -115,7 +115,7 @@ void CustomEnvelopeComponent::resized()
     //[/UserResized]
 }
 
-void CustomEnvelopeComponent::buttonClicked (Button* buttonThatWasClicked)
+void CustomEnvelopeComponent::buttonClicked (juce::Button* buttonThatWasClicked)
 {
     //[UserbuttonClicked_Pre]
     //[/UserbuttonClicked_Pre]

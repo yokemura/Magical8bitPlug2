@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -32,22 +32,22 @@ ChoiceComponent::ChoiceComponent (Magical8bitPlug2AudioProcessor& p, String para
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    comboBox.reset (new ComboBox ("combo box"));
+    comboBox.reset (new juce::ComboBox ("combo box"));
     addAndMakeVisible (comboBox.get());
     comboBox->setEditableText (false);
-    comboBox->setJustificationType (Justification::centredLeft);
-    comboBox->setTextWhenNothingSelected (String());
+    comboBox->setJustificationType (juce::Justification::centredLeft);
+    comboBox->setTextWhenNothingSelected (juce::String());
     comboBox->setTextWhenNoChoicesAvailable (TRANS("(no choices)"));
     comboBox->addListener (this);
 
-    label.reset (new Label ("label",
-                            TRANS("Label")));
+    label.reset (new juce::Label ("label",
+                                  TRANS("Label")));
     addAndMakeVisible (label.get());
-    label->setFont (Font (14.00f, Font::plain).withTypefaceStyle ("Regular"));
-    label->setJustificationType (Justification::centredRight);
+    label->setFont (juce::Font (14.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    label->setJustificationType (juce::Justification::centredRight);
     label->setEditable (false, false, false);
-    label->setColour (TextEditor::textColourId, Colours::black);
-    label->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    label->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    label->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
     label->setBounds (8, 1, 60, 24);
 
@@ -88,7 +88,7 @@ ChoiceComponent::~ChoiceComponent()
 }
 
 //==============================================================================
-void ChoiceComponent::paint (Graphics& g)
+void ChoiceComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -107,7 +107,7 @@ void ChoiceComponent::resized()
     //[/UserResized]
 }
 
-void ChoiceComponent::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
+void ChoiceComponent::comboBoxChanged (juce::ComboBox* comboBoxThatHasChanged)
 {
     //[UsercomboBoxChanged_Pre]
     //[/UsercomboBoxChanged_Pre]

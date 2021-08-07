@@ -7,12 +7,12 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 5.4.5
+  Created with Projucer version: 6.0.8
 
   ------------------------------------------------------------------------------
 
   The Projucer is part of the JUCE library.
-  Copyright (c) 2017 - ROLI Ltd.
+  Copyright (c) 2020 - Raw Material Software Limited.
 
   ==============================================================================
 */
@@ -34,14 +34,14 @@ BasicParamsComponent::BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, M
     //[Constructor_pre] You can add your own custom stuff here..
     //[/Constructor_pre]
 
-    polyLabel.reset (new Label ("label",
-                                TRANS("Poly")));
+    polyLabel.reset (new juce::Label ("label",
+                                      TRANS("Poly")));
     addAndMakeVisible (polyLabel.get());
-    polyLabel->setFont (Font (15.00f, Font::plain).withTypefaceStyle ("Regular"));
-    polyLabel->setJustificationType (Justification::centredLeft);
+    polyLabel->setFont (juce::Font (15.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    polyLabel->setJustificationType (juce::Justification::centredLeft);
     polyLabel->setEditable (false, false, false);
-    polyLabel->setColour (TextEditor::textColourId, Colours::black);
-    polyLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
+    polyLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    polyLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
 
     polyLabel->setBounds (232, 8, 40, 15);
 
@@ -57,11 +57,11 @@ BasicParamsComponent::BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, M
 
     oscChoice->setBounds (0, 4, 224, 28);
 
-    polyNumberInput.reset (new Slider ("poly number input"));
+    polyNumberInput.reset (new juce::Slider ("poly number input"));
     addAndMakeVisible (polyNumberInput.get());
     polyNumberInput->setRange (0, 32, 1);
-    polyNumberInput->setSliderStyle (Slider::IncDecButtons);
-    polyNumberInput->setTextBoxStyle (Slider::TextBoxLeft, false, 30, 20);
+    polyNumberInput->setSliderStyle (juce::Slider::IncDecButtons);
+    polyNumberInput->setTextBoxStyle (juce::Slider::TextBoxLeft, false, 30, 20);
     polyNumberInput->addListener (this);
 
     polyNumberInput->setBounds (268, 4, 86, 24);
@@ -111,7 +111,7 @@ BasicParamsComponent::~BasicParamsComponent()
 }
 
 //==============================================================================
-void BasicParamsComponent::paint (Graphics& g)
+void BasicParamsComponent::paint (juce::Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
@@ -131,7 +131,7 @@ void BasicParamsComponent::resized()
     //[/UserResized]
 }
 
-void BasicParamsComponent::sliderValueChanged (Slider* sliderThatWasMoved)
+void BasicParamsComponent::sliderValueChanged (juce::Slider* sliderThatWasMoved)
 {
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
