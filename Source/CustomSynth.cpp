@@ -61,13 +61,13 @@ void CustomSynth::noteOn(int midiChannel, int midiNoteNumber, float velocity) {
             case kLegato:
                 // start note and set legato mode
                 Synthesiser::noteOn(midiChannel, midiNoteNumber, velocity);
-                voice->setLegatoMode(*(processor.settingRefs.portamentoTime));
+                voice->setLegatoMode(*(processor.settingRefs.portamentoTime), midiChannel);
                 break;
             case kArpeggioUp:
             case kArpeggioDown:
                 // start note and calc arpeggio interval
                 Synthesiser::noteOn(midiChannel, midiNoteNumber, velocity);
-                voice->setArpeggioMode(calcArpeggioInterval());
+                voice->setArpeggioMode(calcArpeggioInterval(), midiChannel);
                 break;
             default:
                 // no-op
@@ -123,7 +123,7 @@ void CustomSynth::noteOff(int midiChannel, int midiNoteNumber, float velocity, b
         {
             int numBuffer = voice->removeLegatoNote(midiNoteNumber);
             if (numBuffer < 1) {
-                Synthesiser::noteOff(midiChannel, voice->getCurrentlyPlayingNote(), velocity, allowTailOff);
+                Synthesiser::noteOff(voice->primaryMidiChannel, voice->getCurrentlyPlayingNote(), velocity, allowTailOff);
             }
         }
             break;
@@ -132,7 +132,7 @@ void CustomSynth::noteOff(int midiChannel, int midiNoteNumber, float velocity, b
         {
             int numBuffer = voice->removeArpeggioNote(midiNoteNumber);
             if (numBuffer < 1) {
-                Synthesiser::noteOff(midiChannel, voice->getCurrentlyPlayingNote(), velocity, allowTailOff);
+                Synthesiser::noteOff(voice->primaryMidiChannel, voice->getCurrentlyPlayingNote(), velocity, allowTailOff);
             }
         }
             break;

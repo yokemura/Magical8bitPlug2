@@ -38,6 +38,7 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     // Legato/Arpeggio
     int noteBuffer[10];
     int currentNumNoteBuffer = 0;
+    int primaryMidiChannel = 1;
 
     // Legato
     double portamentoTime = 0;
@@ -54,11 +55,11 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     void pitchWheelMoved (int) override;
     void controllerMoved (int, int) override;
 
-    void setLegatoMode(double time);
+    void setLegatoMode(double time, int midiCh);
     void addLegatoNote (int midiNoteNumber, float velocity);
     int removeLegatoNote(int midiNoteNumber);
 
-    void setArpeggioMode(double interval);
+    void setArpeggioMode(double interval, int midiCh);
     void addArpeggioNoteAscending(int midiNoteNumber);
     void addArpeggioNoteDescending(int midiNoteNumber);
     int removeArpeggioNote(int midiNoteNumber);

@@ -98,8 +98,9 @@ void TonalVoice::controllerMoved (int type, int amount)
 }
 
 
-void TonalVoice::setLegatoMode(double time) {
+void TonalVoice::setLegatoMode(double time, int midiCh) {
     portamentoTime = time;
+    primaryMidiChannel = midiCh;
 }
 
 // The interface says "add" but the implementation is just using the latest value.
@@ -128,13 +129,14 @@ int TonalVoice::removeLegatoNote(int midiNoteNumber) {
 }
 
 
-void TonalVoice::setArpeggioMode(double interval)
+void TonalVoice::setArpeggioMode(double interval, int midiCh)
 {
     arpeggioFrameLength = interval;
     arpeggioFrameTimer = 0;
     currentArpeggioFrame = 0;
     currentNumNoteBuffer = 1;
     noteBuffer[0] = noteNumber;
+    primaryMidiChannel = midiCh;
 }
 
 void TonalVoice::addArpeggioNoteAscending(int midiNoteNumber)
