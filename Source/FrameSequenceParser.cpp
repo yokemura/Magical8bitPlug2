@@ -373,11 +373,10 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     {
         if (hasRelease)
         {
-            str_beforeRepeat = trimmed.substring (0, repeatStartIndex - 1);
+            str_release = trimmed.substring(releaseBlockIndex, trimmed.length());
         }
-
-        str_insideRepeat = trimmed.substring (repeatStartIndex, repeatEndIndex);
-    }
+        str_beforeRepeat = trimmed.substring(0, repeatStartIndex - 1);
+        str_insideRepeat = trimmed.substring (repeatStartIndex, repeatEndIndex);    }
     else
     {
         if (hasRelease)
