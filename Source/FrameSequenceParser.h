@@ -15,5 +15,34 @@
 
 struct FrameSequenceParser
 {
+    /*
+     Public
+     */
     FrameSequence parse (const String& input, int minValue, int maxValue, ParseError* error);
+    
+    /*
+     Semantically private (leave them open for unit testing)
+     */
+    struct SegmentIndexes {
+        const int NONE = -1;
+        
+        int releaseBlockIndex = NONE;
+        int repeatStartIndex = NONE;
+        int repeatEndIndex = NONE;
+        ParseError error;
+    };
+
+    std::vector<int> parseSlope (const String& input,
+                                 int minValue,
+                                 int maxValue,
+                                 ParseError* error);
+    std::vector<int> parseRepeat (const String& input,
+                                  int minValue,
+                                  int maxValue,
+                                  ParseError* error);
+    std::vector<int> parseSegment (const String& input,
+                                   int minValue,
+                                   int maxValue,
+                                   ParseError* error);
+    SegmentIndexes findSegment(const String& input);
 };
