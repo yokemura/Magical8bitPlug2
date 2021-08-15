@@ -10,11 +10,7 @@
 
 #include "FrameSequenceParser.h"
 
-//
-// Fileprivate
-//
-
-std::vector<int> parseSlope (const String& input,
+std::vector<int> FrameSequenceParser::parseSlope (const String& input,
                              int minValue,
                              int maxValue,
                              ParseError* error)
@@ -40,15 +36,20 @@ std::vector<int> parseSlope (const String& input,
     // find index of "in"
     int inIndex = input.indexOf ("in");
 
-    if (inIndex > input.length() - 3)
-    {
-        *error = kParseErrorMissingSlopeFinalValue;
-        return retval;
-    }
-
     if (inIndex < 0)
     {
         *error = kParseErrorMissingSlopeLengthDelimiter;
+        return retval;
+    }
+
+    if (inIndex > input.length() - 3)
+    {
+        *error = kParseErrorMissingSlopeFrameCount;
+        return retval;
+    }
+    if (inIndex - toIndex < 3)
+    {
+        *error = kParseErrorMissingSlopeFinalValue;
         return retval;
     }
 
@@ -115,7 +116,7 @@ std::vector<int> parseSlope (const String& input,
     return retval;
 }
 
-std::vector<int> parseRepeat (const String& input,
+std::vector<int> FrameSequenceParser::parseHold (const String& input,
                               int minValue,
                               int maxValue,
                               ParseError* error)
@@ -126,13 +127,13 @@ std::vector<int> parseRepeat (const String& input,
 
     if (xIndex < 1)
     {
-        *error = kParseErrorMissingValueForRepeatDelimiter;
+        *error = kParseErrorMissingHoldValue;
         return retval;
     }
 
-    if (xIndex > input.length() - 1)
+    if (xIndex >= input.length() - 1)
     {
-        *error = kParseErrorMissingFrameCountForRepeatDelimiter;
+        *error = kParseErrorMissingHoldFrameCount;
         return retval;
     }
 
@@ -172,7 +173,7 @@ std::vector<int> parseRepeat (const String& input,
     return retval;
 }
 
-std::vector<int> parseSegment (const String& input,
+std::vector<int> FrameSequenceParser::parseSegment (const String& input,
                                int minValue,
                                int maxValue,
                                ParseError* error)
@@ -194,7 +195,7 @@ std::vector<int> parseSegment (const String& input,
         else if (aToken.contains ("x"))
         {
             // parse as repeat-fixed-value
-            parsed = parseRepeat (aToken, minValue, maxValue, error);
+            parsed = parseHold (aToken, minValue, maxValue, error);
         }
         else
         {
@@ -228,6 +229,161 @@ std::vector<int> parseSegment (const String& input,
     return retval;
 }
 
+SegmentIndexes FrameSequenceParser::findSegment(const String& input) {
+    int releaseBlockIndex = -1;
+    int repeatStartIndex = -1;
+    int repeatEndIndex = -1;
+    int openBracketCount = 0;
+    int closeBracketCount = 0;
+
+    SegmentIndexes retval = SegmentIndexes();
+
+    // loop by character
+    for (int i = 0; i < input.length(); i++)
+    {
+        if (input[i] == '|')  // found "|":
+        {
+            if (releaseBlockIndex >= 0)
+            {
+                //   if releaseBlockIndex is already determined: Duplication Error
+                retval.error = kParseErrorDuplicatedReleaseDelimiter;
+                return retval;
+            }
+
+            //            if(repeatStartIndex >= 0) {
+            //                //   if appeard before "[" or  "]": Repetition After Release Error
+            //                throw new FrameSequenceParseException(TRANS("You cannot repeat in release phase"), true);
+            //            }
+            //   set releaseBlockIndex
+            releaseBlockIndex = i + 1;
+
+            if (repeatEndIndex < 0)
+            {
+                // if "]" is omitted: Also set repeatEndIndex
+                repeatEndIndex = i;
+            }
+        }
+
+        if (input[i] == '[')  /// found "[":
+        {
+            openBracketCount++;
+
+            if (openBracketCount > 1)
+            {
+                //   Duplication Error
+                retval.error = kParseErrorDuplicatedOpenBracket;
+                return retval;
+            }
+
+            if (releaseBlockIndex >= 0)
+            {
+                //   if repeat end is already defined: Repetition After Release Error
+                retval.error = kParseErrorRepeatingInReleaseBlock;
+                return retval;
+            }
+
+            if (repeatEndIndex >= 0)
+            {
+                //   if repeat end is already defined: Repetition After Release Error
+                retval.error = kParseErrorDuplicatedOpenBracket;
+                return retval;
+            }
+
+            //   set repeatStartIndex
+            repeatStartIndex = i + 1;
+        }
+
+        if (input[i] == ']')  // found "]":
+        {
+            closeBracketCount++;
+
+            if (closeBracketCount > 1)
+            {
+                //    Duplication Error
+                retval.error = kParseErrorDuplicatedCloseBracket;
+                return retval;
+            }
+
+            if (repeatStartIndex < 0)
+            {
+                //   if repeatStartIndex hasn't set: Syntax Error
+                retval.error = kParseErrorUnmatchingCloseBracket;
+                return retval;
+            }
+
+            if (releaseBlockIndex >= 0)
+            {
+                //   if repeat end is already defined: Repetition After Release Error
+                retval.error = kParseErrorRepeatingInReleaseBlock;
+                return retval;
+            }
+
+            repeatEndIndex = i;
+        }
+    }
+
+    //    if (releaseBlockIndex < 0) { // "|" didn't explicitly specified
+    //        releaseBlockIndex = trimmed.length();
+    //    }
+
+    if (openBracketCount != closeBracketCount)
+    {
+        retval.error = kParseErrorUnmatchingBracketNumber;
+        return retval;
+    }
+
+    if (releaseBlockIndex - repeatEndIndex > 1)
+    {
+        //        throw new FrameSequenceParseException(TRANS("Elements between repeat block and release block will be ignored"), false);
+        // FiXME: non-fatal exceptionをどう扱うか
+    }
+
+    retval.releaseBlockIndex = releaseBlockIndex;
+    retval.repeatStartIndex = repeatStartIndex;
+    retval.repeatEndIndex = repeatEndIndex;
+    return retval;
+}
+
+void FrameSequenceParser::splitSegment (const String& input,
+                                        SegmentIndexes indexes,
+                                        String& beforeRepeat,
+                                        String& insideRepeat,
+                                        String& afterRelease) {
+    int releaseBlockIndex = indexes.releaseBlockIndex;
+    int repeatStartIndex = indexes.repeatStartIndex;
+    int repeatEndIndex = indexes.repeatEndIndex;
+
+    // Just for convenience
+    bool hasRelease = (releaseBlockIndex >= 0);
+    bool shouldRepeat = (repeatStartIndex >= 0);
+
+    if (shouldRepeat)
+    {
+        if (hasRelease)
+        {
+            beforeRepeat = input.substring(0, repeatStartIndex - 1);
+            insideRepeat = input.substring (repeatStartIndex, repeatEndIndex);
+            afterRelease = input.substring(releaseBlockIndex, input.length());
+        }
+        else
+        {
+            beforeRepeat = input.substring(0, repeatStartIndex - 1);
+            insideRepeat = input.substring (repeatStartIndex, repeatEndIndex);
+        }
+    }
+    else
+    {
+        if (hasRelease) {
+            beforeRepeat = input.substring (0, releaseBlockIndex - 1);
+            afterRelease = input.substring (releaseBlockIndex, input.length());
+        }
+        else
+        {
+            beforeRepeat = input.substring (0, input.length());
+        }
+    }
+}
+
 FrameSequence FrameSequenceParser::parse (const String& input,
                                           int minValue,
                                           int maxValue,
@@ -248,116 +404,11 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     //
     // Overall structure
     //
-
-    int releaseBlockIndex = -1;
-    int repeatStartIndex = -1;
-    int repeatEndIndex = -1;
-    int openBracketCount = 0;
-    int closeBracketCount = 0;
-
-    // loop by character
-    for (int i = 0; i < trimmed.length(); i++)
-    {
-        if (trimmed[i] == '|')  // found "|":
-        {
-            if (releaseBlockIndex >= 0)
-            {
-                //   if releaseBlockIndex is already determined: Duplication Error
-                *error = kParseErrorDuplicatedReleaseDelimiter;
-                return fs;
-            }
-
-            //            if(repeatStartIndex >= 0) {
-            //                //   if appeard before "[" or  "]": Repetition After Release Error
-            //                throw new FrameSequenceParseException(TRANS("You cannot repeat in release phase"), true);
-            //            }
-            //   set releaseBlockIndex
-            releaseBlockIndex = i + 1;
-
-            if (repeatEndIndex < 0)
-            {
-                // if "]" is omitted: Also set repeatEndIndex
-                repeatEndIndex = i;
-            }
-        }
-
-        if (trimmed[i] == '[')  /// found "[":
-        {
-            openBracketCount++;
-
-            if (openBracketCount > 1)
-            {
-                //   Duplication Error
-                *error = kParseErrorDuplicatedOpenBracket;
-                return fs;
-            }
-
-            if (releaseBlockIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorRepeatingInReleaseBlock;
-                return fs;
-            }
-
-            if (repeatEndIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorDuplicatedOpenBracket;
-                return fs;
-            }
-
-            //   set repeatStartIndex
-            repeatStartIndex = i + 1;
-        }
-
-        if (trimmed[i] == ']')  // found "]":
-        {
-            closeBracketCount++;
-
-            if (closeBracketCount > 1)
-            {
-                //    Duplication Error
-                *error = kParseErrorDuplicatedCloseBracket;
-                return fs;
-            }
-
-            if (repeatStartIndex < 0)
-            {
-                //   if repeatStartIndex hasn't set: Syntax Error
-                *error = kParseErrorUnmatchingCloseBracket;
-                return fs;
-            }
-
-            if (releaseBlockIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorRepeatingInReleaseBlock;
-                return fs;
-            }
-
-            repeatEndIndex = i;
-        }
-    }
-
-    //    if (releaseBlockIndex < 0) { // "|" didn't explicitly specified
-    //        releaseBlockIndex = trimmed.length();
-    //    }
-
-    if (openBracketCount != closeBracketCount)
-    {
-        *error = kParseErrorUnmatchingBracketNumber;
-        return fs;
-    }
-
-    if (releaseBlockIndex - repeatEndIndex > 1)
-    {
-        //        throw new FrameSequenceParseException(TRANS("Elements between repeat block and release block will be ignored"), false);
-        // FiXME: non-fatal exceptionをどう扱うか
-    }
+    SegmentIndexes si = findSegment(trimmed);
 
     // Just for convenience
-    bool hasRelease = (releaseBlockIndex >= 0);
-    bool shouldRepeat = (repeatStartIndex >= 0);
+    bool hasRelease = (si.releaseBlockIndex >= 0);
+    bool shouldRepeat = (si.repeatStartIndex >= 0);
 
     //-----------------------------------
     //
@@ -369,32 +420,7 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     String str_insideRepeat;
     String str_release;
 
-    if (shouldRepeat)
-    {
-        if (hasRelease)
-        {
-            str_beforeRepeat = trimmed.substring (0, repeatStartIndex - 1);
-        }
-
-        str_insideRepeat = trimmed.substring (repeatStartIndex, repeatEndIndex);
-    }
-    else
-    {
-        if (hasRelease)
-        {
-            str_beforeRepeat = trimmed.substring (0, releaseBlockIndex - 1);
-            str_release = trimmed.substring (releaseBlockIndex, trimmed.length());
-        }
-        else
-        {
-            str_beforeRepeat = trimmed.substring (0, trimmed.length());
-        }
-    }
-
-    std::cout << "before repeat : " + str_beforeRepeat + "\n";
-    std::cout << "inside repeat : " + str_insideRepeat + "\n";
-    std::cout << "after release : " + str_release + "\n";
-
+    splitSegment(trimmed, si, str_beforeRepeat, str_insideRepeat, str_release);
 
     //-----------------------------------
     //

@@ -10,6 +10,10 @@
               pluginDesc="8bit sound generator 2nd ver. by YMCK" displaySplashScreen="1"
               jucerFormatVersion="1" version="1.0.1">
   <MAINGROUP id="tlJ5Jv" name="Magical8bitPlug2">
+    <GROUP id="{90CFFF6B-201B-9373-6BE8-DDF2F136949F}" name="Tests">
+      <FILE id="WZca8g" name="EnvelopeParserTest.h" compile="0" resource="0"
+            file="Source/EnvelopeParserTest.h"/>
+    </GROUP>
     <GROUP id="{05934500-901F-8317-27DC-7E17FC00833D}" name="View">
       <GROUP id="{68A7410F-88F9-C9D8-8A37-6A70F269BBCC}" name="BaseComponents">
         <FILE id="lBYKKS" name="CheckBoxComponent.cpp" compile="1" resource="0"
