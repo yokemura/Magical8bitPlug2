@@ -27,6 +27,7 @@ enum ParseError
     kParseErrorMissingSlopeLengthDelimiter,
     kParseErrorMissingSlopeInitialValue,
     kParseErrorMissingSlopeFinalValue,
+    kParseErrorMissingSlopeFrameCount,
     kParseErrorNotANumber,
     kParseErrorValueOutOfRange,
     kParseErrorFrameLengthTooShort,

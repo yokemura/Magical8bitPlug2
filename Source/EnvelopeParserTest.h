@@ -22,7 +22,12 @@ public:
     void runTest() override
     {
         FrameSequenceParser parser;
-                
+        
+        //-------------------------------------------------------
+        //
+        // Section index
+        //
+        //-------------------------------------------------------
         beginTest ("No repeat");
         String input1 = "aaa"; // At this phase it doesn't matter if it contains numbers or not
         auto result1 = parser.findSegment(input1);
@@ -85,6 +90,103 @@ public:
         expect(result9.repeatStartIndex == 4);
         expect(result9.repeatEndIndex == 7);
         expect(result9.releaseBlockIndex == 9);
+
+        beginTest ("[Error] Multiple open bracket");
+        String input10 = "aaa[[bbb]";
+        auto result10 = parser.findSegment(input10);
+        expect(result10.error = kParseErrorDuplicatedOpenBracket);
+
+        beginTest ("[Error] Multiple close bracket");
+        String input11 = "aaa[bbb]]";
+        auto result11 = parser.findSegment(input11);
+        expect(result11.error = kParseErrorDuplicatedCloseBracket);
+
+        beginTest ("[Error] Unmatching close bracket");
+        String input12 = "aaabbb]";
+        auto result12 = parser.findSegment(input12);
+        expect(result12.error = kParseErrorUnmatchingCloseBracket);
+
+        beginTest ("[Error] Repeat in release segment");
+        String input13 = "aaa|[bbb]";
+        auto result13 = parser.findSegment(input13);
+        expect(result13.error = kParseErrorRepeatingInReleaseBlock);
+        
+        //-------------------------------------------------------
+        //
+        // Slope
+        //
+        //-------------------------------------------------------
+        ParseError error = kParseErrorNone;
+        
+        beginTest ("Down slope");
+        String input14 = "3to0in4";
+        std::vector<int> result14 = parser.parseSlope(input14, 0, 15, &error);
+        expect(result14[0] == 3);
+        expect(result14[1] == 2);
+        expect(result14[2] == 1);
+        expect(result14[3] == 0); // Should include the last value
+
+        beginTest ("Slow decrement");
+        String input15 = "2to0in8";
+        std::vector<int> result15 = parser.parseSlope(input15, 0, 15, &error);
+        expect(result15[0] == 2);
+        expect(result15[1] == 2);
+        expect(result15[2] == 1);
+        expect(result15[3] == 1);
+        expect(result15[4] == 1);
+        expect(result15[5] == 1);
+        expect(result15[6] == 0);
+        expect(result15[7] == 0);
+
+        beginTest ("Fast decrement");
+        String input16 = "15to0in5";
+        std::vector<int> result16 = parser.parseSlope(input16, 0, 15, &error);
+        expect(result16[0] == 15);
+        expect(result16[1] == 11);
+        expect(result16[2] == 8);
+        expect(result16[3] == 4);
+        expect(result16[4] == 0);
+
+        beginTest ("Up slope");
+        String input17 = "0to3in4";
+        std::vector<int> result17 = parser.parseSlope(input17, 0, 15, &error);
+        expect(result17[0] == 0);
+        expect(result17[1] == 1);
+        expect(result17[2] == 2);
+        expect(result17[3] == 3); // Should include the last value
+
+        beginTest ("[Error] Missing 'in'");
+        String input18 = "0to3";
+        std::vector<int> result18 = parser.parseSlope(input18, 0, 15, &error);
+        expect(error == kParseErrorMissingSlopeLengthDelimiter);
+
+        beginTest ("[Error] Missing initial value");
+        String input19 = "to5in5";
+        std::vector<int> result19 = parser.parseSlope(input19, 0, 15, &error);
+        expect(error == kParseErrorMissingSlopeInitialValue);
+
+        beginTest ("[Error] Missing final value");
+        String input20 = "4toin5";
+        std::vector<int> result20 = parser.parseSlope(input20, 0, 15, &error);
+        expect(error == kParseErrorMissingSlopeFinalValue);
+
+        beginTest ("[Error] Missing frame count");
+        String input21 = "0to3in";
+        std::vector<int> result21 = parser.parseSlope(input21, 0, 15, &error);
+        expect(error == kParseErrorMissingSlopeFrameCount);
+
+
+        //-------------------------------------------------------
+        //
+        // Repeat
+        //
+        //-------------------------------------------------------
+
+        //-------------------------------------------------------
+        //
+        // Total
+        //
+        //-------------------------------------------------------
 
     }
 };

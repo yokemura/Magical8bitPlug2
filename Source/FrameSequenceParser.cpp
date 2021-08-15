@@ -36,15 +36,20 @@ std::vector<int> FrameSequenceParser::parseSlope (const String& input,
     // find index of "in"
     int inIndex = input.indexOf ("in");
 
-    if (inIndex > input.length() - 3)
-    {
-        *error = kParseErrorMissingSlopeFinalValue;
-        return retval;
-    }
-
     if (inIndex < 0)
     {
         *error = kParseErrorMissingSlopeLengthDelimiter;
+        return retval;
+    }
+
+    if (inIndex > input.length() - 3)
+    {
+        *error = kParseErrorMissingSlopeFrameCount;
+        return retval;
+    }
+    if (inIndex - toIndex < 3)
+    {
+        *error = kParseErrorMissingSlopeFinalValue;
         return retval;
     }
 
