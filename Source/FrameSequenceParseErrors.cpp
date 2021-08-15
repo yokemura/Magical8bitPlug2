@@ -14,6 +14,18 @@ String getParseErrorString (ParseError err, int minValue, int maxValue)
 {
     switch (err)
     {
+        case kParseWarningPreRepeatSegmentEmpty:
+            return TRANS ("Main body of the sequence is empty");
+            break;
+
+        case kParseWarningRepeatSegmentEmpty:
+            return TRANS ("Repeat section is empty");
+            break;
+
+        case kParseWarningReleaseSegmentEmpty:
+            return TRANS ("Release section is empty");
+            break;
+
         case kParseErrorDuplicatedReleaseDelimiter:
             return TRANS ("You cannot use \"|\" more than once");
             break;
@@ -58,6 +70,10 @@ String getParseErrorString (ParseError err, int minValue, int maxValue)
             return TRANS ("Missing destination value before \"in\"");
             break;
 
+        case kParseErrorMissingSlopeFrameCount:
+            return TRANS ("Frame count should be specified after \"in\"");
+            break;
+
         case kParseErrorNotANumber:
             return TRANS ("Number parse failed.");
             break;
@@ -70,11 +86,11 @@ String getParseErrorString (ParseError err, int minValue, int maxValue)
             return TRANS ("Frame count should be more than 2");
             break;
 
-        case kParseErrorMissingValueForRepeatDelimiter:
+        case kParseErrorMissingHoldValue:
             return TRANS ("Operator x should be followed by a number.");
             break;
 
-        case kParseErrorMissingFrameCountForRepeatDelimiter:
+        case kParseErrorMissingHoldFrameCount:
             return TRANS ("A number should be specified after operator x.");
             break;
 

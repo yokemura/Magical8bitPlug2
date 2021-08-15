@@ -14,6 +14,7 @@
 #include "TriangleVoice.h"
 #include "NoiseVoice.h"
 #include "FrameSequenceParseErrors.h"
+#include "EnvelopeParserTest.h"
 
 //==============================================================================
 Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
@@ -121,7 +122,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         std::make_unique<AudioParameterBool> ("isPitchSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isDutySequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine"}), 0)
-}
+    }
   )
 , settingRefs (&parameters)
 , synth(*this)
@@ -140,6 +141,12 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
 
     setupVoice();
     synth.addSound (new GenericSound());
+    
+#if JUCE_DEBUG
+    EnvelopeParserTest test;
+    UnitTestRunner runner;
+    runner.runAllTests();
+#endif
 }
 
 Magical8bitPlug2AudioProcessor::~Magical8bitPlug2AudioProcessor()
