@@ -36,7 +36,7 @@ struct FrameSequenceParser
                                  int minValue,
                                  int maxValue,
                                  ParseError* error);
-    std::vector<int> parseRepeat (const String& input,
+    std::vector<int> parseHold (const String& input,
                                   int minValue,
                                   int maxValue,
                                   ParseError* error);

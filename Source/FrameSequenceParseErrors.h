@@ -31,8 +31,8 @@ enum ParseError
     kParseErrorNotANumber,
     kParseErrorValueOutOfRange,
     kParseErrorFrameLengthTooShort,
-    kParseErrorMissingValueForRepeatDelimiter,
-    kParseErrorMissingFrameCountForRepeatDelimiter,
+    kParseErrorMissingHoldValue,
+    kParseErrorMissingHoldFrameCount,
 };
 
 String getParseErrorString (ParseError err, int minValue = 0, int maxValue = 0);

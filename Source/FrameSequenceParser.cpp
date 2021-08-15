@@ -116,7 +116,7 @@ std::vector<int> FrameSequenceParser::parseSlope (const String& input,
     return retval;
 }
 
-std::vector<int> FrameSequenceParser::parseRepeat (const String& input,
+std::vector<int> FrameSequenceParser::parseHold (const String& input,
                               int minValue,
                               int maxValue,
                               ParseError* error)
@@ -127,13 +127,13 @@ std::vector<int> FrameSequenceParser::parseRepeat (const String& input,
 
     if (xIndex < 1)
     {
-        *error = kParseErrorMissingValueForRepeatDelimiter;
+        *error = kParseErrorMissingHoldValue;
         return retval;
     }
 
-    if (xIndex > input.length() - 1)
+    if (xIndex >= input.length() - 1)
     {
-        *error = kParseErrorMissingFrameCountForRepeatDelimiter;
+        *error = kParseErrorMissingHoldFrameCount;
         return retval;
     }
 
@@ -195,7 +195,7 @@ std::vector<int> FrameSequenceParser::parseSegment (const String& input,
         else if (aToken.contains ("x"))
         {
             // parse as repeat-fixed-value
-            parsed = parseRepeat (aToken, minValue, maxValue, error);
+            parsed = parseHold (aToken, minValue, maxValue, error);
         }
         else
         {

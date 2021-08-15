@@ -121,6 +121,7 @@ public:
         beginTest ("Down slope");
         String input14 = "3to0in4";
         std::vector<int> result14 = parser.parseSlope(input14, 0, 15, &error);
+        expect(result14.size() == 4);
         expect(result14[0] == 3);
         expect(result14[1] == 2);
         expect(result14[2] == 1);
@@ -129,6 +130,7 @@ public:
         beginTest ("Slow decrement");
         String input15 = "2to0in8";
         std::vector<int> result15 = parser.parseSlope(input15, 0, 15, &error);
+        expect(result15.size() == 8);
         expect(result15[0] == 2);
         expect(result15[1] == 2);
         expect(result15[2] == 1);
@@ -141,6 +143,7 @@ public:
         beginTest ("Fast decrement");
         String input16 = "15to0in5";
         std::vector<int> result16 = parser.parseSlope(input16, 0, 15, &error);
+        expect(result16.size() == 5);
         expect(result16[0] == 15);
         expect(result16[1] == 11);
         expect(result16[2] == 8);
@@ -150,6 +153,7 @@ public:
         beginTest ("Up slope");
         String input17 = "0to3in4";
         std::vector<int> result17 = parser.parseSlope(input17, 0, 15, &error);
+        expect(result17.size() == 4);
         expect(result17[0] == 0);
         expect(result17[1] == 1);
         expect(result17[2] == 2);
@@ -175,12 +179,28 @@ public:
         std::vector<int> result21 = parser.parseSlope(input21, 0, 15, &error);
         expect(error == kParseErrorMissingSlopeFrameCount);
 
+        //-------------------------------------------------------
+        //
+        // Hold
+        //
+        //-------------------------------------------------------
+        beginTest ("Hold");
+        String input22 = "15x3";
+        std::vector<int> result22 = parser.parseHold(input22, 0, 15, &error);
+        expect(result22.size() == 3);
+        expect(result22[0] == 15);
+        expect(result22[1] == 15);
+        expect(result22[2] == 15);
 
-        //-------------------------------------------------------
-        //
-        // Repeat
-        //
-        //-------------------------------------------------------
+        beginTest ("[Error] Missing value");
+        String input23 = "x3";
+        std::vector<int> result23 = parser.parseHold(input23, 0, 15, &error);
+        expect(error == kParseErrorMissingHoldValue);
+
+        beginTest ("[Error] Missing value");
+        String input24 = "3x";
+        std::vector<int> result24 = parser.parseHold(input24, 0, 15, &error);
+        expect(error == kParseErrorMissingHoldFrameCount);
 
         //-------------------------------------------------------
         //
