@@ -153,6 +153,10 @@ void CustomEnvelopeComponent::textEditorTextChanged (TextEditor& editor)
 
     ParseError err = kParseErrorNone;
     processor.settingRefs.setSequenceWithString (paramType, txt, &err);
+    
+    ColorScheme cs = ColorScheme (processor.settingRefs.colorSchemeType());
+    Colour c = (err < kParseErrorLevelFatal) ? cs.main : cs.warning;
+    label->setColour (juce::Label::textColourId, c);
 
     if (err == kParseErrorValueOutOfRange)
     {
