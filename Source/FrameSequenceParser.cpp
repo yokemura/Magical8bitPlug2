@@ -224,7 +224,7 @@ std::vector<int> FrameSequenceParser::parseSegment (const String& input,
     return retval;
 }
 
-FrameSequenceParser::SegmentIndexes FrameSequenceParser::findSegment(const String& input) {
+SegmentIndexes FrameSequenceParser::findSegment(const String& input) {
     int releaseBlockIndex = -1;
     int repeatStartIndex = -1;
     int repeatEndIndex = -1;
@@ -359,112 +359,11 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     //
     // Overall structure
     //
+    SegmentIndexes si = findSegment(trimmed);
 
-    int releaseBlockIndex = -1;
-    int repeatStartIndex = -1;
-    int repeatEndIndex = -1;
-    int openBracketCount = 0;
-    int closeBracketCount = 0;
-
-    // loop by character
-    for (int i = 0; i < trimmed.length(); i++)
-    {
-        if (trimmed[i] == '|')  // found "|":
-        {
-            if (releaseBlockIndex >= 0)
-            {
-                //   if releaseBlockIndex is already determined: Duplication Error
-                *error = kParseErrorDuplicatedReleaseDelimiter;
-                return fs;
-            }
-
-            //            if(repeatStartIndex >= 0) {
-            //                //   if appeard before "[" or  "]": Repetition After Release Error
-            //                throw new FrameSequenceParseException(TRANS("You cannot repeat in release phase"), true);
-            //            }
-            //   set releaseBlockIndex
-            releaseBlockIndex = i + 1;
-
-            if (repeatEndIndex < 0)
-            {
-                // if "]" is omitted: Also set repeatEndIndex
-                repeatEndIndex = i;
-            }
-        }
-
-        if (trimmed[i] == '[')  /// found "[":
-        {
-            openBracketCount++;
-
-            if (openBracketCount > 1)
-            {
-                //   Duplication Error
-                *error = kParseErrorDuplicatedOpenBracket;
-                return fs;
-            }
-
-            if (releaseBlockIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorRepeatingInReleaseBlock;
-                return fs;
-            }
-
-            if (repeatEndIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorDuplicatedOpenBracket;
-                return fs;
-            }
-
-            //   set repeatStartIndex
-            repeatStartIndex = i + 1;
-        }
-
-        if (trimmed[i] == ']')  // found "]":
-        {
-            closeBracketCount++;
-
-            if (closeBracketCount > 1)
-            {
-                //    Duplication Error
-                *error = kParseErrorDuplicatedCloseBracket;
-                return fs;
-            }
-
-            if (repeatStartIndex < 0)
-            {
-                //   if repeatStartIndex hasn't set: Syntax Error
-                *error = kParseErrorUnmatchingCloseBracket;
-                return fs;
-            }
-
-            if (releaseBlockIndex >= 0)
-            {
-                //   if repeat end is already defined: Repetition After Release Error
-                *error = kParseErrorRepeatingInReleaseBlock;
-                return fs;
-            }
-
-            repeatEndIndex = i;
-        }
-    }
-
-    //    if (releaseBlockIndex < 0) { // "|" didn't explicitly specified
-    //        releaseBlockIndex = trimmed.length();
-    //    }
-
-    if (openBracketCount != closeBracketCount)
-    {
-        *error = kParseErrorUnmatchingBracketNumber;
-        return fs;
-    }
-
-    if (releaseBlockIndex - repeatEndIndex > 1)
-    {
-        //        throw new FrameSequenceParseException(TRANS("Elements between repeat block and release block will be ignored"), false);
-        // FiXME: non-fatal exceptionをどう扱うか
-    }
+    int releaseBlockIndex = si.releaseBlockIndex;
+    int repeatStartIndex = si.repeatStartIndex;
+    int repeatEndIndex = si.repeatEndIndex;
 
     // Just for convenience
     bool hasRelease = (releaseBlockIndex >= 0);

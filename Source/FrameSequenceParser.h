@@ -13,6 +13,15 @@
 #include "FrameSequence.h"
 #include "FrameSequenceParseErrors.h"
 
+struct SegmentIndexes {
+    static const int NONE = -1;
+    
+    int releaseBlockIndex = NONE;
+    int repeatStartIndex = NONE;
+    int repeatEndIndex = NONE;
+    ParseError error;
+};
+
 struct FrameSequenceParser
 {
     /*
@@ -23,15 +32,6 @@ struct FrameSequenceParser
     /*
      Semantically private (leave them open for unit testing)
      */
-    struct SegmentIndexes {
-        const int NONE = -1;
-        
-        int releaseBlockIndex = NONE;
-        int repeatStartIndex = NONE;
-        int repeatEndIndex = NONE;
-        ParseError error;
-    };
-
     std::vector<int> parseSlope (const String& input,
                                  int minValue,
                                  int maxValue,
