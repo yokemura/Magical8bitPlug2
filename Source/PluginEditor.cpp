@@ -18,6 +18,7 @@
 #include "BendParamsComponent.h"
 #include "SweepParamsComponent.h"
 #include "VibratoParamsComponent.h"
+#include "WaveformParamsComponent.h"
 
 //==============================================================================
 Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magical8bitPlug2AudioProcessor& p)
@@ -29,7 +30,7 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
 
     basicCompo.reset (new BasicParamsComponent (p, *this));
     addAndMakeVisible (basicCompo.get());
-
+    
     envCompo.reset (new EnvelopeParamsComponent (p));
     addAndMakeVisible (envCompo.get());
 
@@ -50,6 +51,10 @@ Magical8bitPlug2AudioProcessorEditor::Magical8bitPlug2AudioProcessorEditor (Magi
 
     vibCompo.reset (new VibratoParamsComponent (p));
     addAndMakeVisible (vibCompo.get());
+
+    // waveform
+    waveformCompo.reset (new WaveformParamsComponent (p));
+    addAndMakeVisible (waveformCompo.get());
 
     (p.parameters.getParameter ("isVolumeSequenceEnabled_raw"))->addListener (this);
     (p.parameters.getParameter ("isDutySequenceEnabled_raw"))->addListener (this);
@@ -141,7 +146,7 @@ struct
                                 + genericControlHeight;
     const int sweepCompoHeight = componentMargin * 2
                                  + indexHeight
-                                 + genericControlHeight * 2;
+                                 + genericControlHeight * 3;
     const int vibCompoHeight = componentMargin * 2
                                + indexHeight
                                + genericControlHeight * 4;
@@ -240,6 +245,11 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
     y3 += sizes.sectionSeparatorHeight;
     advCompo->setBounds (x, y3, sizes.fullComponentWidth, sizes.advCompoHeight);
 
+    // Waveform
+    int wrX = sizes.leftMargin + sizes.totalWidth;
+    int wrY = sizes.topMargin;
+    waveformCompo->setBounds(wrX, wrY, waveformCompo->getWidth(), waveformCompo->getHeight());
+
     //
     // Visibility
     //
@@ -272,7 +282,12 @@ void Magical8bitPlug2AudioProcessorEditor::resized()
 
 void Magical8bitPlug2AudioProcessorEditor::resizeWholePanel()
 {
-    setSize (sizes.totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen()));
+    int totalWidth = sizes.totalWidth;
+    if (processor.settingRefs.oscillatorType() == kVoiceTypeWaveform)
+    {
+        totalWidth += sizes.leftMargin * 2 + waveformCompo->getWidth();
+    }
+    setSize (totalWidth, sizes.totalHeight (processor.settingRefs.isAdvancedPanelOpen()));
 }
 
 void Magical8bitPlug2AudioProcessorEditor::parameterValueChanged (int parameterIndex, float newValue)
@@ -291,3 +306,13 @@ void Magical8bitPlug2AudioProcessorEditor::parameterValueChanged (int parameterI
     }
 }
 
+// waveform
+//void Magical8bitPlug2AudioProcessorEditor::waveformInit()
+//{
+//    waveformCompo->sliderInit();
+//}
+
+void Magical8bitPlug2AudioProcessorEditor::waveformUpdate()
+{
+    waveformCompo->sliderRepaint();
+}

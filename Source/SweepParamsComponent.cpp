@@ -51,11 +51,15 @@ SweepParamsComponent::SweepParamsComponent (Magical8bitPlug2AudioProcessor& p)
     addAndMakeVisible (timeSlider.get());
     timeSlider->setName ("time slider");
 
+    endPitchSlider.reset (new SliderComponent (p, "sweepEndPitch", "End.Pitch"));
+    addAndMakeVisible (endPitchSlider.get());
+    endPitchSlider->setName ("end pitch slider");
+
 
     //[UserPreSize]
     //[/UserPreSize]
 
-    setSize (340, 86);
+    setSize (340, 114);
 
 
     //[Constructor] You can add your own custom stuff here..
@@ -70,6 +74,7 @@ SweepParamsComponent::~SweepParamsComponent()
     label = nullptr;
     iniPitchSlider = nullptr;
     timeSlider = nullptr;
+    endPitchSlider = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -92,7 +97,8 @@ void SweepParamsComponent::resized()
     //[/UserPreResize]
 
     iniPitchSlider->setBounds (0, 26, proportionOfWidth (1.0000f), 28);
-    timeSlider->setBounds (0, 54, proportionOfWidth (1.0000f), 28);
+    timeSlider->setBounds (0, 82, proportionOfWidth (1.0000f), 28);
+    endPitchSlider->setBounds (0, 54, proportionOfWidth (1.0000f), 28);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -115,7 +121,7 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="SweepParamsComponent" componentName=""
                  parentClasses="public Component" constructorParams="Magical8bitPlug2AudioProcessor&amp; p"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
-                 overlayOpacity="0.330" fixedSize="1" initialWidth="340" initialHeight="86">
+                 overlayOpacity="0.330" fixedSize="1" initialWidth="340" initialHeight="114">
   <BACKGROUND backgroundColour="ffffff"/>
   <LABEL name="label" id="bae3132bcad681ce" memberName="label" virtualName=""
          explicitFocusOrder="0" pos="0 4 150 22" edTextCol="ff000000"
@@ -126,8 +132,11 @@ BEGIN_JUCER_METADATA
                     virtualName="" explicitFocusOrder="0" pos="0 26 100% 28" class="SliderComponent"
                     params="p, &quot;sweepInitialPitch&quot;, &quot;Ini.Pitch&quot;"/>
   <GENERICCOMPONENT name="time slider" id="1be45518932375fc" memberName="timeSlider"
-                    virtualName="" explicitFocusOrder="0" pos="0 54 100% 28" class="SliderComponent"
+                    virtualName="" explicitFocusOrder="0" pos="0 82 100% 28" class="SliderComponent"
                     params="p, &quot;sweepTime&quot;, &quot;Time&quot;"/>
+  <GENERICCOMPONENT name="end pitch slider" id="25cde38cec6274db" memberName="endPitchSlider"
+                    virtualName="" explicitFocusOrder="0" pos="0 54 100% 28" class="SliderComponent"
+                    params="p, &quot;sweepEndPitch&quot;, &quot;End.Pitch&quot;"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -77,3 +77,29 @@ String& SettingRefs::getSequenceString (const String& type)
     printf ("*** parameter type invalid!\n");
     return volumeSequenceString;
 }
+
+//void SettingRefs::setWaveform(AudioProcessorValueTreeState* parameters)
+//{
+//    // waveform
+//    for (int i = 0; i < 64; i++)
+//    {
+//        waveformWave[i] = (float*)parameters->getRawParameterValue("waveformWave" + String(i));
+//    }
+//    waveformX = (float*)parameters->getRawParameterValue("waveformX");
+//    waveformY = (float*)parameters->getRawParameterValue("waveformY");
+//    waveformTemplate = (float*)parameters->getRawParameterValue("waveformTemplate");
+//}
+
+int SettingRefs::getWaveformX()
+{
+    int range[3] = {16, 32, 64};
+
+    return range[(int)(*waveformX)];
+}
+
+int SettingRefs::getWaveformY()
+{
+    int range[3] = { 16, 32, 64 };
+
+    return range[(int)(*waveformY)] - 1;
+}

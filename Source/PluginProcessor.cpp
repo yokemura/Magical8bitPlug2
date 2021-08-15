@@ -13,6 +13,7 @@
 #include "PulseVoice.h"
 #include "TriangleVoice.h"
 #include "NoiseVoice.h"
+#include "WaveformVoice.h"
 #include "FrameSequenceParseErrors.h"
 #include "EnvelopeParserTest.h"
 
@@ -21,21 +22,21 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
     : parameters (
           *this, nullptr, Identifier ("Params"),
 {
-    //
-    // Meta
-    //
-    std::make_unique<AudioParameterBool> ("isAdvancedPanelOpen_raw", "Advanced", false),
+        //
+        // Meta
+        //
+        std::make_unique<AudioParameterBool> ("isAdvancedPanelOpen_raw", "Advanced", false),
         std::make_unique<AudioParameterChoice> ("colorScheme", "Color Scheme", StringArray ({"YMCK", "YMCK Dark", "Japan", "Worldwide", "Monotone", "Mono Dark"}), 0),
         //
         // Basic
         //
-        std::make_unique<AudioParameterChoice> ("osc", "OSC Type", StringArray ({"Pulse/Square", "Triangle", "Noise"}), 0),
+        std::make_unique<AudioParameterChoice> ("osc", "OSC Type", StringArray ({"Pulse/Square", "Triangle", "Noise", "Waveform"}), 0),
         std::make_unique<AudioParameterFloat> ("gain", "Gain", 0.0f, 1.0f, 0.5f),
         std::make_unique<AudioParameterFloat> ("maxPoly", "Max Poly", NormalisableRange<float> (1.0f,  //min
-                                               64.0f,   //max
-                                               1.0f, //step
-                                               1.0f),  //skew
-                                               8),
+                                                                                                64.0f,   //max
+                                                                                                1.0f, //step
+                                                                                                1.0f),  //skew
+                                                                                                8),
         //
         // ADSR
         //
@@ -45,14 +46,14 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
                                                                          5.0f,   //max
                                                                          0.001f, //step
                                                                          0.5f),  //skew
-                                               0.0f), //default
+                                                                         0.0f), //default
         std::make_unique<AudioParameterFloat> ("decay", //ID
                                                "Decay", //name
                                                NormalisableRange<float> (0.0f,  //min
                                                                          5.0f,   //max
                                                                          0.001f, //step
                                                                          0.5f),  //skew
-                                               0.0f), //default
+                                                                         0.0f), //default
         std::make_unique<AudioParameterFloat> ("suslevel", //ID
                                                "Sustain",  //name
                                                0.0f, //min
@@ -64,7 +65,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
                                                                          5.0f,   //max
                                                                          0.001f, //step
                                                                          0.5f),  //skew
-                                               0.0f), //default
+                                                                         0.0f), //default
         //
         // Arpeggio
         //
@@ -84,7 +85,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
                                                                          1.0f,   //max
                                                                          0.001f, //step
                                                                          0.5f),  //skew
-                                               0.15f), //default
+                                                                         0.15f), //default
         std::make_unique<AudioParameterFloat> ("vibratoDepth", "Depth", 0.0f, 2.0f, 0.0f),
         std::make_unique<AudioParameterFloat> ("vibratoDelay", "Delay", 0.0f, 1.0f, 0.3f),
         std::make_unique<AudioParameterBool> ("vibratoIgnoresWheel_raw", "Ignores Wheel", true),
@@ -92,13 +93,14 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         // Sweep
         //
         std::make_unique<AudioParameterInt> ("sweepInitialPitch", "Ini.Pitch", -24, 24, 0),
+        std::make_unique<AudioParameterInt> ("sweepEndPitch", "End.Pitch", -24, 24, 0),
         std::make_unique<AudioParameterFloat> ("sweepTime", //ID
                                                "Time", //name
                                                NormalisableRange<float> (0.01f,  //min
                                                                          5.0f,   //max
                                                                          0.001f, //step
                                                                          0.5f),  //skew
-                                               0.1f), //default
+                                                                         0.1f), //default
         //
         // For Pulse
         //
@@ -106,7 +108,7 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         //
         // For Noise
         //
-        std::make_unique<AudioParameterChoice> ("noiseAlgorithm_raw", "Algorithm", StringArray ({"4bit Pure Random", "1bit Long Cycle", "1bit Short Cycle"}), 0),
+        std::make_unique<AudioParameterChoice> ("noiseAlgorithm_raw", "Algorithm", StringArray ({"4bit Pure Random", "1bit Long Cycle", "1bit Short Cycle", "Nes Long Cycle", "Nes Short Cycle"}), 0),
         std::make_unique<AudioParameterBool> ("restrictsToNESFrequency_raw", "Restricts to NES frequency", false),
         //
         // Sequence
@@ -114,8 +116,77 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         std::make_unique<AudioParameterBool> ("isVolumeSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isPitchSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isDutySequenceEnabled_raw", "Enabled", false),
-        std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine"}), 0)
-    }
+        std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine8", "Fine16"}), 0),
+        // waveform
+        std::make_unique<AudioParameterChoice>("waveformX", "X", StringArray({ "16", "32", "64" }), 2),
+        std::make_unique<AudioParameterChoice>("waveformY", "Y", StringArray({ "16", "32", "64" }), 2),
+        std::make_unique<AudioParameterChoice>("waveformTemplate", "Template", StringArray({ "Custom", "Sine", "Triangle", "Sawtooth", "Square 6.25%", "Square 18.75%", "Square 31.25%", "Square 37.5%", "Square 43.75%" }), 0),
+        std::make_unique<AudioParameterFloat>("waveformWave0", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave1", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave2", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave3", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave4", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave5", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave6", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave7", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave8", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave9", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave10", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave11", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave12", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave13", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave14", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave15", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave16", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave17", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave18", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave19", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave20", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave21", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave22", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave23", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave24", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave25", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave26", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave27", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave28", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave29", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave30", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave31", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave32", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave33", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave34", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave35", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave36", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave37", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave38", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave39", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave40", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave41", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave42", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave43", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave44", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave45", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave46", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave47", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave48", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave49", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave50", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave51", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave52", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave53", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave54", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave55", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave56", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave57", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave58", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave59", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave60", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave61", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave62", "wave", 0, 63, 0),
+        std::make_unique<AudioParameterFloat>("waveformWave63", "wave", 0, 63, 0)
+
+}
   )
 , settingRefs (&parameters)
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -129,6 +200,16 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
                  )
 #endif
 {
+    // waveform
+    //parameters.createAndAddParameter(std::make_unique<AudioParameterChoice>("waveformX", "X", StringArray({ "16", "32", "64" }), 2));
+    //parameters.createAndAddParameter(std::make_unique<AudioParameterChoice>("waveformY", "Y", StringArray({ "16", "32", "64" }), 2));
+    //parameters.createAndAddParameter(std::make_unique<AudioParameterChoice>("waveformTemplate", "Template", StringArray({ "Custom", "Sine", "Triangle", "Sawtooth", "Square 6.25%", "Square 18.75%", "Square 31.25%", "Square 37.5%", "Square 43.75%" }), 0));
+    //for (int i = 0; i < 64; i++)
+    //{
+    //    parameters.createAndAddParameter(std::make_unique<AudioParameterInt>("waveformWave" + String(i), "wave" + String(i), 0, 63, 0));
+    //}
+    //settingRefs.setWaveform(&parameters);
+
     synth.setCurrentPlaybackSampleRate (44100); // Temporary setup, just in case. The actual sample rate is set in prepareToPlay func.
 
     setupVoice();
@@ -170,6 +251,10 @@ void Magical8bitPlug2AudioProcessor::setupVoice()
 
             case kVoiceTypeNoise:
                 synth.addVoice (new NoiseVoice (&settingRefs));
+                break;
+
+            case kVoiceTypeWaveform:
+                synth.addVoice(new WaveformVoice(&settingRefs));
                 break;
         }
     }
@@ -375,8 +460,13 @@ void Magical8bitPlug2AudioProcessor::getStateInformation (MemoryBlock& destData)
     copyXmlToBinary (*xml, destData);
 }
 
-void Magical8bitPlug2AudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void Magical8bitPlug2AudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
+    //if (Magical8bitPlug2AudioProcessorEditor* activeEditor = (Magical8bitPlug2AudioProcessorEditor*)getActiveEditor())
+    //{
+    //    activeEditor->waveformInit();
+    //}
+
     std::unique_ptr<XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
 
     if (xmlState.get() != nullptr)
@@ -473,6 +563,13 @@ void Magical8bitPlug2AudioProcessor::setStateInformation (const void* data, int 
     }
 
     setupVoice();
+
+    if (Magical8bitPlug2AudioProcessorEditor* activeEditor = (Magical8bitPlug2AudioProcessorEditor*)getActiveEditor())
+    {
+        activeEditor->resized();
+        activeEditor->resizeWholePanel();
+        activeEditor->waveformUpdate();
+    }
 }
 
 //==============================================================================

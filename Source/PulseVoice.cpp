@@ -56,7 +56,37 @@ void PulseVoice::advanceControlFrame()
 
     if (settingRefs->isDutySequenceEnabled())
     {
-        currentDutySequenceFrame = settingRefs->dutySequence.nextIndexOf (currentDutySequenceFrame);
-        currentDuty = (PulseDuty)settingRefs->dutySequence.valueAt (currentDutySequenceFrame);
+        //currentDutySequenceFrame = settingRefs->dutySequence.nextIndexOf(currentDutySequenceFrame);
+        //currentDuty = (PulseDuty)settingRefs->dutySequence.valueAt(currentDutySequenceFrame);
+
+        int currentDutySequenceFrameTmp = settingRefs->dutySequence.nextIndexOf(currentDutySequenceFrame);
+        if (currentDutySequenceFrameTmp != FrameSequence::SHOULD_RETIRE)
+        {
+            currentDutySequenceFrame = currentDutySequenceFrameTmp;
+            currentDuty = (PulseDuty)settingRefs->dutySequence.valueAt(currentDutySequenceFrame);
+        }
+    }
+}
+
+void PulseVoice::stopNote(float velocity, bool allowTailOff)
+{
+    TonalVoice::stopNote(velocity, allowTailOff);
+
+    if (!allowTailOff)
+    {
+        return;
+    }
+
+    if (settingRefs->isDutySequenceEnabled())
+    {
+        if (settingRefs->dutySequence.hasRelease)
+        {
+            if (settingRefs->dutySequence.isInRelease(currentDutySequenceFrame)) {
+                // Already in release(Custom Env.)
+                return;
+            }
+            currentDutySequenceFrame = settingRefs->dutySequence.releaseSequenceStartIndex;
+            currentDuty = (PulseDuty)settingRefs->dutySequence.valueAt(currentDutySequenceFrame);
+        }
     }
 }

@@ -36,6 +36,8 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     // Custom Pitch/Note states
     int currentPitchSequenceFrame = 0;
 
+    double nesPitchCorrection = 0;
+
     void startNote (int midiNoteNumber, float velocity,
                     SynthesiserSound*, int currentPitchWheelPosition) override;
     void advanceControlFrame() override;
@@ -46,4 +48,5 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     double noteNoToHeltzDouble (double noteNoInDouble, const double frequencyOfA = 440);
 
     void onFrameAdvanced() override;
+    void stopNote(float velocity, bool allowTailOff) override;
 };

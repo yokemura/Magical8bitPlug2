@@ -20,6 +20,7 @@ class NoiseParamsComponent;
 class BendParamsComponent;
 class SweepParamsComponent;
 class VibratoParamsComponent;
+class WaveformParamsComponent;
 
 //==============================================================================
 /**
@@ -40,6 +41,10 @@ public:
     void parameterValueChanged (int parameterIndex, float newValue) override;
     void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override {};
 
+    // waveform
+    //void waveformInit();
+    void waveformUpdate();
+
 private:
     Magical8bitPlug2AudioProcessor& processor;
 
@@ -51,6 +56,7 @@ private:
     std::unique_ptr<BendParamsComponent> bendCompo;
     std::unique_ptr<SweepParamsComponent> sweepCompo;
     std::unique_ptr<VibratoParamsComponent> vibCompo;
+    std::unique_ptr<WaveformParamsComponent> waveformCompo;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Magical8bitPlug2AudioProcessorEditor)
 };

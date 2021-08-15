@@ -154,6 +154,7 @@ void BasicParamsComponent::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
 {
     processor.setupVoice();
     editor.resized();
+    editor.resizeWholePanel();
     printf ("setup voice!!\n");
 }
 

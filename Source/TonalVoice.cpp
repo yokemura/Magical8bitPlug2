@@ -27,16 +27,28 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     vibratoCount = 0;
 
     float iniPitch = * (settingRefs->sweepInitialPitch);
+    float endPitch = *(settingRefs->sweepEndPitch);
     float time = * (settingRefs->sweepTime);
     currentAutoBendAmount = iniPitch;
-    autoBendDelta = -1.0 * iniPitch / (time * getSampleRate());
+    autoBendDelta = -1.0 * (iniPitch - endPitch) / (time * getSampleRate());
+
+    //if (*(settingRefs->osc) == kVoiceTypeTriangle)
+    //{
+    //    nesPitchCorrection = -12;
+    //}
 }
 
 void TonalVoice::advanceControlFrame()
 {
     BaseVoice::advanceControlFrame();
 
-    currentPitchSequenceFrame = settingRefs->pitchSequence.nextIndexOf (currentPitchSequenceFrame);
+    //currentPitchSequenceFrame = settingRefs->pitchSequence.nextIndexOf(currentPitchSequenceFrame);
+
+    int currentPitchSequenceFrameTmp = settingRefs->pitchSequence.nextIndexOf(currentPitchSequenceFrame);
+    if (currentPitchSequenceFrameTmp != FrameSequence::SHOULD_RETIRE)
+    {
+        currentPitchSequenceFrame = currentPitchSequenceFrameTmp;
+    }
 }
 
 void TonalVoice::calculateAngleDelta()
@@ -49,6 +61,10 @@ void TonalVoice::calculateAngleDelta()
     {
         switch (settingRefs->pitchSequenceMode())
         {
+            case kPitchSequenceModeFine16:
+                finePitchInSeq = (double)settingRefs->pitchSequence.valueAt (currentPitchSequenceFrame) / 16.0;
+                break;
+
             case kPitchSequenceModeFine:
                 finePitchInSeq = (double)settingRefs->pitchSequence.valueAt (currentPitchSequenceFrame) / 8.0;
                 break;
@@ -69,7 +85,8 @@ void TonalVoice::calculateAngleDelta()
                             + currentBendAmount
                             + currentAutoBendAmount
                             + vibratoAmount
-                            + finePitchInSeq;
+                            + finePitchInSeq
+                            + nesPitchCorrection;
 
     auto cyclesPerSecond = noteNoToHeltzDouble (noteNoInDouble);
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
@@ -118,19 +135,41 @@ void TonalVoice::onFrameAdvanced()
     if (autoBendDelta > 0)
     {
         // positive slope
-        if (currentAutoBendAmount > 0)
+        if (currentAutoBendAmount > *(settingRefs->sweepEndPitch))
         {
-            currentAutoBendAmount = 0;
+            currentAutoBendAmount = *(settingRefs->sweepEndPitch);
             autoBendDelta = 0;
         }
     }
     else
     {
         // negative slope
-        if (currentAutoBendAmount < 0)
+        if (currentAutoBendAmount < *(settingRefs->sweepEndPitch))
         {
-            currentAutoBendAmount = 0;
+            currentAutoBendAmount = *(settingRefs->sweepEndPitch);
             autoBendDelta = 0;
         }
     }
-};
+}
+
+void TonalVoice::stopNote(float velocity, bool allowTailOff)
+{
+    BaseVoice::stopNote(velocity, allowTailOff);
+
+    if (!allowTailOff)
+    {
+        return;
+    }
+
+    if (settingRefs->isPitchSequenceEnabled())
+    {
+        if (settingRefs->pitchSequence.hasRelease)
+        {
+            if (settingRefs->pitchSequence.isInRelease(currentPitchSequenceFrame)) {
+                // Already in release(Custom Env.)
+                return;
+            }
+            currentPitchSequenceFrame = settingRefs->pitchSequence.releaseSequenceStartIndex;
+        }
+    }
+}
