@@ -33,6 +33,10 @@
               file="Source/SliderComponent.cpp"/>
         <FILE id="qIuf9N" name="SliderComponent.h" compile="0" resource="0"
               file="Source/SliderComponent.h"/>
+        <FILE id="uajfNh" name="SliderVerticalComponent.cpp" compile="1" resource="0"
+              file="Source/SliderVerticalComponent.cpp"/>
+        <FILE id="p2nPNB" name="SliderVerticalComponent.h" compile="0" resource="0"
+              file="Source/SliderVerticalComponent.h"/>
       </GROUP>
       <FILE id="SFqkUr" name="AdvancedParamsComponent.cpp" compile="1" resource="0"
             file="Source/AdvancedParamsComponent.cpp"/>
@@ -68,6 +72,13 @@
             file="Source/VibratoParamsComponent.h"/>
     </GROUP>
     <GROUP id="{630C27C7-03AA-CFC6-2FC4-4CE2DBE3640A}" name="Source">
+      <FILE id="WS1wsR" name="WaveformParamsComponent.cpp" compile="1" resource="0"
+            file="Source/WaveformParamsComponent.cpp"/>
+      <FILE id="miNL07" name="WaveformParamsComponent.h" compile="0" resource="0"
+            file="Source/WaveformParamsComponent.h"/>
+      <FILE id="vVn1lo" name="WaveformVoice.cpp" compile="1" resource="0"
+            file="Source/WaveformVoice.cpp"/>
+      <FILE id="iZpU3j" name="WaveformVoice.h" compile="0" resource="0" file="Source/WaveformVoice.h"/>
       <FILE id="H2Vgbj" name="FrameSequenceParseErrors.cpp" compile="1" resource="0"
             file="Source/FrameSequenceParseErrors.cpp"/>
       <FILE id="Gwt2vB" name="FrameSequenceParseErrors.h" compile="0" resource="0"

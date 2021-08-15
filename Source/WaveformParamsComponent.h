@@ -20,8 +20,8 @@
 #pragma once
 
 //[Headers]     -- You can add your own extra header files here --
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "SliderComponent.h"
+#include <JuceHeader.h>
+#include "SliderVerticalComponent.h"
 //[/Headers]
 
 
@@ -34,35 +34,49 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SweepParamsComponent  : public Component
+class WaveformParamsComponent  : public Component,
+                                 public juce::ComboBox::Listener
 {
 public:
     //==============================================================================
-    SweepParamsComponent (Magical8bitPlug2AudioProcessor& p);
-    ~SweepParamsComponent() override;
+    WaveformParamsComponent (Magical8bitPlug2AudioProcessor& p);
+    ~WaveformParamsComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void sliderRepaint();
+    //void sliderInit();
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
     void resized() override;
+    void comboBoxChanged (juce::ComboBox* comboBoxThatHasChanged) override;
+    void mouseDrag (const juce::MouseEvent& e) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    Magical8bitPlug2AudioProcessor& processor;
+    std::unique_ptr<ComboBoxAttachment> attcX;
+    std::unique_ptr<ComboBoxAttachment> attcY;
+    std::unique_ptr<ComboBoxAttachment> attcTemplate;
     //[/UserVariables]
 
     //==============================================================================
+    std::unique_ptr<SliderVerticalComponent> sliderVerticalComponent;
     std::unique_ptr<juce::Label> label;
-    std::unique_ptr<SliderComponent> iniPitchSlider;
-    std::unique_ptr<SliderComponent> timeSlider;
-    std::unique_ptr<SliderComponent> endPitchSlider;
+    std::unique_ptr<juce::TextEditor> waveformWaveText;
+    std::unique_ptr<juce::ComboBox> waveformComboX;
+    std::unique_ptr<juce::Label> waveformXLabel;
+    std::unique_ptr<juce::Label> waveformYLabel;
+    std::unique_ptr<juce::ComboBox> waveformComboY;
+    std::unique_ptr<juce::Label> waveformTemplateLabel;
+    std::unique_ptr<juce::ComboBox> waveformComboTemplate;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SweepParamsComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WaveformParamsComponent)
 };
 
 //[EndFile] You can add extra defines here...

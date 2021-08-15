@@ -20,8 +20,9 @@
 #pragma once
 
 //[Headers]     -- You can add your own extra header files here --
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "SliderComponent.h"
+#include <JuceHeader.h>
+#include "PluginProcessor.h"
+#include "Defs.h"
 //[/Headers]
 
 
@@ -34,35 +35,42 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class SweepParamsComponent  : public Component
+class SliderVerticalComponent  : public juce::Component
 {
 public:
     //==============================================================================
-    SweepParamsComponent (Magical8bitPlug2AudioProcessor& p);
-    ~SweepParamsComponent() override;
+    SliderVerticalComponent (Magical8bitPlug2AudioProcessor& p, String paramId);
+    ~SliderVerticalComponent() override;
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+    void setForm(int numWidth, int maxValue, int width, int height);
+    void setValue(int index, int value);
+    int waveValue = -1;
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
     void resized() override;
+    void mouseDown (const juce::MouseEvent& e) override;
+    void mouseDrag (const juce::MouseEvent& e) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
+    std::unique_ptr<juce::Slider> verticalSliders[64];
+    int numWidth;
+    int maxValue;
+    int baseMaxValue;
+    Magical8bitPlug2AudioProcessor& processor;
+    std::unique_ptr<SliderAttachment> attc[64];
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<juce::Label> label;
-    std::unique_ptr<SliderComponent> iniPitchSlider;
-    std::unique_ptr<SliderComponent> timeSlider;
-    std::unique_ptr<SliderComponent> endPitchSlider;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SweepParamsComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SliderVerticalComponent)
 };
 
 //[EndFile] You can add extra defines here...

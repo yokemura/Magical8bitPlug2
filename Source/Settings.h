@@ -23,7 +23,8 @@ enum VoiceType
 {
     kVoiceTypePulse = 0,
     kVoiceTypeTriangle,
-    kVoiceTypeNoise
+    kVoiceTypeNoise,
+    kVoiceTypeWaveform
 };
 
 struct PluginSettings
@@ -52,12 +53,15 @@ enum NoiseAlgorithm
     kNoiseInfinite2 = 0,
     kNoiseLong,
     kNoiseShort,
+    kNoiseLongNes,
+    kNoiseShortNes,
 };
 
 enum PitchSequenceMode
 {
     kPitchSequenceModeCoarse = 0,
-    kPitchSequenceModeFine
+    kPitchSequenceModeFine,
+    kPitchSequenceModeFine16
 };
 
 class FrameSequenceChangeListener
@@ -108,6 +112,7 @@ struct SettingRefs
     float* vibratoIgnoresWheel_raw = nullptr;
     // Sweep
     float* sweepInitialPitch = nullptr;
+    float* sweepEndPitch = nullptr;
     float* sweepTime = nullptr;
     // For Pulse
     float* duty = nullptr;
@@ -123,9 +128,9 @@ struct SettingRefs
     FrameSequence volumeSequence;
     FrameSequence pitchSequence;
     FrameSequence dutySequence;
-    String volumeSequenceString = "";
-    String pitchSequenceString = "";
-    String dutySequenceString = "";
+    String volumeSequenceString; //= "15 x 5, 15 to 0 in 15 [5, 4, 3] | 2, 1, 0";
+    String pitchSequenceString; //= "15 x 5, 15 to 0 in 15 [5, 4, 3] | 2, 1, 0";
+    String dutySequenceString; //= "2 x 5, 2 to 0 in 15 [2, 1, 0] | 2, 1, 0";
 
     bool setSequenceWithString (const String& type, const String& input, ParseError* error);
     String& getSequenceString (const String& type);
@@ -152,6 +157,14 @@ struct SettingRefs
     bool isDutySequenceEnabled() { return *isDutySequenceEnabled_raw > 0.5; }
     PitchSequenceMode pitchSequenceMode() { return (PitchSequenceMode) ((int) (*pitchSequenceMode_raw)); }
 
+    // waveform
+    //void setWaveform(AudioProcessorValueTreeState* parameters);
+    int getWaveformX();
+    int getWaveformY();
+    float* waveformWave[64];
+    float* waveformX = nullptr;
+    float* waveformY = nullptr;
+    float* waveformTemplate = nullptr;
 
     //
     // constructor
@@ -183,6 +196,7 @@ struct SettingRefs
         vibratoIgnoresWheel_raw = (float*) parameters->getRawParameterValue ("vibratoIgnoresWheel_raw");
         // Sweep
         sweepInitialPitch = (float*) parameters->getRawParameterValue ("sweepInitialPitch");
+        sweepEndPitch = (float*)parameters->getRawParameterValue("sweepEndPitch");
         sweepTime = (float*) parameters->getRawParameterValue ("sweepTime");
         // For Pulse
         duty = (float*) parameters->getRawParameterValue ("duty");
@@ -194,6 +208,13 @@ struct SettingRefs
         isPitchSequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isPitchSequenceEnabled_raw");
         isDutySequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isDutySequenceEnabled_raw");
         pitchSequenceMode_raw = (float*) parameters->getRawParameterValue ("pitchSequenceMode_raw");
-
+        // waveform
+        for (int i = 0; i < 64; i++)
+        {
+            waveformWave[i] = (float*)parameters->getRawParameterValue("waveformWave" + String(i));
+        }
+        waveformX = (float*)parameters->getRawParameterValue("waveformX");
+        waveformY = (float*)parameters->getRawParameterValue("waveformY");
+        waveformTemplate = (float*)parameters->getRawParameterValue("waveformTemplate");
     }
 };

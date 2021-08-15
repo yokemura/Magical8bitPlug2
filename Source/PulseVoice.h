@@ -25,4 +25,5 @@ struct PulseVoice : public TonalVoice
                     SynthesiserSound*, int currentPitchWheelPosition) override;
     float voltageForAngle (double angle) override;
     void advanceControlFrame() override;
+    void stopNote(float velocity, bool allowTailOff) override;
 };
