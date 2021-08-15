@@ -280,6 +280,45 @@ public:
         // Total
         //
         //-------------------------------------------------------
+        beginTest ("Overall test");
+        error = kParseErrorNone;
+        String input25 = "1, 2x2, 3to4in2 [5, 6]|7, 8";
+        FrameSequence result25 = parser.parse(input25, 0, 15, &error);
+        expect(result25.valueAt(0) == 1);
+        expect(result25.valueAt(1) == 2);
+        expect(result25.valueAt(2) == 2);
+        expect(result25.valueAt(3) == 3);
+        expect(result25.valueAt(4) == 4);
+        expect(result25.valueAt(5) == 5);
+        expect(result25.valueAt(6) == 6);
+        expect(result25.valueAt(7) == 7);
+        expect(result25.valueAt(8) == 8);
+        expect(result25.loopStartIndex = 5);
+        expect(result25.releaseSequenceStartIndex = 7);
+        
+        beginTest ("Value error");
+        error = kParseErrorNone;
+        String input26 = "1, 2, 3";
+        FrameSequence result26 = parser.parse(input26, 0, 2, &error);
+        expect(error = kParseErrorValueOutOfRange);
+
+        beginTest ("Value error - under");
+        error = kParseErrorNone;
+        String input27 = "1, 2, 3";
+        FrameSequence result27 = parser.parse(input27, 2, 3, &error);
+        expect(error = kParseErrorValueOutOfRange);
+
+        beginTest ("Value error2");
+        error = kParseErrorNone;
+        String input28 = "1, 2, 3x2";
+        FrameSequence result28 = parser.parse(input28, 0, 2, &error);
+        expect(error = kParseErrorValueOutOfRange);
+
+        beginTest ("Value error3");
+        error = kParseErrorNone;
+        String input29 = "1, 2, 0to3in2";
+        FrameSequence result29 = parser.parse(input29, 0, 2, &error);
+        expect(error = kParseErrorValueOutOfRange);
 
     }
 };
