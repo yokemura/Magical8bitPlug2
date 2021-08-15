@@ -44,5 +44,10 @@ struct FrameSequenceParser
                                    int minValue,
                                    int maxValue,
                                    ParseError* error);
+    void splitSegment (const String& input,
+                       SegmentIndexes indexes,
+                       String& beforeRepeat,
+                       String& insideRepeat,
+                       String& afterRelease);
     SegmentIndexes findSegment(const String& input);
 };

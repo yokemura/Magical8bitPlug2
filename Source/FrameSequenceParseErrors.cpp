@@ -58,6 +58,10 @@ String getParseErrorString (ParseError err, int minValue, int maxValue)
             return TRANS ("Missing destination value before \"in\"");
             break;
 
+        case kParseErrorMissingSlopeFrameCount:
+            return TRANS ("Frame count should be specified after \"in\"");
+            break;
+
         case kParseErrorNotANumber:
             return TRANS ("Number parse failed.");
             break;

@@ -28,12 +28,21 @@ public:
         // Section index
         //
         //-------------------------------------------------------
+        String str_beforeRepeat;
+        String str_insideRepeat;
+        String str_release;
+        
         beginTest ("No repeat");
         String input1 = "aaa"; // At this phase it doesn't matter if it contains numbers or not
         auto result1 = parser.findSegment(input1);
         expect(result1.repeatStartIndex == SegmentIndexes::NONE);
         expect(result1.repeatEndIndex == SegmentIndexes::NONE);
         expect(result1.releaseBlockIndex == SegmentIndexes::NONE);
+        
+        parser.splitSegment(input1, result1, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aaa");
+        expect(str_insideRepeat == "");
+        expect(str_release == "");
 
         beginTest ("With repeat, no release");
         String input2 = "aa[bbb]";
@@ -42,12 +51,28 @@ public:
         expect(result2.repeatEndIndex == 6);
         expect(result2.releaseBlockIndex == SegmentIndexes::NONE);
         
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input2, result2, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aa");
+        expect(str_insideRepeat == "bbb");
+        expect(str_release == "");
+
         beginTest ("Repeat segment starts from the top");
         String input3 = "[aaa]";
         auto result3 = parser.findSegment(input3);
         expect(result3.repeatStartIndex == 1);
         expect(result3.repeatEndIndex == 4);
         expect(result3.releaseBlockIndex == SegmentIndexes::NONE);
+
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input3, result3, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "");
+        expect(str_insideRepeat == "aaa");
+        expect(str_release == "");
 
         beginTest ("No repeat, with release");
         String input4 = "aaa|bbbb";
@@ -56,12 +81,28 @@ public:
         expect(result4.repeatEndIndex == 3); // It doesn't repeat, but it has to keep the last index of pre-release segment
         expect(result4.releaseBlockIndex == 4);
         
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input4, result4, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aaa");
+        expect(str_insideRepeat == "");
+        expect(str_release == "bbbb");
+
         beginTest ("Release segment without pre-release segment");
         String input5 = "|bbbb";
         auto result5 = parser.findSegment(input5);
         expect(result5.repeatStartIndex == SegmentIndexes::NONE);
         expect(result5.repeatEndIndex == 0); // This results in an immediate transition to Release Phase
         expect(result5.releaseBlockIndex == 1);
+
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input5, result5, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "");
+        expect(str_insideRepeat == "");
+        expect(str_release == "bbbb");
 
         beginTest ("Repeat and release (no pre-repeat)");
         String input6 = "[aaa]|bbbb";
@@ -70,12 +111,28 @@ public:
         expect(result6.repeatEndIndex == 4);
         expect(result6.releaseBlockIndex == 6);
 
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input6, result6, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "");
+        expect(str_insideRepeat == "aaa");
+        expect(str_release == "bbbb");
+
         beginTest ("Repeat and release (with pre-repeat)");
         String input7 = "aaa[bbb]|cccc";
         auto result7 = parser.findSegment(input7);
         expect(result7.repeatStartIndex == 4);
         expect(result7.repeatEndIndex == 7);
         expect(result7.releaseBlockIndex == 9);
+
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input7, result7, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aaa");
+        expect(str_insideRepeat == "bbb");
+        expect(str_release == "cccc");
 
         beginTest ("Empty repeat section");
         String input8 = "aaa[]|cccc";
@@ -84,12 +141,28 @@ public:
         expect(result8.repeatEndIndex == 4);
         expect(result8.releaseBlockIndex == 6);
 
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input8, result8, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aaa");
+        expect(str_insideRepeat == "");
+        expect(str_release == "cccc");
+
         beginTest ("Empty release section");
         String input9 = "aaa[bbb]|";
         auto result9 = parser.findSegment(input9);
         expect(result9.repeatStartIndex == 4);
         expect(result9.repeatEndIndex == 7);
         expect(result9.releaseBlockIndex == 9);
+
+        str_beforeRepeat = "";
+        str_insideRepeat = "";
+        str_release = "";
+        parser.splitSegment(input9, result9, str_beforeRepeat, str_insideRepeat, str_release);
+        expect(str_beforeRepeat == "aaa");
+        expect(str_insideRepeat == "bbb");
+        expect(str_release == "");
 
         beginTest ("[Error] Multiple open bracket");
         String input10 = "aaa[[bbb]";
@@ -110,7 +183,7 @@ public:
         String input13 = "aaa|[bbb]";
         auto result13 = parser.findSegment(input13);
         expect(result13.error = kParseErrorRepeatingInReleaseBlock);
-        
+                
         //-------------------------------------------------------
         //
         // Slope

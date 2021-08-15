@@ -344,6 +344,46 @@ SegmentIndexes FrameSequenceParser::findSegment(const String& input) {
     return retval;
 }
 
+void FrameSequenceParser::splitSegment (const String& input,
+                                        SegmentIndexes indexes,
+                                        String& beforeRepeat,
+                                        String& insideRepeat,
+                                        String& afterRelease) {
+    int releaseBlockIndex = indexes.releaseBlockIndex;
+    int repeatStartIndex = indexes.repeatStartIndex;
+    int repeatEndIndex = indexes.repeatEndIndex;
+
+    // Just for convenience
+    bool hasRelease = (releaseBlockIndex >= 0);
+    bool shouldRepeat = (repeatStartIndex >= 0);
+
+    if (shouldRepeat)
+    {
+        if (hasRelease)
+        {
+            beforeRepeat = input.substring(0, repeatStartIndex - 1);
+            insideRepeat = input.substring (repeatStartIndex, repeatEndIndex);
+            afterRelease = input.substring(releaseBlockIndex, input.length());
+        }
+        else
+        {
+            beforeRepeat = input.substring(0, repeatStartIndex - 1);
+            insideRepeat = input.substring (repeatStartIndex, repeatEndIndex);
+        }
+    }
+    else
+    {
+        if (hasRelease) {
+            beforeRepeat = input.substring (0, releaseBlockIndex - 1);
+            afterRelease = input.substring (releaseBlockIndex, input.length());
+        }
+        else
+        {
+            beforeRepeat = input.substring (0, input.length());
+        }
+    }
+}
+
 FrameSequence FrameSequenceParser::parse (const String& input,
                                           int minValue,
                                           int maxValue,
@@ -366,13 +406,9 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     //
     SegmentIndexes si = findSegment(trimmed);
 
-    int releaseBlockIndex = si.releaseBlockIndex;
-    int repeatStartIndex = si.repeatStartIndex;
-    int repeatEndIndex = si.repeatEndIndex;
-
     // Just for convenience
-    bool hasRelease = (releaseBlockIndex >= 0);
-    bool shouldRepeat = (repeatStartIndex >= 0);
+    bool hasRelease = (si.releaseBlockIndex >= 0);
+    bool shouldRepeat = (si.repeatStartIndex >= 0);
 
     //-----------------------------------
     //
@@ -384,31 +420,7 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     String str_insideRepeat;
     String str_release;
 
-    if (shouldRepeat)
-    {
-        if (hasRelease)
-        {
-            str_release = trimmed.substring(releaseBlockIndex, trimmed.length());
-        }
-        str_beforeRepeat = trimmed.substring(0, repeatStartIndex - 1);
-        str_insideRepeat = trimmed.substring (repeatStartIndex, repeatEndIndex);    }
-    else
-    {
-        if (hasRelease)
-        {
-            str_beforeRepeat = trimmed.substring (0, releaseBlockIndex - 1);
-            str_release = trimmed.substring (releaseBlockIndex, trimmed.length());
-        }
-        else
-        {
-            str_beforeRepeat = trimmed.substring (0, trimmed.length());
-        }
-    }
-
-    std::cout << "before repeat : " + str_beforeRepeat + "\n";
-    std::cout << "inside repeat : " + str_insideRepeat + "\n";
-    std::cout << "after release : " + str_release + "\n";
-
+    splitSegment(trimmed, si, str_beforeRepeat, str_insideRepeat, str_release);
 
     //-----------------------------------
     //
