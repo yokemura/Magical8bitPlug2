@@ -15,6 +15,9 @@ enum ParseError
 {
     kParseErrorNone = 0,
     kParseErrorLevelWarning,
+    kParseWarningPreRepeatSegmentEmpty,
+    kParseWarningRepeatSegmentEmpty,
+    kParseWarningReleaseSegmentEmpty,
     kParseErrorLevelFatal,
     kParseErrorDuplicatedReleaseDelimiter,
     kParseErrorDuplicatedOpenBracket,

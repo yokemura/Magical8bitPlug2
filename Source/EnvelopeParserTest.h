@@ -320,5 +320,35 @@ public:
         FrameSequence result29 = parser.parse(input29, 0, 2, &error);
         expect(error = kParseErrorValueOutOfRange);
 
+        beginTest ("Empty segment warning(pre-repeat)");
+        error = kParseErrorNone;
+        String input30 = "[1]|2";
+        FrameSequence result30 = parser.parse(input30, 0, 2, &error);
+        expect(result30.valueAt(0) == 1);
+        expect(result30.valueAt(1) == 2);
+        expect(result30.loopStartIndex == 0);
+        expect(result30.releaseSequenceStartIndex == 1);
+        expect(error = kParseWarningPreRepeatSegmentEmpty);
+
+        beginTest ("Empty segment warning(in-repeat)");
+        error = kParseErrorNone;
+        String input31 = "1[]|2";
+        FrameSequence result31 = parser.parse(input31, 0, 2, &error);
+        expect(result31.valueAt(0) == 1);
+        expect(result31.valueAt(1) == 2);
+        expect(result31.loopStartIndex == 1);
+        expect(result31.releaseSequenceStartIndex == 1);
+        expect(error = kParseWarningRepeatSegmentEmpty);
+
+        beginTest ("Empty segment warning(after release)");
+        error = kParseErrorNone;
+        String input32 = "1[2]|";
+        FrameSequence result32 = parser.parse(input32, 0, 2, &error);
+        expect(result32.valueAt(0) == 1);
+        expect(result32.valueAt(1) == 2);
+        expect(result32.loopStartIndex == 1);
+        expect(result32.releaseSequenceStartIndex == 2);
+        expect(error = kParseWarningReleaseSegmentEmpty);
+
     }
 };

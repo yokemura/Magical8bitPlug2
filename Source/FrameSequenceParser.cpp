@@ -438,6 +438,9 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     {
         return fs;
     }
+    if (sequence.size() == 0) {
+        *error = kParseWarningPreRepeatSegmentEmpty;
+    }
 
     fs.sequence = sequence;
     fs.sequence.reserve (1000);
@@ -455,6 +458,10 @@ FrameSequence FrameSequenceParser::parse (const String& input,
         if (*error > kParseErrorLevelFatal)
         {
             return fs;
+        }
+        if (repeatSeq.size() == 0) {
+            // Repeat section is defined but content is empty
+            *error = kParseWarningRepeatSegmentEmpty;
         }
 
         //   Add the result to working frameSequence
@@ -476,6 +483,10 @@ FrameSequence FrameSequenceParser::parse (const String& input,
         if (*error > kParseErrorLevelFatal)
         {
             return fs;
+        }
+        if (releaseSeq.size() == 0) {
+            // Release section is defined but content is empty
+            *error = kParseWarningRepeatSegmentEmpty;
         }
 
         //   Add the result to working frameSequence
