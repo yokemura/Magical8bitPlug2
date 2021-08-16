@@ -11,6 +11,8 @@
 #pragma once
 #include "BaseVoice.h"
 
+#define NUMNOTEBUFFER 10
+
 struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
 {
     TonalVoice (SettingRefs* sRefs);
@@ -36,7 +38,7 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     int currentPitchSequenceFrame = 0;
     
     // Legato/Arpeggio
-    int noteBuffer[10];
+    int noteBuffer[NUMNOTEBUFFER];
     int currentNumNoteBuffer = 0;
     int primaryMidiChannel = 1;
 
@@ -47,7 +49,7 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     int currentArpeggioFrame = 0;
     double arpeggioFrameTimer = 0;
     double arpeggioFrameLength = 0; // Unit: seconds. Set non-zero value to enable arpeggio
-    int retireBuffer[10];
+    int retireBuffer[NUMNOTEBUFFER];
     int currentNumRetireBuffer = 0;
 
     void startNote (int midiNoteNumber, float velocity,

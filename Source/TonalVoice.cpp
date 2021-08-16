@@ -36,9 +36,9 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     arpeggioFrameTimer = 0;
     arpeggioFrameLength = 0;
     currentNumNoteBuffer = 0;
-    for (int i=0; i<10; i++) { noteBuffer[i] = 0; }
+    for (int i=0; i<NUMNOTEBUFFER; i++) { noteBuffer[i] = 0; }
     currentNumRetireBuffer = 0;
-    for (int i=0; i<10; i++) { retireBuffer[i] = 0; }
+    for (int i=0; i<NUMNOTEBUFFER; i++) { retireBuffer[i] = 0; }
 }
 
 void TonalVoice::advanceControlFrame()
@@ -108,7 +108,7 @@ void TonalVoice::setLegatoMode(double time, int midiCh) {
 // The interface says "add" but the implementation is just using the latest value.
 // It is because the original intension was to keep all the pressing keys and choose the apropriate one with certain algorithm
 void TonalVoice::addLegatoNote (int midiNoteNumber, float velocity) {
-    if (currentNumNoteBuffer >= 10) {
+    if (currentNumNoteBuffer >= NUMNOTEBUFFER) {
         return;
     }
     
@@ -143,7 +143,7 @@ void TonalVoice::setArpeggioMode(double interval, int midiCh)
 
 void TonalVoice::addArpeggioNoteAscending(int midiNoteNumber)
 {
-    if (currentNumNoteBuffer >= 10) {
+    if (currentNumNoteBuffer >= NUMNOTEBUFFER) {
         return;
     }
     int i;
@@ -158,7 +158,7 @@ void TonalVoice::addArpeggioNoteAscending(int midiNoteNumber)
 
 void TonalVoice::addArpeggioNoteDescending(int midiNoteNumber)
 {
-    if (currentNumNoteBuffer >= 10) {
+    if (currentNumNoteBuffer >= NUMNOTEBUFFER) {
         return;
     }
     int i;
@@ -179,22 +179,24 @@ int TonalVoice::removeArpeggioNote(int midiNoteNumber)
     }
     
     // Just push the note number to Retire Buffer
+    // Actual retirement happens in advanceFrameBuffer
     retireBuffer[currentNumRetireBuffer] = midiNoteNumber;
     currentNumRetireBuffer++;
    
     // Observed like current number of notes already decreased
+    // so the Synthsizer can determine if it should enter Release phase
     return currentNumNoteBuffer - currentNumRetireBuffer;
 }
 
 void TonalVoice::pushNoteBuffer(int index, int value) {
-    for (int i=9; i>index; i--) {
+    for (int i=NUMNOTEBUFFER-1; i>index; i--) {
         noteBuffer[i] = noteBuffer[i-1];
     }
     noteBuffer[index] = value;
 }
 
 void TonalVoice::shiftNoteBuffer(int index) {
-    for (int i=index; i<9; i++) {
+    for (int i=index; i<NUMNOTEBUFFER-1; i++) {
         noteBuffer[i] = noteBuffer[i+1];
     }
 }
@@ -267,7 +269,7 @@ void TonalVoice::onFrameAdvanced()
                 
                 // Clear Retire Buffer
                 currentNumRetireBuffer = 0;
-                for (int i=0; i<10; i++) { retireBuffer[i] = 0; }
+                for (int i=0; i<NUMNOTEBUFFER; i++) { retireBuffer[i] = 0; }
             } /* else {
                Retirements should not happen in Release Phase
                to keep the arpeggio playing during the release.
