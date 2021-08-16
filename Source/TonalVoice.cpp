@@ -37,6 +37,8 @@ void TonalVoice::startNote (int midiNoteNumber, float velocity, SynthesiserSound
     arpeggioFrameLength = 0;
     currentNumNoteBuffer = 0;
     for (int i=0; i<10; i++) { noteBuffer[i] = 0; }
+    currentNumRetireBuffer = 0;
+    for (int i=0; i<10; i++) { retireBuffer[i] = 0; }
 }
 
 void TonalVoice::advanceControlFrame()
@@ -176,17 +178,12 @@ int TonalVoice::removeArpeggioNote(int midiNoteNumber)
         return 0;
     }
     
-    int i;
-    for (i=0; i<currentNumNoteBuffer; i++) {
-        if (noteBuffer[i] == midiNoteNumber) break;
-    }
-    if (i == currentNumNoteBuffer) { // not found
-        return currentNumNoteBuffer;
-    }
-    shiftNoteBuffer(i);
-    currentNumNoteBuffer--;
-    
-    return currentNumNoteBuffer;
+    // Just push the note number to Retire Buffer
+    retireBuffer[currentNumRetireBuffer] = midiNoteNumber;
+    currentNumRetireBuffer++;
+   
+    // Observed like current number of notes already decreased
+    return currentNumNoteBuffer - currentNumRetireBuffer;
 }
 
 void TonalVoice::pushNoteBuffer(int index, int value) {
@@ -246,16 +243,55 @@ void TonalVoice::onFrameAdvanced()
         }
     }
     
-    if (arpeggioFrameLength > 0) {
+    if (arpeggioFrameLength > 0) { // Arpeggio mode is on
         arpeggioFrameTimer += 1.0 / getSampleRate();
         
         if (arpeggioFrameTimer >= arpeggioFrameLength)
-        {
-            currentArpeggioFrame++;
+        { // Arpeggio phase advances
+            if (!isInReleasePhase()) {
+                // Process the retirements first
+                for(int j = 0; j<currentNumRetireBuffer; j++) {
+                    int target = retireBuffer[j];
+                    int i = 0;
+                    
+                    // Find first match
+                    for (i=0; i<currentNumNoteBuffer; i++) {
+                        if (noteBuffer[i] == target) break;
+                    }
+                    if (i == currentNumNoteBuffer) { // not found
+                        continue;
+                    }
+                    shiftNoteBuffer(i);
+                    currentNumNoteBuffer--;
+                }
+                
+                // Clear Retire Buffer
+                currentNumRetireBuffer = 0;
+                for (int i=0; i<10; i++) { retireBuffer[i] = 0; }
+            } /* else {
+               Retirements should not happen in Release Phase
+               to keep the arpeggio playing during the release.
+            } */
+            
+            if (noteBuffer[currentArpeggioFrame] == noteNumber || noteBuffer[currentArpeggioFrame] == 0) {
+                // Normally 'currentArpaggioFrame' will be updated every frame with
+                // 'noteBuffer[currentArpeggioFrame] == noteNumber' condition,
+                // but when the retirement happens currentArpeggioFrame may point at the slot already gone.
+                // to handle this situation the condition 'noteBuffer[currentArpeggioFrame] == 0' is added.
+                
+                currentArpeggioFrame++;
 
-            if (currentArpeggioFrame >= currentNumNoteBuffer) {
-                currentArpeggioFrame = 0;
-            }
+                if (currentArpeggioFrame >= currentNumNoteBuffer) {
+                    currentArpeggioFrame = 0;
+                }
+            } /* else {
+               In cases like retirement happens, or new arpeggio note is added
+               the note at currentArpeggioFrame is no longer the same,
+               so currentArpeggioFrame doesn't have to be updated.
+               Moreover, updating currentArpeggioFrame in this case
+               often results in sounding the same note over two frames.
+            } */
+            
             noteNumber = noteBuffer[currentArpeggioFrame];
 
             while (arpeggioFrameTimer >= arpeggioFrameLength)
@@ -264,4 +300,14 @@ void TonalVoice::onFrameAdvanced()
             }
         }
     }
+    
+    
 };
+
+bool TonalVoice::isInReleasePhase() {
+    if (settingRefs->isVolumeSequenceEnabled()) {
+        return settingRefs->volumeSequence.isInRelease(currentVolumeSequenceFrame);
+    } else {
+        return envelopePhase == kEnvelopePhaseR;
+    }
+}

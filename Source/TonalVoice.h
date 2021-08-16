@@ -47,6 +47,8 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     int currentArpeggioFrame = 0;
     double arpeggioFrameTimer = 0;
     double arpeggioFrameLength = 0; // Unit: seconds. Set non-zero value to enable arpeggio
+    int retireBuffer[10];
+    int currentNumRetireBuffer = 0;
 
     void startNote (int midiNoteNumber, float velocity,
                     SynthesiserSound*, int currentPitchWheelPosition) override;
@@ -74,4 +76,5 @@ struct TonalVoice : public BaseVoice   // The base for Pulse and Triangle
     bool isArpeggioEnabled() {
         return arpeggioFrameLength > 0;
     }
+    bool isInReleasePhase();
 };
