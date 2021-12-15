@@ -102,7 +102,7 @@ double TonalVoice::getVibratoPhase()
 
     float delay = * (settingRefs->vibratoDelay);
     float rate = * (settingRefs->vibratoRate);
-    rate = 1.1 - rate;
+    rate = 1.01 - rate;
 
     if ( sec < delay ) { return 0.0; }
 
