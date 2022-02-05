@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Settings.h"
 #include "Voices.h"
+#include "CustomSynth.h"
 
 
 //==============================================================================
@@ -71,13 +72,14 @@ public:
 
     //==============================================================================
     void setupVoice();
+    double getCurrentBPM();
 
     AudioProcessorValueTreeState parameters;
     SettingRefs settingRefs;
 
 private:
     //==============================================================================
-    Synthesiser synth;
+    CustomSynth synth;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Magical8bitPlug2AudioProcessor)
 };

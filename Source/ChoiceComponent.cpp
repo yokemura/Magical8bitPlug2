@@ -115,7 +115,7 @@ void ChoiceComponent::comboBoxChanged (juce::ComboBox* comboBoxThatHasChanged)
     if (comboBoxThatHasChanged == comboBox.get())
     {
         //[UserComboBoxCode_comboBox] -- add your combo box handling code here..
-        printf ("value = %d\n", comboBoxThatHasChanged->getSelectedId());
+        //  printf ("value = %d\n", comboBoxThatHasChanged->getSelectedId());
         //[/UserComboBoxCode_comboBox]
     }
 

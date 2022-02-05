@@ -218,6 +218,13 @@ void BaseVoice::renderNextBlock (AudioSampleBuffer& outputBuffer, int startSampl
     }
 }
 
+void BaseVoice::changeNote (int midiNoteNumber, float velocity) {
+    noteNumber = midiNoteNumber;
+
+    ampByVelocityAndGain = * (settingRefs->gain) * velocity; // velocity value range is 0.0f-1.0f
+}
+
+
 void BaseVoice::calculateAngleDelta()
 {
     auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz (noteNumber);

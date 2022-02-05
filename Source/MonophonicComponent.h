@@ -20,12 +20,9 @@
 #pragma once
 
 //[Headers]     -- You can add your own extra header files here --
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "PluginProcessor.h"
+#include <JuceHeader.h>
 #include "SliderComponent.h"
 #include "ChoiceComponent.h"
-#include "CheckBoxComponent.h"
-class Magical8bitPlug2AudioProcessorEditor;
 //[/Headers]
 
 
@@ -38,48 +35,42 @@ class Magical8bitPlug2AudioProcessorEditor;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class BasicParamsComponent  : public Component,
-                              public ComboBox::Listener,
-                              public juce::Slider::Listener,
-                              public juce::Button::Listener
+class MonophonicComponent  : public Component,
+                             public ComboBox::Listener
 {
 public:
     //==============================================================================
-    BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, Magical8bitPlug2AudioProcessorEditor& e);
-    ~BasicParamsComponent() override;
+    MonophonicComponent (Magical8bitPlug2AudioProcessor& p);
+    ~MonophonicComponent() override;
+    
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-    void comboBoxChanged (ComboBox* comboBoxThatHasChanged) override;
+    void comboBoxChanged(juce::ComboBox *comboBoxThatHasChanged) override;
+    void updateVisibility();
     //[/UserMethods]
 
     void paint (juce::Graphics& g) override;
     void resized() override;
-    void sliderValueChanged (juce::Slider* sliderThatWasMoved) override;
-    void buttonClicked (juce::Button* buttonThatWasClicked) override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-    Magical8bitPlug2AudioProcessor& processor;
-    Magical8bitPlug2AudioProcessorEditor& editor;
-
     std::unique_ptr<SliderAttachment> attc;
+    Magical8bitPlug2AudioProcessor& processor;
     //[/UserVariables]
 
     //==============================================================================
-    std::unique_ptr<juce::Label> polyLabel;
-    std::unique_ptr<SliderComponent> gainSlider;
-    std::unique_ptr<ChoiceComponent> oscChoice;
-    std::unique_ptr<juce::Slider> polyNumberInput;
-    std::unique_ptr<CheckBoxComponent> advancedSwitch;
-    std::unique_ptr<ChoiceComponent> colorSchemeChoice;
-    std::unique_ptr<juce::TextButton> monoButton;
+    std::unique_ptr<juce::Label> label;
+    std::unique_ptr<ChoiceComponent> behaviorChoice;
+    std::unique_ptr<ChoiceComponent> intervalChoice;
+    std::unique_ptr<juce::Slider> intervalSlider;
+    std::unique_ptr<SliderComponent> portamentoSlider;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BasicParamsComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MonophonicComponent)
 };
 
 //[EndFile] You can add extra defines here...

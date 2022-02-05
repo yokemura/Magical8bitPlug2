@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 class AdvancedParamsComponent;
+class MonophonicComponent;
 class PulseParamsComponent;
 class BasicParamsComponent;
 class EnvelopeParamsComponent;
@@ -44,6 +45,7 @@ private:
     Magical8bitPlug2AudioProcessor& processor;
 
     std::unique_ptr<BasicParamsComponent> basicCompo;
+    std::unique_ptr<MonophonicComponent> monoCompo;
     std::unique_ptr<EnvelopeParamsComponent> envCompo;
     std::unique_ptr<AdvancedParamsComponent> advCompo;
     std::unique_ptr<PulseParamsComponent> pulCompo;
@@ -51,6 +53,8 @@ private:
     std::unique_ptr<BendParamsComponent> bendCompo;
     std::unique_ptr<SweepParamsComponent> sweepCompo;
     std::unique_ptr<VibratoParamsComponent> vibCompo;
+    
+    bool isComponentsReady;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Magical8bitPlug2AudioProcessorEditor)
 };

@@ -49,7 +49,7 @@ BasicParamsComponent::BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, M
     addAndMakeVisible (gainSlider.get());
     gainSlider->setName ("gain slider");
 
-    gainSlider->setBounds (0, 32, 360, 32);
+    gainSlider->setBounds (0, 32, 380, 32);
 
     oscChoice.reset (new ChoiceComponent (p, "osc", "OSC Type"));
     addAndMakeVisible (oscChoice.get());
@@ -66,13 +66,20 @@ BasicParamsComponent::BasicParamsComponent (Magical8bitPlug2AudioProcessor& p, M
 
     polyNumberInput->setBounds (268, 4, 86, 24);
 
-    advancedSwitch.reset (new CheckBoxComponent (p, "isAdvancedPanelOpen_raw", "Show Advanced Options"));
+    advancedSwitch.reset (new CheckBoxComponent (p, "isAdvancedPanelOpen_raw", "Advanced Options"));
     addAndMakeVisible (advancedSwitch.get());
     advancedSwitch->setName ("advanced option switch");
 
     colorSchemeChoice.reset (new ChoiceComponent (p, "colorScheme", "Color"));
     addAndMakeVisible (colorSchemeChoice.get());
     colorSchemeChoice->setName ("color selector");
+
+    monoButton.reset (new juce::TextButton ("mono button"));
+    addAndMakeVisible (monoButton.get());
+    monoButton->setButtonText (TRANS("mono"));
+    monoButton->addListener (this);
+
+    monoButton->setBounds (360, 4, 54, 24);
 
 
     //[UserPreSize]
@@ -104,6 +111,7 @@ BasicParamsComponent::~BasicParamsComponent()
     polyNumberInput = nullptr;
     advancedSwitch = nullptr;
     colorSchemeChoice = nullptr;
+    monoButton = nullptr;
 
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -125,7 +133,7 @@ void BasicParamsComponent::resized()
     //[UserPreResize] Add your own custom resize code here..
     //[/UserPreResize]
 
-    advancedSwitch->setBounds (getWidth() - 240, 4, 240, 28);
+    advancedSwitch->setBounds (getWidth() - 180, 4, 180, 28);
     colorSchemeChoice->setBounds (getWidth() - 4 - 185, 32, 185, 28);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
@@ -140,11 +148,31 @@ void BasicParamsComponent::sliderValueChanged (juce::Slider* sliderThatWasMoved)
     {
         //[UserSliderCode_polyNumberInput] -- add your slider handling code here..
         processor.setupVoice();
+        editor.resizeWholePanel();
         //[/UserSliderCode_polyNumberInput]
     }
 
     //[UsersliderValueChanged_Post]
     //[/UsersliderValueChanged_Post]
+}
+
+void BasicParamsComponent::buttonClicked (juce::Button* buttonThatWasClicked)
+{
+    //[UserbuttonClicked_Pre]
+    //[/UserbuttonClicked_Pre]
+
+    if (buttonThatWasClicked == monoButton.get())
+    {
+        //[UserButtonCode_monoButton] -- add your button handler code here..
+        polyNumberInput.get()->setValue(1);
+        return;
+        //[/UserButtonCode_monoButton]
+    }
+
+    //[UserbuttonClicked_Post]
+    colorSchemeChoice->setVisible (buttonThatWasClicked->getToggleState());
+    editor.resizeWholePanel();
+    //[/UserbuttonClicked_Post]
 }
 
 
@@ -155,12 +183,6 @@ void BasicParamsComponent::comboBoxChanged (ComboBox* comboBoxThatHasChanged)
     processor.setupVoice();
     editor.resized();
     printf ("setup voice!!\n");
-}
-
-void BasicParamsComponent::buttonClicked (Button* buttonThatWasClicked)
-{
-    colorSchemeChoice->setVisible (buttonThatWasClicked->getToggleState());
-    editor.resizeWholePanel();
 }
 //[/MiscUserCode]
 
@@ -175,8 +197,7 @@ void BasicParamsComponent::buttonClicked (Button* buttonThatWasClicked)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="BasicParamsComponent" componentName=""
-                 parentClasses="public Component, public ComboBox::Listener, public Button::Listener"
-                 constructorParams="Magical8bitPlug2AudioProcessor&amp; p, Magical8bitPlug2AudioProcessorEditor&amp; e"
+                 parentClasses="public Component, public ComboBox::Listener" constructorParams="Magical8bitPlug2AudioProcessor&amp; p, Magical8bitPlug2AudioProcessorEditor&amp; e"
                  variableInitialisers="processor(p),editor(e)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330" fixedSize="1"
                  initialWidth="700" initialHeight="64">
@@ -187,7 +208,7 @@ BEGIN_JUCER_METADATA
          focusDiscardsChanges="0" fontname="Default font" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="gain slider" id="4bb22b329fed19e9" memberName="gainSlider"
-                    virtualName="" explicitFocusOrder="0" pos="0 32 360 32" class="SliderComponent"
+                    virtualName="" explicitFocusOrder="0" pos="0 32 380 32" class="SliderComponent"
                     params="p, &quot;gain&quot;, &quot;Gain&quot;"/>
   <GENERICCOMPONENT name="osc selector" id="fa2387d441a3005d" memberName="oscChoice"
                     virtualName="" explicitFocusOrder="0" pos="0 4 224 28" class="ChoiceComponent"
@@ -198,11 +219,14 @@ BEGIN_JUCER_METADATA
           textBoxEditable="1" textBoxWidth="30" textBoxHeight="20" skewFactor="1.0"
           needsCallback="1"/>
   <GENERICCOMPONENT name="advanced option switch" id="9d35239102eeb521" memberName="advancedSwitch"
-                    virtualName="" explicitFocusOrder="0" pos="0Rr 4 240 28" class="CheckBoxComponent"
-                    params="p, &quot;isAdvancedPanelOpen_raw&quot;, &quot;Show Advanced Options&quot;"/>
+                    virtualName="" explicitFocusOrder="0" pos="0Rr 4 180 28" class="CheckBoxComponent"
+                    params="p, &quot;isAdvancedPanelOpen_raw&quot;, &quot;Advanced Options&quot;"/>
   <GENERICCOMPONENT name="color selector" id="21d73ddc37680dd7" memberName="colorSchemeChoice"
                     virtualName="" explicitFocusOrder="0" pos="4Rr 32 185 28" class="ChoiceComponent"
                     params="p, &quot;colorScheme&quot;, &quot;Color&quot;"/>
+  <TEXTBUTTON name="mono button" id="9265bb1a11f90786" memberName="monoButton"
+              virtualName="" explicitFocusOrder="0" pos="360 4 54 24" buttonText="mono"
+              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
