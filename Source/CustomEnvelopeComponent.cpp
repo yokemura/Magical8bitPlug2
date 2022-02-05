@@ -7,7 +7,7 @@
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Created with Projucer version: 6.0.8
+  Created with Projucer version: 6.1.5
 
   ------------------------------------------------------------------------------
 
@@ -153,7 +153,7 @@ void CustomEnvelopeComponent::textEditorTextChanged (TextEditor& editor)
 
     ParseError err = kParseErrorNone;
     processor.settingRefs.setSequenceWithString (paramType, txt, &err);
-    
+
     ColorScheme cs = ColorScheme (processor.settingRefs.colorSchemeType());
     Colour c = (err < kParseErrorLevelFatal) ? cs.main : cs.warning;
     label->setColour (juce::Label::textColourId, c);
