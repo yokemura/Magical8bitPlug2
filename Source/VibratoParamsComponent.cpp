@@ -43,7 +43,7 @@ VibratoParamsComponent::VibratoParamsComponent (Magical8bitPlug2AudioProcessor& 
 
     label->setBounds (0, 4, 150, 22);
 
-    ratioSlider.reset (new SliderComponent (p, "vibratoRate", "Rate"));
+    ratioSlider.reset (new SliderComponent (p, "vibratoRate", "Cycle Len."));
     addAndMakeVisible (ratioSlider.get());
     ratioSlider->setName ("ratio slider");
 
@@ -136,7 +136,7 @@ BEGIN_JUCER_METADATA
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <GENERICCOMPONENT name="ratio slider" id="93ec1e79c45ddad4" memberName="ratioSlider"
                     virtualName="" explicitFocusOrder="0" pos="0 26 100% 28" class="SliderComponent"
-                    params="p, &quot;vibratoRate&quot;, &quot;Rate&quot;"/>
+                    params="p, &quot;vibratoRate&quot;, &quot;Cycle Len.&quot;"/>
   <GENERICCOMPONENT name="depth slider" id="1be45518932375fc" memberName="depthSlider"
                     virtualName="" explicitFocusOrder="0" pos="0 54 100% 28" class="SliderComponent"
                     params="p, &quot;vibratoDepth&quot;, &quot;Depth&quot;"/>
