@@ -438,9 +438,6 @@ FrameSequence FrameSequenceParser::parse (const String& input,
     {
         return fs;
     }
-    if (sequence.size() == 0) {
-        *error = kParseWarningPreRepeatSegmentEmpty;
-    }
 
     fs.sequence = sequence;
     fs.sequence.reserve (1000);
@@ -469,6 +466,10 @@ FrameSequence FrameSequenceParser::parse (const String& input,
 
         //   Set repeatEndIndex according to current working frameSequence length
         fs.releaseSequenceStartIndex = (int)fs.sequence.size();
+    }
+    
+    if (fs.sequence.size() == 0) {
+        *error = kParseErrorPreReleaseSegmentEmpty;
     }
 
     if (hasRelease)  // If release exists:

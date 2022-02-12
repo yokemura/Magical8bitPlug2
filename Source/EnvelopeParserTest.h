@@ -328,7 +328,6 @@ public:
         expect(result30.valueAt(1) == 2);
         expect(result30.loopStartIndex == 0);
         expect(result30.releaseSequenceStartIndex == 1);
-        expect(error = kParseWarningPreRepeatSegmentEmpty);
 
         beginTest ("Empty segment warning(in-repeat)");
         error = kParseErrorNone;

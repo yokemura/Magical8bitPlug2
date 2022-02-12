@@ -14,16 +14,16 @@ String getParseErrorString (ParseError err, int minValue, int maxValue)
 {
     switch (err)
     {
-        case kParseWarningPreRepeatSegmentEmpty:
-            return TRANS ("Main body of the sequence is empty");
-            break;
-
         case kParseWarningRepeatSegmentEmpty:
             return TRANS ("Repeat section is empty");
             break;
 
         case kParseWarningReleaseSegmentEmpty:
             return TRANS ("Release section is empty");
+            break;
+
+        case kParseErrorPreReleaseSegmentEmpty:
+            return TRANS ("Main body of the sequence is empty");
             break;
 
         case kParseErrorDuplicatedReleaseDelimiter:
