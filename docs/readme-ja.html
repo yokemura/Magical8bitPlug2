@@ -1,0 +1,542 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Magical 8bit Plug</title>
+  <style type="text/css">
+    body {
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #f7f7f7;
+      color: #666666;
+      font-size: 14px;
+      line-height: 160%;
+      max-width: 800px;
+    }
+
+    strong {
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: #666666;
+    }
+
+    p {
+      margin: 10px 10px 10px 10px;
+    }
+
+    a[href] {
+      color: #666666;
+      text-decoration: underline;
+    }
+
+    a[name] {
+      color: #666666;
+    }
+
+    h1 {
+      font-size: 20px;
+      background-color: #eeeeee;
+      color: #666666;
+      padding: 15px 15px 15px 15px;
+      margin: 30px 0px 20px 0px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin: 20px 0px 5px 0px;
+      padding: 10px 15px 10px 12px;
+      border-top: solid 2px #eeeeee;
+      border-left: solid 5px #eeeeee;
+      padding: none;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 15px 0px 15px 0px;
+      padding: none;
+      border-bottom: solid 1px #eeeeee;
+    }
+
+    dt {
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    dd {
+      margin-left: 20px;
+      margin-bottom: 7px;
+    }
+
+    table,
+    td,
+    th {
+      font-size: 13px;
+      border-collapse: collapse;
+      border: 1px #808080 solid;
+      padding: 10px 10px 10px 10px;
+    }
+
+    
+    img {
+      max-width: 100%;
+    }
+
+    img.half {
+      max-width: 50%;
+    }
+
+    .main_div {
+      background-color: #ffffff;
+      padding: 20px 20px 20px 20px;
+      text-align: left;
+    }
+
+    .caption {
+      padding: 3px;
+    }
+
+    .small_text {
+      color: #666666;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .title_text {
+      font-size: 18px;
+    }
+    
+    pre {
+      margin: 10px 10px 10px 10px;
+      background-color: #f4f4f4;
+      padding: 10px 10px 10px 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main_div"> <img src="./img/icon-512.png" width="58" height="58" style="float:left; margin-right:20px;">
+    <strong class="title_text">Magical 8bit Plug 2 Operation Manual</strong><br>
+    by Yokemura(YMCK) <a href="http://www.ymck.net/" target="_blank">http://www.ymck.net/</a> <br>
+    <br>
+    <!--------------------------------------------------------
+
+    Magical 8bit Plugとは
+
+    ---------------------------------------------------------->
+    <h1>Magical 8bit Plugとは</h1>
+    <p> Magical 8bit Plug は8bitゲーム機風の素朴な音色を生成するソフトウェア・シンセサイザーです。AudioUnitsおよびVSTをサポートするホストアプリケーションでプラグインとして利用することができます。
+    </p>
+
+    <h2>特徴</h2>
+    <ul>
+      <li>8bit基本音色をサポート</li>
+      <li>より実機に近いノイズ音色を生成する1bitノイズを実装</li>
+      <li>ADSRによるエンベロープ指定</li>
+      <li>ピッチベンドおよびベンドレンジ指定</li>
+      <li>効果音やドラム音色に必須なオートベンド(周波数スウィープ) </li>
+      <li>音に表情を与えるビブラート</li>
+      <li>ボリューム・ピッチ・デューティー比を詳細にコントロールできるカスタムエンベロープ</li>
+    </ul>
+
+    <h2>開発について</h2>
+    <p>Magical 8bit Plug 2
+      はオープンソースですので、欲しい機能や修正があれば、ご自身で改良することが可能です。もちろん、それをフィードバックしていただければ今後のバージョンに生かさせていただきます。GitHubレポジトリは<a
+        href="https://github.com/yokemura/Magical8bitPlug2">こちら</a>です。</p>
+    <p>また、ドネーションも受け付けておりますので、コーディング以外でサポートしていただける方はぜひこちらをよろしくお願いします。</p>
+
+    <h2>前バージョンとの差異について</h2>
+
+    <p> 本バージョン(Magical 8bit Plug 2)では、前バージョン(Magical 8bit
+      Plug)で実装されている疑似三角波・ロービットノイズを含むすべての音色が実装されているほか、さらに実機に近いノイズ音色やより詳細な音色制御が新たに追加されています。</p>
+
+    <p> 本バージョンは、技術的には前バージョンとは別のプラグインです。したがって、前バージョンの設定をそのまま引き継ぐことはできませんが、
+      両方をインストールして別々に使うことは可能です。 </p>
+
+
+    <!--
+    <h2>Waveforms</h2>
+    <table>
+      <tr>
+        <td>Pulse</td>
+        <td>Rectangular Waves</td>
+        <td>The simplest waveforms which can be generated only by switching high/low voltages. You can get different timbres by varying the time ratio between high and low states.</td>
+      </tr>
+      <tr>
+        <td>Triangle</td>
+        <td>Pseudo Triangle Wave</td>
+        <td>The waveform which is intended to form a triangle but actually results like a stepladder because of the limited capability of the console. The unique high frequence noise is best for reproducing the distinct 8bit taste.</td>
+      </tr>
+      <tr>
+        <td>Noise</td>
+        <td>Low-bit Noise</td>
+        <td> The random waveform. Like the Pseudo Triangle above, this noise waveform is also jaggy and it results in a unique 8bit taste. The previous version had Magical 8bit Plug original "4bit Pure Random noise" which is formed with randomly generated 4 levels of voltage, and this version inherits it. On top of that the new version has more exact real console emulation: 1bit Short Cycle/1bit Long Cycle waveforms. These waveforms only have high and low voltage control and randomization is pseudo-random, which makes it sound rougher and adds some sort of tonality. </td>
+      </tr>
+    </table>
+	  -->
+
+    <!--------------------------------------------------------
+
+    インストール方法
+
+    ---------------------------------------------------------->
+    <h1>インストール方法</h1>
+    <p>プラグイン本体を、OSまたはホストアプリケーションで指定されたフォルダへとコピーします。一般的なインストール先は以下の通りです。実際のインストール場所は環境によって異なりますので、お使いのOSやDAWの説明をご参照ください。
+    </p>
+    <p>
+      特に最近ではDAW含むアプリは多様化していますので、それぞれについてプラグイン使用方法について把握しきれておりませんし、実質不可能です。ですのでご質問は私ではなく、Google先生か、またはお使いのソフトのユーザコミュニティなどにお問い合わせいただければと思います。基本的なインストール方法の問題については、お問い合わせいただいてもお答えいたしませんのであらかじめご了承ください。
+    </p>
+    <table>
+      <tr>
+        <td rowspan="3">Mac</td>
+        <td>AudioUnits</td>
+        <td>.component</td>
+        <td>/Library/Audio/Plug-ins/Components</td>
+      </tr>
+      <tr>
+        <td>VST2</td>
+        <td>.vst</td>
+        <td>/Library/Audio/Plug-ins/VST</td>
+      </tr>
+      <tr>
+        <td>VST3</td>
+        <td>.vst3</td>
+        <td>/Library/Audio/Plug-ins/VST3</td>
+      </tr>
+      <tr>
+        <td rowspan="3">Windows</td>
+        <td>VST2</td>
+        <td>.dll</td>
+        <td> C:\Program Files\VSTPlugins<br />
+          C:\Program Files\Steinberg\VSTPlugins<br />
+          C:\Program Files\Common Files\VST2<br />
+          C:\Program Files\Common Files\Steinberg\VST2</td>
+      </tr>
+      <tr>
+        <td>VST3</td>
+        <td>.vst3</td>
+        <td>C:\Program Files\Common Files\VST3</td>
+      </tr>
+    </table>
+    <p>※VST2とVST3について :
+      VST規格を制定しているSteinberg社は、現在新しい規格であるVST3のみをサポートしています。
+      しかし、VST3に完全に対応できていおらず期待通りに動作しないホストアプリケーションもあるかもしれません。
+      そのような場合はVST2版の方をお試しください。
+    </p>
+
+    <!--------------------------------------------------------
+
+    使い方
+
+    ---------------------------------------------------------->
+    <h1>使い方</h1>
+
+    <p>Magical 8bit PlugのUIは、いくつかのセクションに分かれています。
+      パラメータの選択状態によって、セクションの内容が変わったり、セクションそのものの有無が変化します。
+      セクションやパラメータが見つからない場合は、各種選択状態を確認してみてください。</p>
+
+    <img src="./img/sections.png">
+
+    <dl>
+      <dt><a href="#general">①Generalセクション</a></dt>
+      <dd>全体的な設定を行うセクションです。</dd>
+      <dt><a href="#monophonic">②Monophonicセクション</a></dt>
+      <dd>モノフォニックモードの場合にのみ出現します。ポルタメントやアルペジオの設定ができます。</dd>
+      <dt><a href="#oscillatorSpecific">③オシレータ別セクション</a></dt>
+      <dd>オシレータ固有の設定です。OSC Typeの設定によって内容が変化します。</dd>
+      <dt><a href="#ampAndPitch">④音量・ピッチセクション</a></dt>
+      <dd>音量・ピッチに関わる各種パラメータです。</dd>
+      <dt><a href="#customEnvelopes">⑤Custom Envelopesセクション</a></dt>
+      <dd>Advanced Optionsチェックボックスをオンにした場合だけ出現します。ピッチ・音量・デューティーの複雑な時間変化をテキストで設定できます。</dd>
+    </dl>
+
+    <!--- General -->
+
+    <h2><a name="general">Generalセクション</a></h2>
+
+    <img src="./img/generalSection.png">
+
+    <dt>OSC Type</dt>
+    <dd>波形の選択です。
+      <table>
+        <tr>
+          <td>Pulse</td>
+          <td>方形波またはパルス波です。デューティー比は オシレータ別セクションで変更します。</td>
+        </tr>
+        <tr>
+          <td>Triangle</td>
+          <td>疑似三角波です。</td>
+        </tr>
+        <tr>
+          <td>Noise</td>
+          <td>ノイズです。オシレータ別セクションで３種類のノイズを切り替えることができます。</td>
+
+        </tr>
+      </table>
+      <dl>
+      </dl>
+    </dd>
+    <dt>Poly</dt>
+    <dd>最大和音数です。１にすると<strong>モノフォニックモード</strong>となります。モノフォニックモードを終了させたい場合は、１以外の値を設定してください。</dd>
+    <dt>mono</dt>
+    <dd>Polyの値を１にするだけのボタンです。すばやくモノフォニックモードにしたい場合に便利です。</dd>
+    <dt>Advanced Options</dt>
+    <dd>チェックするとより多くのパラメータが表示されます。</dd>
+    <dt>Gain</dt>
+    <dd>いわゆるボリュームです。一般にパルス波は聞こえ方は大きくなる傾向があるので、このGainで調整すると扱いやすくなるかもしれません。</dd>
+    <dt>Color</dt>
+    <dd>Show Advanced Optionsをチェックすると表示されます。見た目上の色を変更します。</dd>
+    </dl>
+
+    <!--- Monophonic -->
+
+    <h2><a name="monophonic">Monophonicセクション</a></h2>
+
+    <dl>
+      <dt>Behavior</dt>
+      <dd>動作を指定します。指定した動作によって追加のパラメータが出現します。
+        <table>
+          <tr>
+            <td>Legato</td>
+            <td>
+              <img src="./img/legato.png"><br>
+              ひとつのノートが鳴っているとき別のノートを押さえると、エンベロープを中断せずに新しいノートの音程へと移行します。これを選択するとPortamentoパラメータが出現します。Portamentを設定すると音程がなめらかに変化します。              
+              <dl>
+                <dt>Portamento</dt>
+                <dd>次の音程へと移るのにかかる時間を指定します。不要な場合は 0 に設定します。</dd>
+              </dl>
+            </td>
+          </tr>
+          <tr>
+            <td>Arpeggio Up / Arpeggio Down</td>
+            <td>
+              <img src="./img/arpeggio.png"><br>
+              同時に押されている複数のノートを高速アルペジオとして扱います。これを選択すると、Intervalパラメータが追加で出現します。
+              <dl>
+                <dt>Interval</dt>
+                <dd>アルペジオの間隔を指定します。
+                  <table>
+                    <tr>
+                      <td>1frame / 2frames / 3frames</td>
+                      <td>それぞれ、1/60秒, 1/30秒, 1/20秒に設定します。「フレーム」という呼称と1/60秒という時間は、ファミコンの制御フレームに由来します。</td>
+                    </tr>
+                    <tr>
+                      <td>96th / 48th / 32nd / 24th</td>
+                      <td>曲のテンポに同期した間隔を設定します。それぞれ、96分音符, 48分音符, 32分音符, 24分音符相当の長さとなります。曲のテンポはノートオン時にDAWから取得します。</5d>
+          </tr>
+          <tr>
+            <td>Slider</td>
+            <td>スライダーによって任意の長さに設定します。この場合だけ追加でスライダーが出現します。</td>
+
+          </tr>
+        </table>
+        <dl>
+
+        </dl>
+      </dd>
+      </td>
+    </dl>
+
+    </dd>
+    </tr>
+    <tr>
+      <td>Non-legato</td>
+      <td>ひとつのノートが鳴っているとき別のノートを押さえると、エンベロープを引き継がずに新しいノートへと移行します。つまり、鍵盤を離して新たに押さえたのと同じ動作になります。</td>
+    </tr>
+    </table>
+    <dl>
+
+
+
+    </dl>
+    </dd>
+    </dl>
+
+    <!--- Oscillator specific -->
+
+    <h2><a name="oscillatorSpecific">オシレータ別セクション</a></h2>
+    <h3>Pulse選択時</h3>
+    <img class="half" src="./img/pulse.png">
+    <p>OSC Typeで "Pulse" を選んだ場合には、"Duty" パラメータが表示されます。</p>
+    <dl>
+      <dt>Duty</dt>
+      <dd>出力の高低の時間比（デューティー比）で、50%では高と低を同じ時間比で繰り返します。25%、12.5%の順に鋭い音色となります。</dd>
+    </dl>
+    <h3>Noise選択時</h3>
+    <img class="half" src="./img/noise.png">
+
+    <p>OSC Typeで "Noise" を選んだ場合には "Noise Type" パラメータが表示されます。</p>
+    <dl>
+      <dt>Noise Type</dt>
+      <dd>ノイズの種類です。３種類から切り替え可能です。
+        <table>
+          <tr>
+            <td>4bit Pure random</td>
+            <td>
+              前バージョンのノイズと同じノイズで、毎フレームごとにランダムな16段階(=4bit)のレベルを出力する方式です。単なるホワイトノイズに比べると荒々しく、実機のノイズと比べると整っている、中間的なノイズ音色です。
+            </td>
+          </tr>
+          <tr>
+            <td>1bit Long Cycle</td>
+            <td>
+              実機の「長周期ノイズ」のエミュレーションです。毎フレームごとに高または低の２段階(=1bit)のレベルを出力する方式です。特に低音域でのトーンが混ざったように聞こえる独特な音色が特徴です。純粋な乱雑さを持つ乱数ではなく周期性を持つ擬似乱数を使用していますが、周期が十分に長いので十分ノイズっぽく聞こえます。
+            </td>
+          </tr>
+          <tr>
+            <td>1bit Short Cycle</td>
+            <td>実機の「短周期ノイズ」のエミュレーションです。1bit Long
+              Cycleと同様、毎フレームごとに高または低の２段階のレベルを出力する方式ですが、疑似乱数の周期が93ステップと短いため、特に高音域で音程が顕著に現れてノイズ感が少なくなります。</td>
+
+          </tr>
+        </table>
+        <dl>
+        </dl>
+      </dd>
+    </dl>
+
+    <h3>Triangle選択時</h3>
+    <p>OSC Typeで "Triangle" を選んだ場合には、このセクションは空になります。</p>
+
+    <!--- Amp and pitch -->
+
+    <h2><a name="ampAndPitch">音量・ピッチセクション</a></h2>
+    <img src="./img/ampAndPitch.png">
+    <p>音量・音色の変化の各種パラメータです。いくつかのサブセクションに分かれています。</p>
+
+    <h3>Envelopeサブセクション</h3>
+    <p>音量の時間変化を４つのパラメータで指定します。</p>
+    <dl>
+      <dt>Attack</dt>
+      <dd>鍵盤を押してから音量が100%に達するまでの時間。100%に達するとDecayフェーズに移行します</dd>
+      <dt>Decay</dt>
+      <dd>音量が100%に達してからSusLevelにまで減衰する時間。</dd>
+      <dt>Sustain</dt>
+      <dd>Decay後、鍵盤を離すまでの間維持される音量。</dd>
+      <dt>Release</dt>
+      <dd>鍵盤を離した後音量が 0 になるまでの時間。</dd>
+    </dl>
+    <h3>Bend Rangeサブセクション</h3>
+    <p>ピッチベンドの設定です。Rangeパラメータのみがあります。</p>
+    <dl>
+      <dt>Range</dt>
+      <dd>ピッチベンドの振れ幅を、ベンドホイールを最大まで振った時の値で設定します。2.0 で１音、12.0で１オクターブの振れ幅になります。</dd>
+    </dl>
+    <h3>Auto Bendサブセクション</h3>
+    <p>ピッチホイールとは関係なく、キーオンから自動的に音程を変化させます。</p>
+    <dl>
+      <dt>Ini.Pitch</dt>
+      <dd>初期ピッチです。押下したキーの本来のピッチよりこの値だけ上（マイナス値を設定した場合下）からスタートします。</dd>
+      <dt>Time</dt>
+      <dd>キー本来のピッチに到達するまでの時間です。</dd>
+    </dl>
+    <h3>Vibratoサブセクション</h3>
+    <p>音程を周期的に揺らすビブラート効果です。</p>
+    <dl>
+      <dt>Rate</dt>
+      <dd>ピッチを揺らす周期。単位は秒です。</dd>
+      <dt>Depth</dt>
+      <dd>ピッチの変化幅です。1が半音(100cent)に対応します。</dd>
+      <dt>Delay</dt>
+      <dd>キーオンからビブラートが始まるまでの時間を指定できます。単位は秒です。</dd>
+      <dt>Ignores Wheel</dt>
+      <dd>これをチェックするとモジュレーションホイールの値に関係なくビブラートがかかります。すべてのノートにビブラートをかけたい場合に有用です。</dd>
+    </dl>
+
+    <!--- Custom envelopes -->
+
+    <h2><a name="customEnvelopes">Custom Envelopesセクション</a></h2>
+    <img src="./img/customEnv.png">
+    <p> "Show Advanced Options" をチェックした場合に表示されます。ボリューム・ピッチ・パルス波デューティーの時間変化をテキストで指定できます。詳細は次章で説明します。</p>
+
+    <!--------------------------------------------------------
+
+    カスタムエンベロープ
+
+    ---------------------------------------------------------->
+    <h1>カスタムエンベロープ</h1>
+    <p> Custom
+      Envelopes（カスタムエンベロープ）は、実機でのチップチューンでよく用いられるフレームごとのコントロールをエミュレートしたものです。単なる直線的な変化にとどまらない自由な変化を記述できるので、よりインパクトのある音色を作ることが可能になります。また、パルス波デューティーの時間変化を指定できるのはカスタムエンベロープだけです。
+    </p>
+
+    <h2>値の範囲と意味</h2>
+    <p>カスタムエンベロープでは、ボリュームやピッチを数値で指定します。数値の意味は、操作するパラメータがボリューム・ピッチ・デューティー比のいずれなのかによって異なります。</p>
+    <table>
+      <tr>
+        <td>パラメータ</td>
+        <td>範囲</td>
+        <td>意味</td>
+      </tr>
+      <tr>
+        <td>Volume</td>
+        <td>0～15</td>
+        <td>0 が無音、15が最大音量です</td>
+      </tr>
+      <tr>
+        <td>Pitch</td>
+        <td>-64～63</td>
+        <td>右方にあるResolutionの選択によって意味が変わります
+          <dl>
+            <dt>Coarse</dt>
+            <dd>値 1 が半音に対応します。2 で全音、12 で 1オクターブです</dd>
+            <dt>Fine</dt>
+            <dd>値 16 が半音に対応します。単純にCoarse の16倍の粒度ということです</dd>
+          </dl>
+        </td>
+      </tr>
+      <tr>
+        <td>Duty</td>
+        <td>0～2</td>
+        <td>デューティー比です。0: 12.5% , 1: 25%, 2: 50%.</td>
+      </tr>
+    </table>
+    <h2>文法</h2>
+    <p>数値を簡単なルール＝文法に則って入力することで時間変化を記述します。基本的には値を順番に並べていくだけですが、記述を省力化するための記法も用意されています。</p>
+    <h3>基本シーケンス</h3>
+    <p> 数値をカンマ区切りで並べていくことで時間変化を記述します。時間の単位は曲のテンポなどによらず 1/60秒固定です。スペースは無視されます。</p>
+    <pre>ex) 15, 13, 12, 5, 0</pre>
+    <p></p>
+    <h3>スロープ</h3>
+    <p> 直線的な時間変化を記述したい場合、スロープを利用するとひとつひとつ値を指定する手間が省けて便利です。記法は以下です。 </p>
+    <p><i>開始値</i> to <i>終了値</i> in <i>フレーム数</i> f</p>
+    <pre>ex) 15 to 0 in 15f</pre>
+      値が、15フレーム(0.25秒)かけて15から0へ減衰します
+    <p>ここでもスペースは省略可能です</p>
+    <p>基本シーケンスと組み合わせるとこのようになります。</p>
+    <pre>ex) 15, 14, 13, 12to3in30f, 2, 2, 1, 1, 0 
+      1フレームごとに15, 14, 13と変化したあと30フレームかけて12から3に変化、
+      そのあと2フレームごとに2, 1と変化、最後は 0 になります</pre>
+    <p>最後の f は省略できます。</p>
+    <pre>ex) 15 to 0 in 15</pre>
+    <h3>ホールド</h3>
+    <p>同じ値を繰り返す場合、次の記法が便利です。</p>
+    <p><i>値</i> x <i>フレーム数</i> f</p>
+    <p>これも最後のfは省略できます。</p>
+    <pre>ex) 15 x 10</pre>
+    <p>基本シーケンスと組み合わせるとこのようになります。</p>
+    <pre>ex) 15x10f, 9, 7, 5, 3, 1, 0
+    15を10フレーム維持したあと、9, 5, 3, 1 そして 0 へと推移します</pre>
+    <h3>リピート</h3>
+    <p>繰り返したいシーケンスを [ ] で囲みます。</p>
+    <pre>ex) [0,1,2]</pre>
+    <p>繰り返し回数の指定はなく、必ずキーオフまで無限ループを繰り返します。したがって [ ] の後に配置したシーケンスは、下述のリリースシーケンス以外は無効です。</p>
+    <pre>ex) 15, 13, 12, 11 [10, 7, 4]</pre>
+    <h3>リリースシーケンス</h3>
+    <p> | の後にシーケンスを記述することで、キーオフ後の値の変化を指定できます。</p>
+    <pre>ex) 15, 14, 12, 10 | 5, 3, 1, 0</pre>
+    <p>リピートとリリースシーケンスは併用できます。この場合、キーオフまでの間リピート部分が繰り返され、キーオフ後はリリースシーケンスに移行します。</p>
+    <pre>ex) 15, 13, 12, 11 [10, 7, 4] | 3, 2, 1, 0</pre>
+    <h1>デモソングについて</h1>
+    <p>添付のデモソング(m8p2demo.mp3)のサウンドは、同じく添付のMIDIファイル(m8p2demo.mid)に、こちらの <a
+        href="https://docs.google.com/spreadsheets/d/1OHtjWbxvmw0iZqV4XfX0OMxmrkgoJOkgt4xR21I8yFs/edit?usp=sharing">パラメータリスト</a>
+    の設定を適用すると再現することができます。</p>
+    <h1>ライセンス</h1>
+    <p>本プラグインは <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL
+        v3</a>ライセンスにて配布しています。ソースコードを開示しておりますので、GPLに従い複製、頒布および改変することができます。</p>
+    <h1>ドネーション</h1>
+    <p>開発へのご支援は、ソースコードの共有を通じた直接のご支援のほか、ドネーションを受け付けております。ご協力いただける方はぜひよろしくお願いします。</p>
+    <p>ドネーションは<a href="https://ymck.net/app/magical-8bit-plug">こちら</a>のページからお申込みいただけます。</p>
+  </div>
+</body>
+
+</html>

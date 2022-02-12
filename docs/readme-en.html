@@ -1,0 +1,570 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+  <title>Magical 8bit Plug</title>
+  <style type="text/css">
+    body {
+      margin-right: auto;
+      margin-left: auto;
+      background-color: #f7f7f7;
+      color: #666666;
+      font-size: 14px;
+      line-height: 160%;
+      max-width: 800px;
+    }
+
+    strong {
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: bold;
+      color: #666666;
+    }
+
+    p {
+      margin: 10px 10px 10px 10px;
+    }
+
+    a[href] {
+      color: #666666;
+      text-decoration: underline;
+    }
+
+    a[name] {
+      color: #666666;
+    }
+
+    h1 {
+      font-size: 20px;
+      background-color: #eeeeee;
+      color: #666666;
+      padding: 15px 15px 15px 15px;
+      margin: 30px 0px 20px 0px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin: 20px 0px 5px 0px;
+      padding: 10px 15px 10px 12px;
+      border-top: solid 2px #eeeeee;
+      border-left: solid 5px #eeeeee;
+      padding: none;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 15px 0px 15px 0px;
+      padding: none;
+      border-bottom: solid 1px #eeeeee;
+    }
+
+    dt {
+      margin-left: 10px;
+      font-weight: bold;
+    }
+
+    dd {
+      margin-left: 20px;
+      margin-bottom: 7px;
+    }
+
+    table,
+    td,
+    th {
+      font-size: 13px;
+      border-collapse: collapse;
+      border: 1px #808080 solid;
+      padding: 10px 10px 10px 10px;
+    }
+
+
+    img {
+      max-width: 100%;
+    }
+
+    img.half {
+      max-width: 50%;
+    }
+
+    .main_div {
+      background-color: #ffffff;
+      padding: 20px 20px 20px 20px;
+      text-align: left;
+    }
+
+    .caption {
+      padding: 3px;
+    }
+
+    .small_text {
+      color: #666666;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    .title_text {
+      font-size: 18px;
+    }
+
+    pre {
+      margin: 10px 10px 10px 10px;
+      background-color: #f4f4f4;
+      padding: 10px 10px 10px 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main_div"> <img src="./img/icon-512.png" width="58" height="58" style="float:left; margin-right:20px;">
+    <strong class="title_text">Magical 8bit Plug 2 Operation Manual</strong><br>
+    by Yokemura(YMCK) <a href="http://www.ymck.net/" target="_blank">http://www.ymck.net/</a> <br>
+    <br>
+    <!--------------------------------------------------------
+
+    Magical 8bit Plug??
+
+    ---------------------------------------------------------->
+    <h1>What is Magical 8bit Plug?</h1>
+    <p> Magical 8bit Plug is a software-synthesizer developed by Yokemura@YMCK which generates primitive electronic
+      sounds like the old 8bit game consoles. It can be used as a plug-in for the host applications that support Audio
+      Units or VST. </p>
+    </p>
+
+    <h2>Features</h2>
+    <ul>
+      <li>Basic 8bit-style waveforms</li>
+      <li>As the new waveforms, 1bit noise is introduced, which can emulate the sound of original 8bit console more
+        accurately</li>
+      <li>Envelope forming with so-called ADSR.</li>
+      <li>Pitch bend capability with depth control</li>
+      <li>Auto Bending(a.k.a Frequency Sweep) which is suitable for making sound effects and drum sound etc.</li>
+      <li>Vibrato to enrich your musical expression</li>
+      <li>Custom envelopes, which gives you more precise control over volume, pitch and pulse duty values.</li>
+    </ul>
+
+    <h2>Open source</h2>
+    <p>Magical 8bit Plug 2 is an open source software, so you can modify or enhance the functionality as you want and
+      contribute it to share your improvement. The GitHub repository is <a
+        href="https://github.com/yokemura/Magical8bitPlug2">here</a>.</p>
+    <p>If you want to support the development but are not familiar to coding you can contribute through a donation.</p>
+
+    <h2>Differences from the previous version</h2>
+
+    <p> In this version (Magical 8bit Plug 2) includes all the waveforms that the previous version(Magical 8bit Plug)
+      has, namely, square, pulse, 8bit-specific pseudo triangle and low resolution noise. And on top of those more
+      precisely emulated noise waveforms and more detailed controls over the sound are newly implemented. </p>
+    <p> This version is technically distinct from the previous one. You can't replace with the new version with your
+      parameters remaining as it is, but you can install both and keep using them separately. </p>
+
+    <!--
+    <h2>Waveforms</h2>
+    <table>
+      <tr>
+        <td>Pulse</td>
+        <td>Rectangular Waves</td>
+        <td>The simplest waveforms which can be generated only by switching high/low voltages. You can get different timbres by varying the time ratio between high and low states.</td>
+      </tr>
+      <tr>
+        <td>Triangle</td>
+        <td>Pseudo Triangle Wave</td>
+        <td>The waveform which is intended to form a triangle but actually results like a stepladder because of the limited capability of the console. The unique high frequence noise is best for reproducing the distinct 8bit taste.</td>
+      </tr>
+      <tr>
+        <td>Noise</td>
+        <td>Low-bit Noise</td>
+        <td> The random waveform. Like the Pseudo Triangle above, this noise waveform is also jaggy and it results in a unique 8bit taste. The previous version had Magical 8bit Plug original "4bit Pure Random noise" which is formed with randomly generated 4 levels of voltage, and this version inherits it. On top of that the new version has more exact real console emulation: 1bit Short Cycle/1bit Long Cycle waveforms. These waveforms only have high and low voltage control and randomization is pseudo-random, which makes it sound rougher and adds some sort of tonality. </td>
+      </tr>
+    </table>
+	  -->
+
+    <!--------------------------------------------------------
+
+    Installation
+
+    ---------------------------------------------------------->
+    <h1>Installation</h1>
+    <p>Basically put the plugin file to appropriate folder to start using. As the actual installation method will vary
+      according to your system and host application, please refer to the instructions from them for the detail. If you
+      have any questions please don't ask me but ask Google. I'm not going be your kindly technical assistant.</p>
+    <p>Here's the standard installation paths. The actual installation method may vary according to your environment.
+      And again, please don't ask me about the installation because I don't know about your system.</p>
+    <table>
+      <tr>
+        <td rowspan="3">Mac</td>
+        <td>AudioUnits</td>
+        <td>.component</td>
+        <td>/Library/Audio/Plug-ins/Components</td>
+      </tr>
+      <tr>
+        <td>VST2</td>
+        <td>.vst</td>
+        <td>/Library/Audio/Plug-ins/VST</td>
+      </tr>
+      <tr>
+        <td>VST3</td>
+        <td>.vst3</td>
+        <td>/Library/Audio/Plug-ins/VST3</td>
+      </tr>
+      <tr>
+        <td rowspan="3">Windows</td>
+        <td>VST2</td>
+        <td>.dll</td>
+        <td> C:¥Program Files¥VSTPlugins<br />
+          C:¥Program Files¥Steinberg¥VSTPlugins<br />
+          C:¥Program Files¥Common Files¥VST2<br />
+          C:¥Program Files¥Common Files¥Steinberg¥VST2</td>
+      </tr>
+      <tr>
+        <td>VST3</td>
+        <td>.vst3</td>
+        <td>C:¥Program Files¥Common Files¥VST3</td>
+      </tr>
+    </table>
+    <p>About VST2 and VST3 : Steinberg, which defines the VST specifcation, now supports only their new format, VST3. 
+      But there might be some host applications which still don't fully comply to VST3 and don't work as expected. 
+      In that case try using VST2.</p>
+
+    <!--------------------------------------------------------
+
+    Usage
+
+    ---------------------------------------------------------->
+    <h1>Usage</h1>
+
+    <p>Magical 8bit Plug 2 has several sections in its UI.
+      The sections may switch its contents or its visibility according to the parameter settings.
+      If you don't see the parameter you want to touch check the parameters to make sure they are properly set.
+    </p>
+
+    <img src="./img/sections.png">
+
+    <dl>
+      <dt><a href="#general">(1)General Section</a></dt>
+      <dd>General settings, literally.</dd>
+      <dt><a href="#monophonic">(2)Monophonic Section</a></dt>
+      <dd>Only appears in Monophonic Mode. You can set portamento and arpeggio in this section.</dd>
+      <dt><a href="#oscillatorSpecific">(3)Oscillator Specific Section</a></dt>
+      <dd>You can set the parameters for the oscillator which you have chosen. The contents vary according to the OSC
+        Type value.</dd>
+      <dt><a href="#ampAndPitch">(4)Amp And Pitch Section</a></dt>
+      <dd>Parameters about amplitude and pitch.</dd>
+      <dt><a href="#customEnvelopes">(5)Custom Envelopes Section</a></dt>
+      <dd>Only appears when Advanced Options checkbox is on. You can set complex time variances of pitch, volume and
+        duty with simple text commands.</dd>
+    </dl>
+
+    <!--- General -->
+
+    <h2><a name="general">General Section</a></h2>
+
+    <img src="./img/generalSection.png">
+
+    <dt>OSC Type</dt>
+    <dd>Oscillator selection.
+      <table>
+        <tr>
+          <td>Pulse</td>
+          <td>Rectangular waveforms. The duty can be selected in Oscillator Specific Section below.</td>
+        </tr>
+        <tr>
+          <td>Triangle</td>
+          <td>Pseudo triangle wave.</td>
+        </tr>
+        <tr>
+          <td>Noise</td>
+          <td>Noise. v2 has 3 different noise algorithms. You can choose one of them in Oscillator Specific Section.
+          </td>
+
+        </tr>
+      </table>
+      <dl>
+      </dl>
+    </dd>
+    <dt>Poly</dt>
+    <dd>Number of polyphony. By setting it to 1 the plugin enters <strong>Monophonic Mode</strong>. To leave Monophonic
+      Mode set the value greater than 1.</dd>
+    <dt>mono</dt>
+    <dd>The button to set the Poly value to 1. Nothing more. Use it to enter Monophonic Mode quickly.</dd>
+    <dt>Advanced Options</dt>
+    <dd>Some more controls will appear when checked.</dd>
+    <dt>Gain</dt>
+    <dd>The volume. As the pulse wave tends to sound louder, it's a good idea to reduce the gain to match with other
+      instruments.</dd>
+    <dt>Color</dt>
+    <dd>One of the advanced options. It just alters the color theme.</dd>
+    </dl>
+
+    <!--- Monophonic -->
+
+    <h2><a name="monophonic">Monophonic Section</a></h2>
+
+    <dl>
+      <dt>Behavior</dt>
+      <dd>Monophonic Mode has several different Behaviors.
+        By setting it you'll see some additional parameters.
+        <table>
+          <tr>
+            <td>Legato</td>
+            <td>
+              <img src="./img/legato.png"><br>
+              This behavior changes the pitch without restarting the envelope when the already sounding note is followed
+              by a new note with an overlap. While selecting this option Portamento parameter appears, with which you
+              can get a smooth transition of pitch.
+              <dl>
+                <dt>Portamento</dt>
+                <dd>The time it takes to reach the pitch of new note. If you don't want a portamento set it to 0.</dd>
+              </dl>
+            </td>
+          </tr>
+          <tr>
+            <td>Arpeggio Up / Arpeggio Down</td>
+            <td>
+              <img src="./img/arpeggio.png"><br>
+              This behavior plays fast arpeggio when multiple notes pressed at the same time. You'll see Interval
+              parameter while selecting this option.
+              <dl>
+                <dt>Interval</dt>
+                <dd>Specify the interval of arpeggio notes.
+                  <table>
+                    <tr>
+                      <td>1frame / 2frames / 3frames</td>
+                      <td>Set the interval to 1/60, 1/30, 1/20 seconds respectively. The name "frame" and the 1/60
+                        second interval are derived from NES's control frame.</td>
+                    </tr>
+                    <tr>
+                      <td>96th / 48th / 32nd / 24th</td>
+                      <td>Set the interval according to your song tempo. The length is set literally to 96th / 48th /
+                        32nd / 24th note length. Song tempo is retrieved from your DAW each time a new note starts
+                        playing.</5d>
+                    </tr>
+                    <tr>
+                      <td>Slider</td>
+                      <td>Set to arbitrary length by a slider which appears only while selectiong this option.</td>
+
+                    </tr>
+                  </table>
+                  <dl>
+
+                  </dl>
+                </dd>
+            </td>
+    </dl>
+
+    </dd>
+    </tr>
+    <tr>
+      <td>Non-legato</td>
+      <td>The notes are always newly played without keeping current envelope even they have overlaps.</td>
+    </tr>
+    </table>
+    <dl>
+
+
+
+    </dl>
+    </dd>
+    </dl>
+
+    <!--- Oscillator specific -->
+
+    <h2><a name="oscillatorSpecific">Oscillator Specific Section</a></h2>
+    <h3>Pulse case</h3>
+    <img class="half" src="./img/pulse.png">
+    <p>By setting OSC Type to "Pulse", Duty parameter will be displayed.</p>
+    <dl>
+      <dt>Duty</dt>
+      <dd>The high/low ratio of the waveform. At 50%, the high and low voltage alternate at the same time duration.
+        Smaller value gives you a sharper impression.</dd>
+    </dl>
+    <h3>Noise case</h3>
+    <img class="half" src="./img/noise.png">
+
+    <p>By setting OSC Type to "Noise", Noise Type parameter will be displayed.</p>
+    <dl>
+      <dt>Noise Type</dt>
+      <dd>Magical 8bit Plug 2 has 3 different noise generating algorithms.
+        <table>
+          <tr>
+            <td>4bit Pure random</td>
+            <td>
+              Randomly generates 16 level(4bit) voltage, which is exactly same to v1's noise.
+            </td>
+          </tr>
+          <tr>
+            <td>1bit Long Cycle</td>
+            <td>
+              The emulation of NES's long cycle noise. Generates high or low voltage according to pseudo random values.
+              As it's "pseudo", the values have a cycle, in other words it just repeats the fixed sequence of random-ish
+              numbers. But the cycle length is long enough to make the sound "noisy" enough.
+            </td>
+          </tr>
+          <tr>
+            <td>1bit Short Cycle</td>
+            <td>The emulation of NES's short cycle noise. Generates high or low voltage according to a pseudo
+              randomization, but as the randomization cycle is pretty short (only 93 steps) the sound is rather tonal.
+            </td>
+
+          </tr>
+        </table>
+        <dl>
+        </dl>
+      </dd>
+    </dl>
+
+    <h3>Triangle case</h3>
+    <p>When you chose "Triangle" as OSC Type this section will be empty.</p>
+
+    <!--- Amp and pitch -->
+
+    <h2><a name="ampAndPitch">Amp And Pitch Section</a></h2>
+    <img src="./img/ampAndPitch.png">
+    <p>Parameters that control time variance of amplitude and pitch. There are several subsections.</p>
+
+    <h3>Envelope Subsection</h3>
+    <p>You can specify time variance of the volume with 4 parameters below.</p>
+    <dl>
+      <dt>Attack</dt>
+      <dd>The duration until the volume reaches to the maximum. Once it reaches to max it goes to decay phase.</dd>
+      <dt>Decay</dt>
+      <dd>The duration until the volume goes down to Sustain level in decay phase.</dd>
+      <dt>Sustain</dt>
+      <dd>The volume it keeps until you release the keyboard.</dd>
+      <dt>Release</dt>
+      <dd>The duration until the volume reaches to zero after you released the key.</dd>
+    </dl>
+    <h3>Bend Range Subsection</h3>
+    <p>This subsection only has the pitch bend range parameter.</p>
+    <dl>
+      <dt>Range</dt>
+      <dd>The range. The actual pitch diviation when you twist the pitch bend wheel will vary according to this value.
+        The unit is half tone and the value corresponds to the pitch diviation at the wheel's maximum position.</dd>
+    </dl>
+    <h3>Auto Bend Subsection</h3>
+    <p>Unlike Pitch Bend above Auto Bend automatically bends the pitch right after the note on regardless if you touch
+      the wheel or not.</p>
+    <dl>
+      <dt>Ini.Pitch</dt>
+      <dd>Initial Pitch. At key on the pitch starts from higher(lower if the value is minus) than the note you played.
+        This value specifies the amount of it. </dd>
+      <dt>Time</dt>
+      <dd>The pitch automatically approach to the note you played in the time you specified with this value.</dd>
+    </dl>
+    <h3>Vibrato Subsection</h3>
+    <p>You can apply a vibrato with the parameters below.</p>
+    <dl>
+      <dt>Rate</dt>
+      <dd>Frequency to modulate the pitch. The unit is in seconds </dd>
+      <dt>Depth</dt>
+      <dd>Pitch amount to modulate. Value 1 corresponds to half tone.</dd>
+      <dt>Delay</dt>
+      <dd>Time before vibrato starts. the unit is in seconds.</dd>
+      <dt>Ignores Wheel</dt>
+      <dd>When checked it literally ignores the modulation wheel. This is useful if you want always apply the vibrato.
+      </dd>
+    </dl>
+    <!--- Custom envelopes -->
+
+    <h2><a name="customEnvelopes">Custom Envelopes Section</a></h2>
+    <img src="./img/customEnv.png">
+    <p> This section appears only when you checked "Show Advanced Options".
+      You can specify the time variation of Volume, Pitch and Pulse Duty by typing the values by text.
+      The detail is explained in the next chapter. </p>
+    <!--------------------------------------------------------
+
+    Custom Envelopes
+
+    ---------------------------------------------------------->
+    <h1>Custom Envelopes</h1>
+    <p> Custom Envelope is a new functionality introduced in Magical 8bit Plug 2 to achieve the functionality of
+      frame-wise control often seen in chiptunes with real consoles. It allows you to set a non linear time variance of
+      volume, pitch and pulse duty, which can extend your musical expression. The time variance of Pulse Duty can be
+      assigned only with this option.</p>
+    <h2>Value range and semantics</h2>
+    <p>Numeric values are used to set the volume, pitch and pulse duty in Custom Envelopes, and the meaning of the
+      number differs according to the parameter you are setting.</p>
+    <table>
+      <tr>
+        <td>Parameter</td>
+        <td>Range</td>
+        <td>Meaning</td>
+      </tr>
+      <tr>
+        <td>Volume</td>
+        <td>0`15</td>
+        <td>0 is silence, 15 is max.</td>
+      </tr>
+      <tr>
+        <td>Pitch</td>
+        <td>-64`63</td>
+        <td>The result changes according to Resolution combo box to the right.
+          <dl>
+            <dt>Coarse</dt>
+            <dd>Value 1 corresponds to 1 half tone. 2 is whole tone and 12 is 1 octave.</dd>
+            <dt>Fine</dt>
+            <dd>Value 8 corresponse to 1 half note. Simply 8x finer than Coarse.</dd>
+          </dl>
+        </td>
+      </tr>
+      <tr>
+        <td>Duty</td>
+        <td>0`2</td>
+        <td>0: 12.5% , 1: 25%, 2: 50%.</td>
+      </tr>
+    </table>
+    <h2>Grammar</h2>
+    <p>As Custom Envelope is like a tiny programming language so you have to follow the grammar to specify what you'd
+      like the plugin to perform. Basically it's just placing the numbers in row but it also has some specific notations
+      to save your efforts.</p>
+    <h3>Basic Sequence</h3>
+    <p> You can specify the time variance by comma separated values. The time unit is 1/60 sec without depending to your
+      song tempo.
+      Spaces are ignored. </p>
+    <pre>ex) 15, 13, 12, 5, 0</pre>
+    <h3>Slope</h3>
+    <p> To specify 1 second sequence only with Basic Sequence youfll have to write a row of 60 numbers, which is
+      cumbersome. If the sequence you want is a simple slope this Slope grammar will help. The format is: </p>
+    <p><i>startValue</i> to <i>EndValue</i> in <i>NumberOfFrames</i> f</p>
+    <pre>ex) 15 to 0 in 15f</pre>
+    <p>Again, spaces are ignored.</p>
+    <p>Another example used with Basic Sequence</p>
+    <pre>ex) 15, 14, 13, 12to3in30f, 2, 2, 1, 1, 0 </pre>
+    <p>The last f can be omitted.</p>
+    <pre>ex) 15 to 0 in 15</pre>
+    <h3>Hold</h3>
+    <p>You can hold the same value for specified frames. The format is:</p>
+    <p><i>value</i> x <i>NumberOfFrames</i> f</p>
+    <p>The last f can also be omitted.</p>
+    <pre>ex) 15 x 10</pre>
+    <p>Another example used with Basic Sequence</p>
+    <p>ex) 15x10f, 9, 7, 5, 3, 1, 0</p>
+    <h3>Repeat</h3>
+    <p>Enclose the sequence you want to repeat with [ ] </p>
+    <pre>ex) [0,1,2]</pre>
+    <p>You can place the repeated sequence after basic sequence. Only infinite loop is supported. This means it's
+      meaningless to put a sequence after [ ] unless you have a Release Sequence(see below)</p>
+    <pre>ex) 15, 13, 12, 11 [10, 7, 4]</pre>
+    <h3>Release Sequence</h3>
+    <p>To specify the value change after the key off place the sequence after | </p>
+    <pre>ex) 15, 14, 12, 10 | 5, 3, 1, 0</pre>
+    <p>If you use both Repeat and Release Sequence the repeat sequence is repeated until the key off and is switched to
+      Release sequence after key off.</p>
+    <pre>ex) 15, 13, 12, 11 [10, 7, 4] | 3, 2, 1, 0</pre>
+
+  <h1>About Demo song</h1>
+  <p>The sound of the attatched demo song(m8p2demo.mp3) can be reproduced by using MIDI file(m8p2demo.mid) and setting
+    the plugin parameters according to this <a
+      href="https://docs.google.com/spreadsheets/d/1OHtjWbxvmw0iZqV4XfX0OMxmrkgoJOkgt4xR21I8yFs/edit?usp=sharing">Parameter
+      List</a></p>
+  .
+  <h1>License</h1>
+  <p>This plugin is released under <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL v3</a> License. The source
+    code is open on GitHub, you can duplicate, distribute or modify it under the condition of GPL.</p>
+  <h1>Donation</h1>
+  <p>You can support developing Magical 8bit Plug not only by contribing source code but by a donation as
+    well. We really appreciate your support.</p>
+
+  <p>You can make donation from <a href="https://ymck.net/app/magical-8bit-plug-en/">this page</a>.</p>
+</body>
+
+</html>
