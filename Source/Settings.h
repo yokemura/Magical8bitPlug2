@@ -146,6 +146,8 @@ struct SettingRefs
     float* isPitchSequenceEnabled_raw = nullptr;
     float* isDutySequenceEnabled_raw = nullptr;
     float* pitchSequenceMode_raw = nullptr;
+    //pitch resolution
+    float* bendResolution = nullptr;
 
     FrameSequence volumeSequence;
     FrameSequence pitchSequence;
@@ -223,6 +225,7 @@ struct SettingRefs
         isPitchSequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isPitchSequenceEnabled_raw");
         isDutySequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isDutySequenceEnabled_raw");
         pitchSequenceMode_raw = (float*) parameters->getRawParameterValue ("pitchSequenceMode_raw");
-
+        //Pitch resolution
+        bendResolution = (float*) parameters->getRawParameterValue("bendResolution");
     }
 };

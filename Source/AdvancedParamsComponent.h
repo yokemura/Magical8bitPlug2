@@ -23,6 +23,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "CustomEnvelopeComponent.h"
 #include "ChoiceComponent.h"
+#include "SliderComponent.h"
 //[/Headers]
 
 
@@ -62,6 +63,7 @@ private:
     std::unique_ptr<CustomEnvelopeComponent> pitchCompo;
     std::unique_ptr<CustomEnvelopeComponent> dutyCompo;
     std::unique_ptr<ChoiceComponent> coarseOrFineChoice;
+    std::unique_ptr<SliderComponent> bendResolutionSlider;
 
 
     //==============================================================================

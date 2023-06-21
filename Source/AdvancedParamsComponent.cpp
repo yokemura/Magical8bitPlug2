@@ -59,7 +59,10 @@ AdvancedParamsComponent::AdvancedParamsComponent (Magical8bitPlug2AudioProcessor
     coarseOrFineChoice.reset (new ChoiceComponent (p, "pitchSequenceMode_raw", "Resolution"));
     addAndMakeVisible (coarseOrFineChoice.get());
     coarseOrFineChoice->setName ("Coarse or fine");
-
+    
+    bendResolutionSlider.reset(new SliderComponent(p, "bendResolution", "Bend Reso"));
+    addAndMakeVisible(bendResolutionSlider.get());
+    bendResolutionSlider->setName("bend resolution component");
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -109,6 +112,7 @@ void AdvancedParamsComponent::resized()
     pitchCompo->setBounds (0, 82, getWidth() - 204, 56);
     dutyCompo->setBounds (0, 138, getWidth() - 160, 56);
     coarseOrFineChoice->setBounds (getWidth() - 4 - 200, 86, 200, 28);
+    bendResolutionSlider->setBounds(0, 200, getWidth() - 50, 80);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }

@@ -121,7 +121,10 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         std::make_unique<AudioParameterBool> ("isVolumeSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isPitchSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isDutySequenceEnabled_raw", "Enabled", false),
-        std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine"}), 0)
+        std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine"}), 0),
+        //Pitch steps
+        //0 is max resolution, 1 will cause pitch bend to only work in semitones
+        std::make_unique<AudioParameterFloat> ("bendResolution", "Bend Resolution", 0.0f, 1.0f, 1.0f)
     }
   )
 , settingRefs (&parameters)

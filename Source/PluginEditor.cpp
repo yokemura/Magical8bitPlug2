@@ -156,7 +156,7 @@ struct
                                + genericControlHeight * 4;
     const int advCompoHeight = componentMargin * 2
                                + indexHeight
-                               + customEnvelopeHeight * 3;
+                               + customEnvelopeHeight * 4;
     const int totalHeight (bool isAdvOptOn, bool isMono)
     {
         int retHeight = topMargin

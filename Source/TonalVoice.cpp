@@ -79,7 +79,6 @@ void TonalVoice::calculateAngleDelta()
                             + currentAutoBendAmount
                             + vibratoAmount
                             + finePitchInSeq;
-
     auto cyclesPerSecond = noteNoToHeltzDouble (noteNoInDouble);
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
 
@@ -203,6 +202,8 @@ void TonalVoice::shiftNoteBuffer(int index) {
 
 double TonalVoice::noteNoToHeltzDouble (double noteNoInDouble, const double frequencyOfA)
 {
+    double resolution = 1.0 - (*settingRefs->bendResolution); //in the equation, 0 is max res and 1 is 1 semitone
+    noteNoInDouble = floor(noteNoInDouble/resolution)*resolution;
     return frequencyOfA * std::pow (2.0, (noteNoInDouble - 69) / 12.0);
 }
 
