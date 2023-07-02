@@ -21,7 +21,7 @@
 //[/Headers]
 
 #include "AdvancedParamsComponent.h"
-
+#include "CheckBoxComponent.h"
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 //[/MiscUserDefs]
@@ -60,9 +60,23 @@ AdvancedParamsComponent::AdvancedParamsComponent (Magical8bitPlug2AudioProcessor
     addAndMakeVisible (coarseOrFineChoice.get());
     coarseOrFineChoice->setName ("Coarse or fine");
     
-    bendResolutionSlider.reset(new SliderComponent(p, "bendResolution", "Bend Reso"));
-    addAndMakeVisible(bendResolutionSlider.get());
-    bendResolutionSlider->setName("bend resolution component");
+    restrictionLabel.reset (new juce::Label ("new label2",
+                                   "Pitch Restriction")); //no translation on the pitch restriction stuff
+    addAndMakeVisible (restrictionLabel.get());
+    restrictionLabel->setFont (juce::Font (17.00f, juce::Font::plain).withTypefaceStyle ("Regular"));
+    restrictionLabel->setJustificationType (juce::Justification::centredLeft);
+    restrictionLabel->setEditable (false, false, false);
+    restrictionLabel->setColour (juce::TextEditor::textColourId, juce::Colours::black);
+    restrictionLabel->setColour (juce::TextEditor::backgroundColourId, juce::Colour (0x00000000));
+    restrictionLabel->setBounds(0, 170, 150, 24);
+    
+    restrictAutoBend.reset (new CheckBoxComponent(p, "restrictAutoBend_raw", "Restrict Auto Bend to Semitones"));
+    addAndMakeVisible (restrictAutoBend.get());
+    restrictAutoBend->setName ("restrict auto bend component");
+    
+    restrictPitchBend.reset (new CheckBoxComponent(p, "restrictPitchBend_raw", "Restrict Pitch Bend to Semitones"));
+    addAndMakeVisible (restrictPitchBend.get());
+    restrictPitchBend->setName ("restrict pitch bend component");
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -112,7 +126,8 @@ void AdvancedParamsComponent::resized()
     pitchCompo->setBounds (0, 82, getWidth() - 204, 56);
     dutyCompo->setBounds (0, 138, getWidth() - 160, 56);
     coarseOrFineChoice->setBounds (getWidth() - 4 - 200, 86, 200, 28);
-    bendResolutionSlider->setBounds(0, 200, getWidth() - 50, 80);
+    restrictAutoBend->setBounds(0, 195, getWidth() - 80, 200);
+    restrictPitchBend->setBounds(0, 225, getWidth() - 80, 200);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }

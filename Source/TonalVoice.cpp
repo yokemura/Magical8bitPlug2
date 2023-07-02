@@ -74,14 +74,18 @@ void TonalVoice::calculateAngleDelta()
     double byWheel = settingRefs->vibratoIgnoresWheel() ? 1.0 : currentModWheelValue;
     double vibratoAmount = * (settingRefs->vibratoDepth) * sin (getVibratoPhase()) * byWheel;
     double noteNoInDouble = noteNumber
-                            + noteNumberMod
-                            + currentBendAmount
-                            + currentAutoBendAmount
-                            + vibratoAmount
-                            + finePitchInSeq;
+                                + noteNumberMod
+                                + vibratoAmount
+                                + finePitchInSeq;
+    double restrictedValues = 0.0; //floor values together
+
+    if (settingRefs->isRestrictingAutoBend()) restrictedValues += currentAutoBendAmount;
+    else noteNoInDouble += currentAutoBendAmount;
+    if(settingRefs->isRestrictingPitchBend()) restrictedValues += currentBendAmount;
+    else noteNoInDouble += currentBendAmount;
+    if(restrictedValues != 0) noteNoInDouble += floor(restrictedValues);
     auto cyclesPerSecond = noteNoToHeltzDouble (noteNoInDouble);
     auto cyclesPerSample = cyclesPerSecond / getSampleRate();
-
     angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
 }
 
@@ -202,8 +206,6 @@ void TonalVoice::shiftNoteBuffer(int index) {
 
 double TonalVoice::noteNoToHeltzDouble (double noteNoInDouble, const double frequencyOfA)
 {
-    double resolution = 1.0 - (*settingRefs->bendResolution); //in the equation, 0 is max res and 1 is 1 semitone
-    noteNoInDouble = floor(noteNoInDouble/resolution)*resolution;
     return frequencyOfA * std::pow (2.0, (noteNoInDouble - 69) / 12.0);
 }
 

@@ -147,7 +147,8 @@ struct SettingRefs
     float* isDutySequenceEnabled_raw = nullptr;
     float* pitchSequenceMode_raw = nullptr;
     //pitch resolution
-    float* bendResolution = nullptr;
+    float* restrictPitchBend_raw = nullptr;
+    float* restrictAutoBend_raw = nullptr;
 
     FrameSequence volumeSequence;
     FrameSequence pitchSequence;
@@ -179,6 +180,9 @@ struct SettingRefs
     bool isVolumeSequenceEnabled() { return *isVolumeSequenceEnabled_raw > 0.5; }
     bool isPitchSequenceEnabled() { return *isPitchSequenceEnabled_raw > 0.5; }
     bool isDutySequenceEnabled() { return *isDutySequenceEnabled_raw > 0.5; }
+    
+    bool isRestrictingPitchBend() {return *restrictPitchBend_raw > 0.5;}
+    bool isRestrictingAutoBend() {return *restrictAutoBend_raw > 0.5;}
     PitchSequenceMode pitchSequenceMode() { return (PitchSequenceMode) ((int) (*pitchSequenceMode_raw)); }
     MonophonicBehavior monophonicBehavior() { return (MonophonicBehavior) ((int) (*monophonicBehavior_raw)); }
     ArpeggioIntervalType apreggioIntervalType() { return (ArpeggioIntervalType) ((int) (*arpeggioIntervalType_raw)); }
@@ -226,6 +230,7 @@ struct SettingRefs
         isDutySequenceEnabled_raw = (float*) parameters->getRawParameterValue ("isDutySequenceEnabled_raw");
         pitchSequenceMode_raw = (float*) parameters->getRawParameterValue ("pitchSequenceMode_raw");
         //Pitch resolution
-        bendResolution = (float*) parameters->getRawParameterValue("bendResolution");
+        restrictPitchBend_raw = (float*) parameters->getRawParameterValue("restrictPitchBend_raw");
+        restrictAutoBend_raw = (float*) parameters->getRawParameterValue("restrictAutoBend_raw");
     }
 };

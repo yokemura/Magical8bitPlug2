@@ -114,17 +114,17 @@ Magical8bitPlug2AudioProcessor::Magical8bitPlug2AudioProcessor()
         // For Noise
         //
         std::make_unique<AudioParameterChoice> ("noiseAlgorithm_raw", "Algorithm", StringArray ({"4bit Pure Random", "1bit Long Cycle", "1bit Short Cycle"}), 0),
-        std::make_unique<AudioParameterBool> ("restrictsToNESFrequency_raw", "Restricts to NES frequency", false),
+    std::make_unique<AudioParameterBool> (ParameterID{"restrictsToNESFrequency_raw", 1}, "Restricts to NES frequency", false),
         //
         // Sequence
         //
-        std::make_unique<AudioParameterBool> ("isVolumeSequenceEnabled_raw", "Enabled", false),
-        std::make_unique<AudioParameterBool> ("isPitchSequenceEnabled_raw", "Enabled", false),
+    std::make_unique<AudioParameterBool> ("isVolumeSequenceEnabled_raw", "Enabled", false),
+    std::make_unique<AudioParameterBool> ("isPitchSequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterBool> ("isDutySequenceEnabled_raw", "Enabled", false),
         std::make_unique<AudioParameterChoice> ("pitchSequenceMode_raw", "Mode", StringArray ({"Coarse", "Fine"}), 0),
-        //Pitch steps
-        //0 is max resolution, 1 will cause pitch bend to only work in semitones
-        std::make_unique<AudioParameterFloat> ("bendResolution", "Bend Resolution", 0.0f, 1.0f, 1.0f)
+        //Restrict pitch modifications to semitones
+        std::make_unique<AudioParameterBool> ("restrictPitchBend_raw", "Restrict Pitchbend", false),
+        std::make_unique<AudioParameterBool>("restrictAutoBend_raw", "Restrict Auto Bend + Portamento", false)
     }
   )
 , settingRefs (&parameters)

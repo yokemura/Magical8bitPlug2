@@ -24,6 +24,7 @@
 #include "CustomEnvelopeComponent.h"
 #include "ChoiceComponent.h"
 #include "SliderComponent.h"
+#include "CheckBoxComponent.h"
 //[/Headers]
 
 
@@ -63,7 +64,9 @@ private:
     std::unique_ptr<CustomEnvelopeComponent> pitchCompo;
     std::unique_ptr<CustomEnvelopeComponent> dutyCompo;
     std::unique_ptr<ChoiceComponent> coarseOrFineChoice;
-    std::unique_ptr<SliderComponent> bendResolutionSlider;
+    std::unique_ptr<Label> restrictionLabel;
+    std::unique_ptr<CheckBoxComponent> restrictAutoBend;
+    std::unique_ptr<CheckBoxComponent> restrictPitchBend;
 
 
     //==============================================================================
