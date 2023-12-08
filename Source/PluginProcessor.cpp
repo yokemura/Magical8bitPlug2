@@ -300,6 +300,7 @@ bool Magical8bitPlug2AudioProcessor::isBusesLayoutSupported (const BusesLayout& 
 
 void Magical8bitPlug2AudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
+    buffer.clear();
     synth.renderNextBlock (buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
