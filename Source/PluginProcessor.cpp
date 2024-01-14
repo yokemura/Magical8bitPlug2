@@ -241,15 +241,10 @@ void Magical8bitPlug2AudioProcessor::setupVoice()
 
 double Magical8bitPlug2AudioProcessor::getCurrentBPM()
 {
-    auto ph = getPlayHead();
-    if (ph == NULL)
-    {
-        return 120.0;
-    }
-    juce::AudioPlayHead::CurrentPositionInfo result;
-    ph->getCurrentPosition(result);
-
-    return result.bpm > 0 ? result.bpm : 120.0;
+    double bpm { 120 }; // default fallback when host does not provide info
+    if (auto bpmFromHost = *getPlayHead()->getPosition()->getBpm())
+        bpm = bpmFromHost;
+    return bpm;
 }
 
 //==============================================================================
