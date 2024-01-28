@@ -1,0 +1,5 @@
+# Temporary folder used on builder_linux.sh
+/modules
+
+# Temporary folder used on CMakeLists.txt
+/build
