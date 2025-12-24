@@ -1,11 +1,11 @@
 # Magical 8bit Plug 2
 By Yokemura @ [YMCK](http://ymck.net/)
 
-Magical 8bit Plug is a software synthesizer to generate the tones like the old 8bit game consoles.
+Magical 8bit Plug is a software synthesizer to generate tones like old 8-bit game consoles.
 
-Naming "2" of course means there was the first version, but the code base of it is already obsolate and hard to maintain, so this version is developed from scratch with only very little code snippet brought from the previous version.
+The "2" in the name means there was a previous version, of course, but the code base of it was already obsolete and hard to maintain, so this version was developed from scratch with only a few snippets of code from the previous version.
 
-Upon rewriting from scratch I set the base to [JUCE](https://juce.com/). Thanks to this awesome framework I was able to build it fast and able to add more functionality than the previous version.
+I rewrote everything from scratch and used [JUCE](https://juce.com/) as the base. This framework lets me build fast and add more features than before.
 
 
 
@@ -14,22 +14,22 @@ Upon rewriting from scratch I set the base to [JUCE](https://juce.com/). Thanks 
 To build from the source:
 
 - Get [Projucer](https://shop.juce.com/get-juce) (JUCE IDE)
-- Setup your native development environment(ex. XCode for Mac, VisualStudio for Windows)
+- Set up your native development environment (ex. XCode for Mac, VisualStudio for Windows)
 - Open magical8bitPlug2-juce.jucer with Projucer
 - Select the native IDE and export
 - Build
 
 # License
 
-This software is released under GPL v3 license.
+This software is released under the GPL v3 license.
 
-Although this plugin satisfies the condition of JUCE's [Personal License](https://juce.com/juce-5-license), I chose GPL by my own decision. This is sort of a backup for me just in case it breaks that condition. As the plugin is a not a kind of library that can be a core part of other product, I believe there will be very little concern about "copyleft contamination".
-In other words, my choice is not based on a strong belief on the copyleft and it can be changed if there are any positive reasons to do that.
+Although this plugin satisfies the conditions of JUCE's [Personal License](https://juce.com/juce-5-license), I chose GPL by my own decision. This is sort of a backup for me, just in case it breaks that condition. As the plugin is not a kind of library that can be a core part of other products, I believe there will be very little concern about "copyleft contamination."
+In other words, my choice is not based on a strong belief in copyleft, and it can be changed if there are any positive reasons to do so.
 
 See [LICENSE](./LICENSE) for details.
 
-# Donation
+# Donations
 
-You can support developing Magical 8bit Plug not only by the contribution of source code but by the donation as well. We really appreciate your support.
+You can support developing Magical 8bit Plug not only by the contribution of source code, but by donations as well. We really appreciate your support.
 
-You can make donation from [this page](http://ymck.net/app/magical-8bit-plug-en/) ([日本語](http://ymck.net/app/magical-8bit-plug))
+You can make donations on [this page](http://ymck.net/app/magical-8bit-plug-en/) ([日本語](http://ymck.net/app/magical-8bit-plug))
