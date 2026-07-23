@@ -1,4 +1,7 @@
 # Magical 8bit Plug 2
+
+<img src="docs/img/sections.png" alt="Sections" width="50%">
+
 By Yokemura @ [YMCK](http://ymck.net/)
 
 Magical 8bit Plug is a software synthesizer to generate the tones like the old 8bit game consoles.
@@ -6,8 +9,6 @@ Magical 8bit Plug is a software synthesizer to generate the tones like the old 8
 Naming "2" of course means there was the first version, but the code base of it is already obsolate and hard to maintain, so this version is developed from scratch with only very little code snippet brought from the previous version.
 
 Upon rewriting from scratch I set the base to [JUCE](https://juce.com/). Thanks to this awesome framework I was able to build it fast and able to add more functionality than the previous version.
-
-
 
 # Getting Started
 
